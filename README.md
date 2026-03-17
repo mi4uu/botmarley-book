@@ -86,6 +86,11 @@ The complete user manual covers everything from installation to advanced strateg
   <br><em>Strategy Editor — visual builder with real-time validation</em>
 </p>
 
+<p align="center">
+  <img src="screenshots/backtests.png" alt="Backtesting Results" width="800">
+  <br><em>Backtesting — test strategies against historical data with detailed PnL results</em>
+</p>
+
 ## License
 
 Proprietary. All rights reserved.
