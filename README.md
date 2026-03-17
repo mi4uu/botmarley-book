@@ -77,18 +77,43 @@ The complete user manual covers everything from installation to advanced strateg
 ## Screenshots
 
 <p align="center">
-  <img src="https://mi4uu.github.io/botmarley-book/images/dashboard.png" alt="Dashboard" width="800">
-  <br><em>Dashboard — portfolio overview and active sessions at a glance</em>
+  <img src="screenshots/backtests-list.png" alt="Backtests List" width="800">
+  <br><em>Backtests — run strategies against historical data, compare results across pairs and timeframes</em>
 </p>
 
 <p align="center">
-  <img src="https://mi4uu.github.io/botmarley-book/images/strategy-editor.png" alt="Strategy Editor" width="800">
-  <br><em>Strategy Editor — visual builder with real-time validation</em>
+  <img src="screenshots/backtest-detail.png" alt="Backtest Detail" width="800">
+  <br><em>Backtest Detail — full stats breakdown with PnL, win rate, drawdown, and interactive chart</em>
 </p>
 
 <p align="center">
-  <img src="screenshots/backtests.png" alt="Backtesting Results" width="800">
-  <br><em>Backtesting — test strategies against historical data with detailed PnL results</em>
+  <img src="screenshots/backtest-charts.png" alt="Backtest Charts" width="800">
+  <br><em>Charts & Equity Curve — price action with indicator overlays and portfolio growth over time</em>
+</p>
+
+<p align="center">
+  <img src="screenshots/backtest-trades.png" alt="Backtest Trade Actions" width="800">
+  <br><em>Trade Actions — every buy/sell with price, amount, balance, PnL, and trigger details</em>
+</p>
+
+<p align="center">
+  <img src="screenshots/live-trading.png" alt="Live Trading Session" width="800">
+  <br><em>Live Trading — real-time candlestick chart with trade markers, strategy status, and session controls</em>
+</p>
+
+<p align="center">
+  <img src="screenshots/strategies.png" alt="Strategy Library" width="800">
+  <br><em>Strategy Library — browse built-in strategies, create your own, backtest or start live with one click</em>
+</p>
+
+<p align="center">
+  <img src="screenshots/data-chart.png" alt="Market Data Chart" width="800">
+  <br><em>Market Data — interactive candlestick charts with MACD, EMA, and 13+ technical indicators</em>
+</p>
+
+<p align="center">
+  <img src="screenshots/data-indicators.png" alt="Technical Indicators" width="800">
+  <br><em>Indicators — EMA, SMA, RSI, Bollinger Bands, MACD, StochRSI, ATR, OBV, and more</em>
 </p>
 
 ## License
