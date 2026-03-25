@@ -1,0 +1,453 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Z-Score — Standard Score - Botmarley User Manual</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Complete user guide for the Botmarley cryptocurrency trading bot">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../.././mdbook-admonish.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Botmarley User Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="z-score----standard-score"><a class="header" href="#z-score----standard-score">Z-Score -- Standard Score</a></h1>
+<h2 id="contents"><a class="header" href="#contents">Contents</a></h2>
+<ul>
+<li><a href="#format">Format</a></li>
+<li><a href="#understanding-z-score-values">Understanding Z-Score Values</a></li>
+<li><a href="#understanding-operators-with-z-score">Understanding Operators with Z-Score</a>
+<ul>
+<li><a href="#-greater-than----state-based"><code>&gt;</code> Greater Than</a></li>
+<li><a href="#-less-than----state-based"><code>&lt;</code> Less Than</a></li>
+<li><a href="#cross_above----event-based"><code>cross_above</code></a></li>
+<li><a href="#cross_below----event-based"><code>cross_below</code></a></li>
+<li><a href="#-equal----not-recommended-for-z-score"><code>=</code> Equal</a></li>
+</ul>
+</li>
+<li><a href="#toml-examples">TOML Examples</a>
+<ul>
+<li><a href="#mean-reversion-at-statistical-extreme">Mean Reversion at Statistical Extreme</a></li>
+<li><a href="#exit-when-mean-reversion-completes">Exit When Mean Reversion Completes</a></li>
+<li><a href="#z-score-with-trend-filter">Z-Score with Trend Filter</a></li>
+<li><a href="#multi-timeframe-z-score-confluence">Multi-Timeframe Z-Score Confluence</a></li>
+</ul>
+</li>
+<li><a href="#tips">Tips</a></li>
+</ul>
+<hr />
+<h2 id="overview"><a class="header" href="#overview">Overview</a></h2>
+<p>Z-Score measures <strong>how many standard deviations the current price is from its rolling mean</strong>. The formula is: <code>Z = (price - mean) / standard_deviation</code>, where both the mean and standard deviation are calculated over the last N closing prices.</p>
+<p>The result translates raw price into a <strong>universal, dimensionless scale</strong>. A Z-Score of -2 means the current price is 2 standard deviations below the recent average -- statistically, this puts it in approximately the bottom 2.5% of the recent price distribution (assuming normality). A Z-Score of +2 means the opposite: price is in the top 2.5%.</p>
+<p>This universality is what makes Z-Score powerful. Unlike ATR or RSTD, where thresholds must be recalibrated for every asset and timeframe, Z-Score thresholds are <strong>asset-agnostic</strong>. A Z-Score of -2 means "statistically cheap relative to recent history" whether you are trading BTC at $60,000 or SOL at $150. This makes Z-Score one of the most portable indicators for mean-reversion strategies -- you write the logic once, and it works across any pair.</p>
+<hr />
+<h2 id="format"><a class="header" href="#format">Format</a></h2>
+<pre><code>zscore_{period}
+</code></pre>
+<p>The period defines the lookback window used to calculate both the rolling mean and the rolling standard deviation.</p>
+<div class="table-wrapper"><table><thead><tr><th>Example</th><th>Period</th><th>Use Case</th></tr></thead><tbody>
+<tr><td><code>zscore_20</code></td><td>20</td><td>Standard -- responsive to recent deviations, good for intraday mean reversion</td></tr>
+<tr><td><code>zscore_50</code></td><td>50</td><td>Slower -- captures deviations from a longer-term average, fewer false signals</td></tr>
+<tr><td><code>zscore_100</code></td><td>100</td><td>Long-term -- identifies major statistical outliers, best for swing/position trading</td></tr>
+</tbody></table>
+</div>
+<p><strong>Period range:</strong> 5 to 500.</p>
+<p><strong>Value range:</strong> Typically -4 to +4 (theoretically unbounded). 0 = price is exactly at its rolling mean. Negative = below mean. Positive = above mean.</p>
+<hr />
+<h2 id="understanding-z-score-values"><a class="header" href="#understanding-z-score-values">Understanding Z-Score Values</a></h2>
+<p>Z-Score values are <strong>normalized and universal</strong>. The same thresholds apply across all assets and timeframes, which is a major advantage over price-denominated indicators like ATR and RSTD.</p>
+<div class="table-wrapper"><table><thead><tr><th>Z-Score Range</th><th>Statistical Meaning</th><th>Trading Interpretation</th></tr></thead><tbody>
+<tr><td><strong>&gt; +3.0</strong></td><td>Top ~0.1% -- extreme outlier</td><td>Extremely overbought. Price has deviated far above the mean. High risk of reversion.</td></tr>
+<tr><td><strong>+2.0 to +3.0</strong></td><td>Top ~2.5%</td><td>Overbought. Statistically expensive. Mean-reversion sell zone.</td></tr>
+<tr><td><strong>+1.0 to +2.0</strong></td><td>Above average</td><td>Moderately elevated. Price is above the mean but within a normal range.</td></tr>
+<tr><td><strong>-1.0 to +1.0</strong></td><td>Within 1 standard deviation</td><td>Normal range. ~68% of prices fall here. No strong signal.</td></tr>
+<tr><td><strong>-2.0 to -1.0</strong></td><td>Below average</td><td>Moderately depressed. Price is below the mean but within a normal range.</td></tr>
+<tr><td><strong>-3.0 to -2.0</strong></td><td>Bottom ~2.5%</td><td>Oversold. Statistically cheap. Mean-reversion buy zone.</td></tr>
+<tr><td><strong>&lt; -3.0</strong></td><td>Bottom ~0.1% -- extreme outlier</td><td>Extremely oversold. Price has deviated far below the mean. High probability of reversion.</td></tr>
+</tbody></table>
+</div><div id="admonition-note" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-title">
+<div class="admonition-title">
+<div id="admonition-note-title">
+<p>Note</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-note"></a>
+</div>
+<div>
+<p>These statistical percentages assume a normal distribution. Crypto price returns have fat tails -- Z-Scores of -3 or -4 occur more frequently than a normal distribution would predict. This actually works in favor of mean-reversion strategies: the extremes are more common, giving you more trading opportunities, and the reversion tendency still holds.</p>
+</div>
+</div>
+<hr />
+<h2 id="understanding-operators-with-z-score"><a class="header" href="#understanding-operators-with-z-score">Understanding Operators with Z-Score</a></h2>
+<p>Z-Score is primarily a <strong>mean-reversion indicator</strong>. It tells you when price has deviated "too far" from its recent average. The operators let you define what "too far" means for your strategy.</p>
+<h3 id="greater-than----state-based"><a class="header" href="#greater-than----state-based"><code>&gt;</code> (Greater Than) -- State-Based</a></h3>
+<p><strong>What it does:</strong> The trigger is true on <strong>every candle</strong> where Z-Score is above the threshold.</p>
+<p><strong>On the chart:</strong> Price is elevated relative to its recent mean. The higher the Z-Score, the more statistically extended the price is. This trigger stays active for as long as the Z-Score remains above the threshold.</p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "zscore_20"
+operator = "&gt;"
+target = "2.0"
+timeframe = "1h"
+</code></pre>
+<p><strong>Typical use:</strong> "Price is statistically overbought -- consider taking profit or selling." When Z-Score exceeds +2.0, price is in the top ~2.5% of its recent range. For mean-reversion strategies, this is a sell or exit signal.</p>
+<h3 id="less-than----state-based"><a class="header" href="#less-than----state-based"><code>&lt;</code> (Less Than) -- State-Based</a></h3>
+<p><strong>What it does:</strong> The trigger is true on <strong>every candle</strong> where Z-Score is below the threshold.</p>
+<p><strong>On the chart:</strong> Price is depressed relative to its recent mean. The more negative the Z-Score, the more statistically cheap the price is. This trigger stays active for as long as Z-Score remains below the threshold.</p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "zscore_20"
+operator = "&lt;"
+target = "-2.0"
+timeframe = "1h"
+</code></pre>
+<p><strong>Typical use:</strong> "Price is statistically oversold -- consider buying." When Z-Score drops below -2.0, price is in the bottom ~2.5% of its recent range. This is the classic mean-reversion buy signal. The assumption is that price will revert toward the mean.</p>
+<h3 id="cross_above----event-based"><a class="header" href="#cross_above----event-based"><code>cross_above</code> -- Event-Based</a></h3>
+<p><strong>What it does:</strong> Fires <strong>once</strong>, at the exact candle where Z-Score transitions from below the threshold to above it. The previous candle had Z-Score &lt;= the target, and the current candle has Z-Score &gt; the target.</p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "zscore_20"
+operator = "cross_above"
+target = "0"
+timeframe = "1h"
+</code></pre>
+<p><strong>Typical use:</strong> Detect the moment price crosses back above the mean (Z-Score crosses above 0). In a mean-reversion strategy, this can signal that the reversion is complete -- price has returned to "normal." Also useful for detecting the moment price transitions into overbought territory (crossing above +2.0).</p>
+<h3 id="cross_below----event-based"><a class="header" href="#cross_below----event-based"><code>cross_below</code> -- Event-Based</a></h3>
+<p><strong>What it does:</strong> Fires <strong>once</strong>, at the exact candle where Z-Score transitions from above the threshold to below it. The previous candle had Z-Score &gt;= the target, and the current candle has Z-Score &lt; the target.</p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "zscore_20"
+operator = "cross_below"
+target = "-2.0"
+timeframe = "1h"
+</code></pre>
+<p><strong>Typical use:</strong> Detect the exact moment price enters the oversold zone. Unlike <code>&lt;</code> which stays active the entire time Z-Score is below -2.0, <code>cross_below</code> fires only at the transition -- ensuring you enter once per dip rather than on every candle during an extended decline.</p>
+<h3 id="-equal----not-recommended-for-z-score"><a class="header" href="#-equal----not-recommended-for-z-score"><code>=</code> (Equal) -- Not Recommended for Z-Score</a></h3>
+<p><strong>Why:</strong> Z-Score produces floating-point values that are rarely exactly equal to any specific number. Use <code>&gt;</code> or <code>&lt;</code> instead.</p>
+<div id="admonition-choosing-the-right-operator" class="admonition admonish-tip" role="note" aria-labelledby="admonition-choosing-the-right-operator-title">
+<div class="admonition-title">
+<div id="admonition-choosing-the-right-operator-title">
+<p>Choosing the right operator</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-choosing-the-right-operator"></a>
+</div>
+<div>
+<ul>
+<li>Use <strong><code>&lt;</code></strong> with a negative target (e.g., -2.0) for mean-reversion buy entries. This is the most common Z-Score operator.</li>
+<li>Use <strong><code>&gt;</code></strong> with a positive target (e.g., +1.0 or +2.0) for mean-reversion exits or overbought detection.</li>
+<li>Use <strong><code>cross_below</code></strong> to enter once per dip (fires at the moment of transition, not on every candle).</li>
+<li>Use <strong><code>cross_above</code></strong> to detect the moment price returns to the mean (exit signal).</li>
+</ul>
+</div>
+</div>
+<hr />
+<h2 id="toml-examples"><a class="header" href="#toml-examples">TOML Examples</a></h2>
+<h3 id="mean-reversion-at-statistical-extreme"><a class="header" href="#mean-reversion-at-statistical-extreme">Mean Reversion at Statistical Extreme</a></h3>
+<p>The classic Z-Score trade: buy when price drops to 2 standard deviations below the mean. This is a statistically rare event (~2.5% of the time under normal assumptions), and prices tend to revert toward the mean. Add a trend filter to avoid catching falling knives in a downtrend.</p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+  [[actions.triggers]]
+  indicator = "zscore_20"
+  operator = "&lt;"
+  target = "-2.0"
+  timeframe = "1h"
+
+  [[actions.triggers]]
+  indicator = "sma_50"
+  operator = "&gt;"
+  target = "sma_200"
+  timeframe = "1d"
+</code></pre>
+<h3 id="exit-when-mean-reversion-completes"><a class="header" href="#exit-when-mean-reversion-completes">Exit When Mean Reversion Completes</a></h3>
+<p>Close the position when Z-Score crosses back above +1.0 -- price has not only returned to the mean but has moved one standard deviation above it. This captures the full reversion move plus some continuation.</p>
+<pre><code class="language-toml">[[actions]]
+type = "close_long"
+amount = "100%"
+
+  [[actions.triggers]]
+  indicator = "zscore_20"
+  operator = "cross_above"
+  target = "1.0"
+  timeframe = "1h"
+</code></pre>
+<h3 id="z-score-with-trend-filter"><a class="header" href="#z-score-with-trend-filter">Z-Score with Trend Filter</a></h3>
+<p>Buy statistically cheap price levels, but only when the broader trend supports it. The Z-Score provides the entry timing (price is 2.5 standard deviations below the mean), while the EMA crossover confirms the macro trend is bullish. This prevents mean-reversion entries during sustained downtrends.</p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "150 USDC"
+
+  [[actions.triggers]]
+  indicator = "zscore_50"
+  operator = "&lt;"
+  target = "-2.5"
+  timeframe = "1h"
+
+  [[actions.triggers]]
+  indicator = "ema_21"
+  operator = "&gt;"
+  target = "ema_55"
+  timeframe = "1d"
+
+  [[actions.triggers]]
+  indicator = "rsi_14"
+  operator = "&lt;"
+  target = "40"
+  timeframe = "1h"
+</code></pre>
+<h3 id="multi-timeframe-z-score-confluence"><a class="header" href="#multi-timeframe-z-score-confluence">Multi-Timeframe Z-Score Confluence</a></h3>
+<p>Enter only when Z-Score is oversold on BOTH the hourly and 4-hour timeframes. When two timeframes agree that price is statistically cheap, the mean-reversion signal is much stronger than a single-timeframe reading.</p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "200 USDC"
+
+  [[actions.triggers]]
+  indicator = "zscore_20"
+  operator = "&lt;"
+  target = "-2.0"
+  timeframe = "1h"
+
+  [[actions.triggers]]
+  indicator = "zscore_20"
+  operator = "&lt;"
+  target = "-1.5"
+  timeframe = "4h"
+</code></pre>
+<hr />
+<h2 id="tips"><a class="header" href="#tips">Tips</a></h2>
+<div id="admonition-beware-of-trending-markets" class="admonition admonish-warning" role="note" aria-labelledby="admonition-beware-of-trending-markets-title">
+<div class="admonition-title">
+<div id="admonition-beware-of-trending-markets-title">
+<p>Beware of trending markets</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-beware-of-trending-markets"></a>
+</div>
+<div>
+<p>Z-Score assumes price will revert to the mean. In a strong trend (sustained rally or crash), price can stay at extreme Z-Score levels for extended periods. A Z-Score of -3 during a capitulation crash may go to -4, -5, or worse before reverting. <strong>Always combine Z-Score with a trend filter</strong> (e.g., SMA crossover, EMA direction) to avoid mean-reverting against the dominant trend.</p>
+</div>
+</div>
+<div id="admonition-z-score-thresholds-are-universal" class="admonition admonish-tip" role="note" aria-labelledby="admonition-z-score-thresholds-are-universal-title">
+<div class="admonition-title">
+<div id="admonition-z-score-thresholds-are-universal-title">
+<p>Z-Score thresholds are universal</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-z-score-thresholds-are-universal"></a>
+</div>
+<div>
+<p>Unlike ATR or RSTD where you need different thresholds for every asset, Z-Score thresholds work the same everywhere. A Z-Score of -2 means "bottom 2.5% of recent prices" whether you are trading BTC, ETH, SOL, or any other pair. This makes Z-Score strategies highly portable -- write once, deploy on any asset.</p>
+</div>
+</div>
+<div id="admonition-pair-z-score-entries-with-z-score-exits" class="admonition admonish-tip" role="note" aria-labelledby="admonition-pair-z-score-entries-with-z-score-exits-title">
+<div class="admonition-title">
+<div id="admonition-pair-z-score-entries-with-z-score-exits-title">
+<p>Pair Z-Score entries with Z-Score exits</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-pair-z-score-entries-with-z-score-exits"></a>
+</div>
+<div>
+<p>The most natural way to use Z-Score is as a complete mean-reversion system: enter at one extreme, exit at the opposite extreme or at the mean. For example, enter long when <code>zscore_20 &lt; -2.0</code> and exit when <code>zscore_20 &gt; 1.0</code>. This creates a symmetric strategy that captures the full reversion move.</p>
+</div>
+</div>
+<div id="admonition-z-score-is-the-normalized-version-of-rstd" class="admonition admonish-tip" role="note" aria-labelledby="admonition-z-score-is-the-normalized-version-of-rstd-title">
+<div class="admonition-title">
+<div id="admonition-z-score-is-the-normalized-version-of-rstd-title">
+<p>Z-Score is the normalized version of RSTD</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-z-score-is-the-normalized-version-of-rstd"></a>
+</div>
+<div>
+<p>Z-Score divides the deviation from the mean by the rolling standard deviation (RSTD). This normalization is what makes the thresholds universal. If you want to understand why a Z-Score is extreme, look at the RSTD: if RSTD is very low (squeeze), even a small price move creates a large Z-Score. If RSTD is high, it takes a much bigger move to reach the same Z-Score level.</p>
+</div>
+</div>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../strategies/indicators/rolling-std.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../strategies/indicators/percentile-rank.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../strategies/indicators/rolling-std.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../strategies/indicators/percentile-rank.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../mermaid.min.js"></script>
+        <script src="../../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

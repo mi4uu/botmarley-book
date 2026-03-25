@@ -1,0 +1,465 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>GK Vol — Garman-Klass Volatility - Botmarley User Manual</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Complete user guide for the Botmarley cryptocurrency trading bot">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../.././mdbook-admonish.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Botmarley User Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="gk-vol----garman-klass-volatility-estimator"><a class="header" href="#gk-vol----garman-klass-volatility-estimator">GK Vol -- Garman-Klass Volatility Estimator</a></h1>
+<h2 id="contents"><a class="header" href="#contents">Contents</a></h2>
+<ul>
+<li><a href="#format">Format</a></li>
+<li><a href="#understanding-gk-vol-values">Understanding GK Vol Values</a></li>
+<li><a href="#understanding-operators-with-gk-vol">Understanding Operators with GK Vol</a>
+<ul>
+<li><a href="#-less-than----state-based"><code>&lt;</code> Less Than</a></li>
+<li><a href="#-greater-than----state-based"><code>&gt;</code> Greater Than</a></li>
+<li><a href="#cross_below----event-based"><code>cross_below</code></a></li>
+<li><a href="#cross_above----event-based"><code>cross_above</code></a></li>
+<li><a href="#-equal----not-recommended-for-gk-vol"><code>=</code> Equal</a></li>
+</ul>
+</li>
+<li><a href="#toml-examples">TOML Examples</a>
+<ul>
+<li><a href="#moderate-volatility-with-trend-entry">Moderate Volatility with Trend Entry</a></li>
+<li><a href="#gk-vol-band-filter----goldilocks-zone">GK Vol Band Filter -- Goldilocks Zone</a></li>
+<li><a href="#ema-cross-with-volatility-confirmation">EMA Cross with Volatility Confirmation</a></li>
+<li><a href="#volatility-regime-change-detection">Volatility Regime Change Detection</a></li>
+</ul>
+</li>
+<li><a href="#tips">Tips</a></li>
+</ul>
+<hr />
+<h2 id="overview"><a class="header" href="#overview">Overview</a></h2>
+<p>Garman-Klass Volatility is the <strong>most efficient single-estimator</strong> for historical volatility because it uses all four OHLC prices -- open, high, low, and close -- from each candle. Developed by Mark Garman and Michael Klass in 1980, it extracts the maximum amount of volatility information from standard OHLC data.</p>
+<p>The formula incorporates two components:</p>
+<pre><code>GK = sqrt( (1/N) * sum( 0.5 * ln(H/L)^2 - (2*ln(2) - 1) * ln(C/O)^2 ) )
+</code></pre>
+<p>The first term <code>ln(H/L)^2</code> captures the intraday range (similar to Parkinson). The second term <code>ln(C/O)^2</code> captures the open-to-close movement. By combining both, Garman-Klass achieves approximately <strong>7.4x the efficiency</strong> of close-to-close volatility -- meaning it produces equally accurate estimates with far fewer data points.</p>
+<p>This makes Garman-Klass the gold standard among single-estimator volatility measures. It is strictly better than Parkinson because it uses additional information (open and close) at no extra cost. The only limitation it does not address is overnight gaps -- the drift between one candle's close and the next candle's open. For that, you need Yang-Zhang volatility.</p>
+<hr />
+<h2 id="format"><a class="header" href="#format">Format</a></h2>
+<pre><code>gk_vol_{period}
+</code></pre>
+<p>The period defines how many candles the estimator averages over.</p>
+<div class="table-wrapper"><table><thead><tr><th>Example</th><th>Period</th><th>Use Case</th></tr></thead><tbody>
+<tr><td><code>gk_vol_10</code></td><td>10</td><td>Short-term -- tracks recent volatility changes quickly</td></tr>
+<tr><td><code>gk_vol_20</code></td><td>20</td><td>Standard -- the recommended default for most strategies</td></tr>
+<tr><td><code>gk_vol_50</code></td><td>50</td><td>Long-term -- captures the broader volatility regime, very smooth</td></tr>
+</tbody></table>
+</div>
+<p><strong>Period range:</strong> 5 to 500.</p>
+<p><strong>Value range:</strong> 0 to infinity (annualized volatility, always positive). Typical crypto range: 0.005 to 0.15.</p>
+<hr />
+<h2 id="understanding-gk-vol-values"><a class="header" href="#understanding-gk-vol-values">Understanding GK Vol Values</a></h2>
+<p>Like Parkinson, GK Vol values are <strong>annualized volatility estimates</strong> expressed as decimals. They are not bounded to a fixed range. Values depend on the asset, timeframe, and market conditions.</p>
+<div class="table-wrapper"><table><thead><tr><th>GK Vol Range</th><th>Interpretation</th></tr></thead><tbody>
+<tr><td>Below 0.01</td><td>Ultra-low volatility -- extreme squeeze. The market is barely moving on any dimension (range or body). Strong breakout potential.</td></tr>
+<tr><td>0.01 -- 0.04</td><td>Low volatility -- calm, orderly market. Ideal environment for squeeze-based entry strategies.</td></tr>
+<tr><td>0.04 -- 0.08</td><td>Moderate volatility -- normal trading conditions for major crypto pairs. Healthy for trend-following strategies.</td></tr>
+<tr><td>0.08 -- 0.15</td><td>High volatility -- large moves with significant candle bodies and wicks. Elevated risk per trade.</td></tr>
+<tr><td>Above 0.15</td><td>Extreme volatility -- crisis or euphoria. Exercise extreme caution with new entries.</td></tr>
+</tbody></table>
+</div><div id="admonition-note" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-title">
+<div class="admonition-title">
+<div id="admonition-note-title">
+<p>Note</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-note"></a>
+</div>
+<div>
+<p>GK Vol tends to produce slightly higher values than Parkinson because it incorporates the open-close component. Do not use Parkinson thresholds for GK Vol directly -- recalibrate through backtesting. The ranges above are approximate for major crypto pairs on hourly timeframes.</p>
+</div>
+</div>
+<hr />
+<h2 id="understanding-operators-with-gk-vol"><a class="header" href="#understanding-operators-with-gk-vol">Understanding Operators with GK Vol</a></h2>
+<p>Each operator behaves differently with GK Vol. As a <strong>filter</strong> indicator measuring market conditions rather than direction, GK Vol is almost always combined with directional triggers.</p>
+<h3 id="less-than----state-based"><a class="header" href="#less-than----state-based"><code>&lt;</code> (Less Than) -- State-Based</a></h3>
+<p><strong>What it does:</strong> The trigger is true on <strong>every candle</strong> where GK Vol is below the threshold.</p>
+<p><strong>On the chart:</strong> Volatility is compressed across all dimensions -- small wicks and small candle bodies. The market is coiling. This state-based trigger stays active for as long as GK Vol remains below the threshold.</p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "gk_vol_20"
+operator = "&lt;"
+target = "0.03"
+timeframe = "1h"
+</code></pre>
+<p><strong>Typical use:</strong> Squeeze detection. When GK Vol is low, both the range and the body of candles are small. This is an even more comprehensive squeeze signal than Parkinson alone, because it confirms that neither the wicks nor the closes are showing significant movement.</p>
+<h3 id="greater-than----state-based"><a class="header" href="#greater-than----state-based"><code>&gt;</code> (Greater Than) -- State-Based</a></h3>
+<p><strong>What it does:</strong> The trigger is true on <strong>every candle</strong> where GK Vol is above the threshold.</p>
+<p><strong>On the chart:</strong> Volatility is elevated. Candles have large bodies, large wicks, or both. The market is making decisive moves.</p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "gk_vol_20"
+operator = "&gt;"
+target = "0.08"
+timeframe = "1h"
+</code></pre>
+<p><strong>Typical use:</strong> High-volatility filter. Either avoid entries during chaotic conditions, or require that enough volatility exists for trades to be profitable after fees and slippage.</p>
+<h3 id="cross_below----event-based"><a class="header" href="#cross_below----event-based"><code>cross_below</code> -- Event-Based</a></h3>
+<p><strong>What it does:</strong> Fires <strong>once</strong>, at the exact candle where GK Vol transitions from above the threshold to below it. The previous candle had GK Vol &gt;= the target, and the current candle has GK Vol &lt; the target.</p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "gk_vol_20"
+operator = "cross_below"
+target = "0.04"
+timeframe = "1h"
+</code></pre>
+<p><strong>Typical use:</strong> Detect the transition into a low-volatility regime. The market has just calmed down after a volatile period. This can signal the beginning of a consolidation phase that will eventually resolve with a breakout.</p>
+<h3 id="cross_above----event-based"><a class="header" href="#cross_above----event-based"><code>cross_above</code> -- Event-Based</a></h3>
+<p><strong>What it does:</strong> Fires <strong>once</strong>, at the exact candle where GK Vol transitions from below the threshold to above it. The previous candle had GK Vol &lt;= the target, and the current candle has GK Vol &gt; the target.</p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "gk_vol_20"
+operator = "cross_above"
+target = "0.06"
+timeframe = "1h"
+</code></pre>
+<p><strong>Typical use:</strong> Detect the moment volatility expands. This captures the exact transition from a quiet market to an active one. A volatility expansion often marks the start of a new trend -- combine with a directional indicator (RSI, ROC, EMA cross) to determine which side to trade.</p>
+<h3 id="-equal----not-recommended-for-gk-vol"><a class="header" href="#-equal----not-recommended-for-gk-vol"><code>=</code> (Equal) -- Not Recommended for GK Vol</a></h3>
+<p><strong>Why:</strong> GK Vol produces floating-point values calculated to many decimal places. Exact equality will almost never be true. Use <code>&lt;</code> or <code>&gt;</code> instead.</p>
+<div id="admonition-choosing-the-right-operator" class="admonition admonish-tip" role="note" aria-labelledby="admonition-choosing-the-right-operator-title">
+<div class="admonition-title">
+<div id="admonition-choosing-the-right-operator-title">
+<p>Choosing the right operator</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-choosing-the-right-operator"></a>
+</div>
+<div>
+<ul>
+<li>Use <strong><code>&lt;</code></strong> for squeeze detection -- low GK Vol means the market is quiet on all fronts.</li>
+<li>Use <strong><code>&gt;</code></strong> to filter for sufficient volatility or to block entries during chaos.</li>
+<li>Use <strong><code>cross_below</code> / <code>cross_above</code></strong> to detect the exact moment a volatility regime shifts.</li>
+</ul>
+</div>
+</div>
+<hr />
+<h2 id="toml-examples"><a class="header" href="#toml-examples">TOML Examples</a></h2>
+<h3 id="moderate-volatility-with-trend-entry"><a class="header" href="#moderate-volatility-with-trend-entry">Moderate Volatility with Trend Entry</a></h3>
+<p>Enter when GK Vol shows the market is in a healthy range (not too quiet, not too chaotic) and the EMA signals a bullish trend.</p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+  [[actions.triggers]]
+  indicator = "gk_vol_20"
+  operator = "&gt;"
+  target = "0.02"
+  timeframe = "1h"
+
+  [[actions.triggers]]
+  indicator = "gk_vol_20"
+  operator = "&lt;"
+  target = "0.08"
+  timeframe = "1h"
+
+  [[actions.triggers]]
+  indicator = "ema_21"
+  operator = "&gt;"
+  target = "ema_55"
+  timeframe = "1h"
+</code></pre>
+<h3 id="gk-vol-band-filter----goldilocks-zone"><a class="header" href="#gk-vol-band-filter----goldilocks-zone">GK Vol Band Filter -- Goldilocks Zone</a></h3>
+<p>Only trade when volatility is in the "goldilocks zone" -- enough movement for profitable trades, but not so much that risk is uncontrollable. Combine with an RSI dip entry.</p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+  [[actions.triggers]]
+  indicator = "gk_vol_20"
+  operator = "&gt;"
+  target = "0.025"
+  timeframe = "1h"
+
+  [[actions.triggers]]
+  indicator = "gk_vol_20"
+  operator = "&lt;"
+  target = "0.07"
+  timeframe = "1h"
+
+  [[actions.triggers]]
+  indicator = "rsi_14"
+  operator = "&lt;"
+  target = "30"
+  timeframe = "1h"
+</code></pre>
+<h3 id="ema-cross-with-volatility-confirmation"><a class="header" href="#ema-cross-with-volatility-confirmation">EMA Cross with Volatility Confirmation</a></h3>
+<p>Only act on an EMA crossover when GK Vol confirms the market has enough energy for the trend to follow through.</p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+  [[actions.triggers]]
+  indicator = "ema_9"
+  operator = "cross_above"
+  target = "ema_21"
+  timeframe = "1h"
+
+  [[actions.triggers]]
+  indicator = "gk_vol_20"
+  operator = "&gt;"
+  target = "0.03"
+  timeframe = "1h"
+</code></pre>
+<h3 id="volatility-regime-change-detection"><a class="header" href="#volatility-regime-change-detection">Volatility Regime Change Detection</a></h3>
+<p>Detect the exact moment the market transitions from low to higher volatility. When GK Vol crosses above the threshold while momentum is positive, ride the expansion.</p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "75 USDC"
+
+  [[actions.triggers]]
+  indicator = "gk_vol_20"
+  operator = "cross_above"
+  target = "0.04"
+  timeframe = "1h"
+
+  [[actions.triggers]]
+  indicator = "roc_10"
+  operator = "&gt;"
+  target = "1"
+  timeframe = "1h"
+</code></pre>
+<hr />
+<h2 id="tips"><a class="header" href="#tips">Tips</a></h2>
+<div id="admonition-most-efficient-single-estimator" class="admonition admonish-tip" role="note" aria-labelledby="admonition-most-efficient-single-estimator-title">
+<div class="admonition-title">
+<div id="admonition-most-efficient-single-estimator-title">
+<p>Most efficient single estimator</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-most-efficient-single-estimator"></a>
+</div>
+<div>
+<p>Garman-Klass is theoretically 7.4x more efficient than close-to-close volatility, meaning it needs far fewer candles to produce an equally accurate estimate. This makes it the best single indicator for volatility measurement when you have standard OHLC data. If you can only pick one volatility estimator, GK Vol is the strongest choice.</p>
+</div>
+</div>
+<div id="admonition-compare-across-all-three-volatility-estimators" class="admonition admonish-tip" role="note" aria-labelledby="admonition-compare-across-all-three-volatility-estimators-title">
+<div class="admonition-title">
+<div id="admonition-compare-across-all-three-volatility-estimators-title">
+<p>Compare across all three volatility estimators</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-compare-across-all-three-volatility-estimators"></a>
+</div>
+<div>
+<p>Running Parkinson, GK Vol, and Yang-Zhang simultaneously gives you a complete volatility picture. If all three agree that volatility is low, you have a high-confidence squeeze. If Parkinson is low but GK Vol is moderate, it means the open-close moves are significant even though the high-low range is small -- the market is trending within its range. These divergences provide additional strategic insight.</p>
+</div>
+</div>
+<div id="admonition-asset-specific-calibration-is-mandatory" class="admonition admonish-tip" role="note" aria-labelledby="admonition-asset-specific-calibration-is-mandatory-title">
+<div class="admonition-title">
+<div id="admonition-asset-specific-calibration-is-mandatory-title">
+<p>Asset-specific calibration is mandatory</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-asset-specific-calibration-is-mandatory"></a>
+</div>
+<div>
+<p>Like all volatility estimators, GK Vol values differ dramatically between assets. BTC/USDC might show GK Vol of 0.04 in normal conditions, while a volatile altcoin might sit at 0.12. Never reuse thresholds across different trading pairs. Backtest on each specific pair and timeframe to determine what "low," "moderate," and "high" mean for that asset.</p>
+</div>
+</div>
+<div id="admonition-does-not-account-for-overnight-gaps" class="admonition admonish-warning" role="note" aria-labelledby="admonition-does-not-account-for-overnight-gaps-title">
+<div class="admonition-title">
+<div id="admonition-does-not-account-for-overnight-gaps-title">
+<p>Does not account for overnight gaps</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-does-not-account-for-overnight-gaps"></a>
+</div>
+<div>
+<p>Garman-Klass assumes that the open of each candle equals the close of the previous candle -- it ignores any gap between them. While cryptocurrency markets trade 24/7 (minimizing true overnight gaps), there can still be significant jumps between candle closes and opens during exchange maintenance, liquidity gaps, or fast-moving markets. If gap-driven volatility is important to your strategy, use Yang-Zhang volatility which explicitly accounts for inter-candle drift.</p>
+</div>
+</div>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../strategies/indicators/parkinson.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../strategies/indicators/yang-zhang.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../strategies/indicators/parkinson.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../strategies/indicators/yang-zhang.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../mermaid.min.js"></script>
+        <script src="../../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

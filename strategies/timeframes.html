@@ -1,0 +1,427 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Timeframes - Botmarley User Manual</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Complete user guide for the Botmarley cryptocurrency trading bot">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href=".././mdbook-admonish.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Botmarley User Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="timeframes"><a class="header" href="#timeframes">Timeframes</a></h1>
+<p>Timeframes determine which candle interval is used to calculate an indicator's value. Botmarley supports multi-timeframe analysis, allowing you to combine signals from different time resolutions within a single strategy.</p>
+<h2 id="what-are-timeframes"><a class="header" href="#what-are-timeframes">What Are Timeframes?</a></h2>
+<p>A timeframe defines the duration of each candle used for indicator calculation. A <code>1h</code> candle aggregates 60 minutes of price action into a single open/high/low/close bar; a <code>1d</code> candle aggregates an entire day.</p>
+<p>Different timeframes reveal different aspects of the market:</p>
+<div class="table-wrapper"><table><thead><tr><th>Timeframe</th><th>Perspective</th><th>Best For</th></tr></thead><tbody>
+<tr><td><code>1m</code></td><td>Micro-scale</td><td>Precise entry timing, scalping</td></tr>
+<tr><td><code>5m</code></td><td>Short-term</td><td>Short-term momentum, dip detection</td></tr>
+<tr><td><code>15m</code></td><td>Intra-day</td><td>Day trading signals</td></tr>
+<tr><td><code>1h</code></td><td>Medium-term</td><td>Swing trading, trend confirmation</td></tr>
+<tr><td><code>4h</code></td><td>Extended</td><td>Macro trend direction</td></tr>
+<tr><td><code>1d</code></td><td>Long-term</td><td>Major trend identification</td></tr>
+</tbody></table>
+</div>
+<h2 id="available-timeframes"><a class="header" href="#available-timeframes">Available Timeframes</a></h2>
+<p>Botmarley supports six timeframes:</p>
+<ul>
+<li><strong><code>1m</code></strong> -- 1-minute candles</li>
+<li><strong><code>5m</code></strong> -- 5-minute candles</li>
+<li><strong><code>15m</code></strong> -- 15-minute candles</li>
+<li><strong><code>1h</code></strong> -- 1-hour candles</li>
+<li><strong><code>4h</code></strong> -- 4-hour candles</li>
+<li><strong><code>1d</code></strong> -- 1-day (daily) candles</li>
+</ul>
+<h2 id="default-timeframe"><a class="header" href="#default-timeframe">Default Timeframe</a></h2>
+<p>If you omit the <code>timeframe</code> field from a trigger, it defaults to the <strong>base candle timeframe</strong> (typically <code>1m</code>). This means the indicator is calculated on 1-minute candles:</p>
+<pre><code class="language-toml"># No timeframe specified -- uses the default (1m)
+[[actions.triggers]]
+indicator = "rsi_14"
+operator = "&lt;"
+target = "30"
+</code></pre>
+<p>To explicitly use a different timeframe, add the <code>timeframe</code> field:</p>
+<pre><code class="language-toml"># RSI calculated on 1-hour candles
+[[actions.triggers]]
+indicator = "rsi_14"
+operator = "&lt;"
+target = "30"
+timeframe = "1h"
+</code></pre>
+<div id="admonition-note" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-title">
+<div class="admonition-title">
+<div id="admonition-note-title">
+<p>Note</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-note"></a>
+</div>
+<div>
+<p>The <code>timeframe</code> field is optional on all trigger types -- Technical, PriceChange, and NextCandle. When omitted, the trigger evaluates against the default candle interval.</p>
+</div>
+</div>
+<h2 id="how-multi-timeframe-works"><a class="header" href="#how-multi-timeframe-works">How Multi-Timeframe Works</a></h2>
+<p>Botmarley always fetches and stores <strong>1-minute candles</strong> as the base data. Higher timeframes are <strong>computed from 1-minute data</strong> by aggregating candles:</p>
+<pre class="mermaid">flowchart TD
+    A[&quot;1m Candles&lt;br/&gt;(Source Data)&quot;] --&gt; B[&quot;5m Candles&lt;br/&gt;(5 x 1m aggregated)&quot;]
+    A --&gt; C[&quot;15m Candles&lt;br/&gt;(15 x 1m aggregated)&quot;]
+    A --&gt; D[&quot;1h Candles&lt;br/&gt;(60 x 1m aggregated)&quot;]
+    A --&gt; E[&quot;4h Candles&lt;br/&gt;(240 x 1m aggregated)&quot;]
+    A --&gt; F[&quot;1d Candles&lt;br/&gt;(1440 x 1m aggregated)&quot;]
+
+    B --&gt; G[&quot;Calculate Indicators&lt;br/&gt;on 5m candles&quot;]
+    C --&gt; H[&quot;Calculate Indicators&lt;br/&gt;on 15m candles&quot;]
+    D --&gt; I[&quot;Calculate Indicators&lt;br/&gt;on 1h candles&quot;]
+    E --&gt; J[&quot;Calculate Indicators&lt;br/&gt;on 4h candles&quot;]
+    F --&gt; K[&quot;Calculate Indicators&lt;br/&gt;on 1d candles&quot;]
+
+    style A fill:#4a9eff,color:#fff
+</pre>
+<p>This means:</p>
+<ol>
+<li>You do <strong>not</strong> need separate data downloads for each timeframe.</li>
+<li>All timeframes are derived from the same underlying 1-minute data.</li>
+<li>Indicators on higher timeframes use fewer data points but represent longer periods of market action.</li>
+</ol>
+<h2 id="using-timeframes-in-triggers"><a class="header" href="#using-timeframes-in-triggers">Using Timeframes in Triggers</a></h2>
+<h3 id="single-timeframe-strategy"><a class="header" href="#single-timeframe-strategy">Single-Timeframe Strategy</a></h3>
+<p>Most simple strategies use a single timeframe (or the default):</p>
+<pre><code class="language-toml">[meta]
+name = "Simple_RSI"
+
+[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+  [[actions.triggers]]
+  indicator = "rsi_14"
+  operator = "&lt;"
+  target = "30"
+  # No timeframe -- uses default 1m candles
+</code></pre>
+<h3 id="multi-timeframe-strategy"><a class="header" href="#multi-timeframe-strategy">Multi-Timeframe Strategy</a></h3>
+<p>The real power comes from combining multiple timeframes. A common pattern is to use a <strong>higher timeframe for trend direction</strong> and a <strong>lower timeframe for entry timing</strong>:</p>
+<pre><code class="language-toml">[meta]
+name = "Multi_TF_Trend_Entry"
+description = "Use 1h RSI for trend, 5m for entry timing"
+max_open_positions = 2
+
+# ENTRY: 1h RSI oversold + 5m StochRSI extremely oversold
+[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+  # Higher timeframe: confirms oversold on the 1h chart
+  [[actions.triggers]]
+  indicator = "rsi_14"
+  operator = "&lt;"
+  target = "35"
+  timeframe = "1h"
+
+  # Lower timeframe: precise entry on the 5m chart
+  [[actions.triggers]]
+  indicator = "stoch_rsi_14"
+  operator = "&lt;"
+  target = "10"
+  timeframe = "5m"
+
+# EXIT: +3% profit
+[[actions]]
+type = "sell"
+amount = "100%"
+
+  [[actions.triggers]]
+  type = "pos_price_change"
+  value = "3%"
+</code></pre>
+<div id="admonition-multi-timeframe-best-practice" class="admonition admonish-tip" role="note" aria-labelledby="admonition-multi-timeframe-best-practice-title">
+<div class="admonition-title">
+<div id="admonition-multi-timeframe-best-practice-title">
+<p>Multi-Timeframe Best Practice</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-multi-timeframe-best-practice"></a>
+</div>
+<div>
+<p>Use <strong>higher timeframes</strong> (1h, 4h, 1d) to identify the <strong>trend direction</strong> or overall market condition. Use <strong>lower timeframes</strong> (1m, 5m, 15m) for <strong>precise entry and exit timing</strong>. This approach reduces false signals because you are aligning short-term actions with the longer-term trend.</p>
+</div>
+</div>
+<h2 id="timeframe-mixing-within-an-action"><a class="header" href="#timeframe-mixing-within-an-action">Timeframe Mixing Within an Action</a></h2>
+<p>Within a single action, different triggers can use different timeframes. Since triggers are AND-combined, ALL must be true simultaneously:</p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+  # Trigger 1: Daily uptrend confirmed
+  [[actions.triggers]]
+  indicator = "sma_50"
+  operator = "&gt;"
+  target = "sma_200"
+  timeframe = "1d"
+
+  # Trigger 2: Hourly RSI oversold
+  [[actions.triggers]]
+  indicator = "rsi_14"
+  operator = "&lt;"
+  target = "40"
+  timeframe = "1h"
+
+  # Trigger 3: 5-minute momentum dip
+  [[actions.triggers]]
+  indicator = "roc_10"
+  operator = "&lt;"
+  target = "-3"
+  timeframe = "5m"
+</code></pre>
+<p>This action fires only when ALL three conditions are true at the same time:</p>
+<ul>
+<li>The daily trend is bullish (SMA 50 above SMA 200)</li>
+<li>The hourly RSI shows an oversold condition</li>
+<li>The 5-minute momentum shows a sharp dip</li>
+</ul>
+<h2 id="timeframes-with-non-technical-triggers"><a class="header" href="#timeframes-with-non-technical-triggers">Timeframes with Non-Technical Triggers</a></h2>
+<p>The <code>timeframe</code> field also works with <code>price_change</code> and <code>next_candle</code> triggers:</p>
+<h3 id="price_change-with-timeframe"><a class="header" href="#price_change-with-timeframe">price_change with timeframe</a></h3>
+<p>A price change trigger with a timeframe evaluates the percentage change over that candle interval:</p>
+<pre><code class="language-toml">[[actions.triggers]]
+type = "price_change"
+value = "-3%"
+timeframe = "1h"
+</code></pre>
+<p>This triggers when price drops 3% within the 1-hour window.</p>
+<h3 id="next_candle-with-timeframe"><a class="header" href="#next_candle-with-timeframe">next_candle with timeframe</a></h3>
+<p>A next_candle trigger with a timeframe waits for the next candle close on that specific interval:</p>
+<pre><code class="language-toml">[[actions.triggers]]
+type = "next_candle"
+timeframe = "4h"
+</code></pre>
+<p>This triggers on every 4-hour candle close.</p>
+<div id="admonition-note-1" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-1-title">
+<div class="admonition-title">
+<div id="admonition-note-1-title">
+<p>Note</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-note-1"></a>
+</div>
+<div>
+<p>Some trigger types like <code>pos_price_change</code> and <code>trailing_stop</code> do not use timeframes because they measure changes relative to the position entry price, which is time-independent.</p>
+</div>
+</div>
+<h2 id="choosing-the-right-timeframe"><a class="header" href="#choosing-the-right-timeframe">Choosing the Right Timeframe</a></h2>
+<p>Here is a guide to help you select timeframes for different purposes:</p>
+<div class="table-wrapper"><table><thead><tr><th>Purpose</th><th>Recommended Timeframe</th><th>Why</th></tr></thead><tbody>
+<tr><td>Trend identification</td><td><code>1d</code> or <code>4h</code></td><td>Filters out noise, shows the big picture</td></tr>
+<tr><td>Swing trading entries</td><td><code>1h</code> or <code>4h</code></td><td>Balanced between speed and reliability</td></tr>
+<tr><td>Scalping entries</td><td><code>1m</code> or <code>5m</code></td><td>Fast signals for quick trades</td></tr>
+<tr><td>Dip detection</td><td><code>5m</code> or <code>15m</code></td><td>Catches intra-day price drops</td></tr>
+<tr><td>Volume confirmation</td><td><code>1h</code></td><td>Smooths out minute-level volume spikes</td></tr>
+<tr><td>Moving average crossovers</td><td><code>1d</code></td><td>Daily crossovers are more meaningful</td></tr>
+</tbody></table>
+</div><div id="admonition-warning" class="admonition admonish-warning" role="note" aria-labelledby="admonition-warning-title">
+<div class="admonition-title">
+<div id="admonition-warning-title">
+<p>Warning</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-warning"></a>
+</div>
+<div>
+<p>Using very short timeframes (1m) for everything will generate many signals, but most may be noise. Using very long timeframes (1d) for everything may cause you to miss opportunities. The best strategies combine both.</p>
+</div>
+</div>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../strategies/triggers/next-candle.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../strategies/position-management.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../strategies/triggers/next-candle.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../strategies/position-management.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

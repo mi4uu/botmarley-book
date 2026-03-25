@@ -1,0 +1,468 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Percentile Rank - Botmarley User Manual</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Complete user guide for the Botmarley cryptocurrency trading bot">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../.././mdbook-admonish.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Botmarley User Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="prank----percentile-rank"><a class="header" href="#prank----percentile-rank">PRANK -- Percentile Rank</a></h1>
+<h2 id="contents"><a class="header" href="#contents">Contents</a></h2>
+<ul>
+<li><a href="#format">Format</a></li>
+<li><a href="#understanding-percentile-rank-values">Understanding Percentile Rank Values</a></li>
+<li><a href="#understanding-operators-with-percentile-rank">Understanding Operators with Percentile Rank</a>
+<ul>
+<li><a href="#-greater-than----state-based"><code>&gt;</code> Greater Than</a></li>
+<li><a href="#-less-than----state-based"><code>&lt;</code> Less Than</a></li>
+<li><a href="#cross_above----event-based"><code>cross_above</code></a></li>
+<li><a href="#cross_below----event-based"><code>cross_below</code></a></li>
+<li><a href="#-equal----not-recommended-for-percentile-rank"><code>=</code> Equal</a></li>
+</ul>
+</li>
+<li><a href="#toml-examples">TOML Examples</a>
+<ul>
+<li><a href="#buy-the-bottom-5th-percentile">Buy the Bottom 5th Percentile</a></li>
+<li><a href="#exit-at-60th-percentile">Exit at 60th Percentile</a></li>
+<li><a href="#percentile-rank-with-rsi-confluence">Percentile Rank with RSI Confluence</a></li>
+<li><a href="#dca-at-different-percentile-levels">DCA at Different Percentile Levels</a></li>
+</ul>
+</li>
+<li><a href="#tips">Tips</a></li>
+</ul>
+<hr />
+<h2 id="overview"><a class="header" href="#overview">Overview</a></h2>
+<p>Percentile Rank measures <strong>where the current closing price ranks among the last N closing prices</strong>, expressed as a percentage from 0 to 100. If the current price is the lowest close in the lookback window, the Percentile Rank is 0. If it is the highest, the Percentile Rank is 100. A value of 25 means the current price is higher than 25% of the closes in the window.</p>
+<p>The calculation is simple: count how many of the last N closes are less than or equal to the current close, divide by N, and multiply by 100. No assumptions about distribution shape, no parameters beyond the lookback period. This simplicity is its strength.</p>
+<p>The key advantage of Percentile Rank over Z-Score: <strong>it is distribution-free</strong>. Z-Score assumes prices are approximately normally distributed to interpret its thresholds (e.g., "Z = -2 means bottom 2.5%"). Percentile Rank makes no such assumption. A Percentile Rank of 5 means "the current price is in the bottom 5% of the last N closes" regardless of whether prices are normally distributed, skewed, or have fat tails. For crypto markets, where returns are decidedly non-normal, this non-parametric property is valuable. Percentile Rank tells you exactly what it says -- no statistical assumptions required.</p>
+<hr />
+<h2 id="format"><a class="header" href="#format">Format</a></h2>
+<pre><code>prank_{period}
+</code></pre>
+<p>The period defines the lookback window -- how many recent closing prices are compared against the current close.</p>
+<div class="table-wrapper"><table><thead><tr><th>Example</th><th>Period</th><th>Use Case</th></tr></thead><tbody>
+<tr><td><code>prank_50</code></td><td>50</td><td>Standard -- ranks price among the last 50 closes, good for short-to-medium-term context</td></tr>
+<tr><td><code>prank_100</code></td><td>100</td><td>Slower -- ranks price within a broader window, better for swing trading and position sizing</td></tr>
+<tr><td><code>prank_200</code></td><td>200</td><td>Long-term -- provides context against a large historical sample, fewer extremes</td></tr>
+</tbody></table>
+</div>
+<p><strong>Period range:</strong> 10 to 500.</p>
+<p><strong>Value range:</strong> 0 to 100 (always). 0 = current price is the lowest close in the window. 100 = current price is the highest close in the window.</p>
+<hr />
+<h2 id="understanding-percentile-rank-values"><a class="header" href="#understanding-percentile-rank-values">Understanding Percentile Rank Values</a></h2>
+<p>Percentile Rank values are <strong>bounded between 0 and 100</strong> and have an intuitive interpretation that does not depend on the asset or timeframe. A value of 10 means "cheaper than 90% of recent closes" whether you are looking at BTC on the hourly chart or ETH on the daily chart.</p>
+<div class="table-wrapper"><table><thead><tr><th>Percentile Rank</th><th>Meaning</th><th>Trading Interpretation</th></tr></thead><tbody>
+<tr><td><strong>95 -- 100</strong></td><td>Price is at or near the highest close in the window</td><td>Extremely expensive relative to recent history. Potential top. Contrarian sell zone.</td></tr>
+<tr><td><strong>75 -- 95</strong></td><td>Price is in the upper quartile</td><td>Elevated. Market has been rallying. Trend-following strategies may stay long; mean-reversion strategies may start scaling out.</td></tr>
+<tr><td><strong>25 -- 75</strong></td><td>Price is in the middle range</td><td>Normal territory. No strong signal from percentile rank alone.</td></tr>
+<tr><td><strong>5 -- 25</strong></td><td>Price is in the lower quartile</td><td>Depressed. Market has pulled back. Starting to get interesting for dip buyers.</td></tr>
+<tr><td><strong>0 -- 5</strong></td><td>Price is at or near the lowest close in the window</td><td>Extremely cheap relative to recent history. Potential bottom. Contrarian buy zone.</td></tr>
+</tbody></table>
+</div><div id="admonition-note" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-title">
+<div class="admonition-title">
+<div id="admonition-note-title">
+<p>Note</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-note"></a>
+</div>
+<div>
+<p>Percentile Rank is relative to the lookback window. A prank_50 of 5 means "bottom 5% of the last 50 closes" -- it says nothing about where price stands relative to the last 200 or 500 closes. Longer periods provide more historical context but react more slowly to recent trends.</p>
+</div>
+</div>
+<hr />
+<h2 id="understanding-operators-with-percentile-rank"><a class="header" href="#understanding-operators-with-percentile-rank">Understanding Operators with Percentile Rank</a></h2>
+<p>Percentile Rank is a <strong>contrarian positioning indicator</strong>. It tells you where price sits in the context of recent history. Extreme lows suggest buying opportunities; extreme highs suggest selling opportunities.</p>
+<h3 id="greater-than----state-based"><a class="header" href="#greater-than----state-based"><code>&gt;</code> (Greater Than) -- State-Based</a></h3>
+<p><strong>What it does:</strong> The trigger is true on <strong>every candle</strong> where Percentile Rank is above the threshold.</p>
+<p><strong>On the chart:</strong> Price is ranking high among recent closes. The closer to 100, the closer price is to its recent high watermark. This trigger stays active for as long as the Percentile Rank remains above the threshold.</p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "prank_100"
+operator = "&gt;"
+target = "95"
+timeframe = "1h"
+</code></pre>
+<p><strong>Typical use:</strong> "Price is near the top of its recent range -- consider taking profit or reducing exposure." When Percentile Rank exceeds 95, the current price is higher than 95% of the last 100 closes. This is a contrarian signal that the move may be overextended.</p>
+<h3 id="less-than----state-based"><a class="header" href="#less-than----state-based"><code>&lt;</code> (Less Than) -- State-Based</a></h3>
+<p><strong>What it does:</strong> The trigger is true on <strong>every candle</strong> where Percentile Rank is below the threshold.</p>
+<p><strong>On the chart:</strong> Price is ranking low among recent closes. The closer to 0, the closer price is to its recent low point. This trigger stays active for as long as Percentile Rank remains below the threshold.</p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "prank_100"
+operator = "&lt;"
+target = "5"
+timeframe = "1h"
+</code></pre>
+<p><strong>Typical use:</strong> "Price is near the bottom of its recent range -- consider buying." When Percentile Rank drops below 5, the current price is lower than 95% of the last 100 closes. This is the core contrarian buy signal. Price is historically cheap within the lookback window.</p>
+<h3 id="cross_above----event-based"><a class="header" href="#cross_above----event-based"><code>cross_above</code> -- Event-Based</a></h3>
+<p><strong>What it does:</strong> Fires <strong>once</strong>, at the exact candle where Percentile Rank transitions from below the threshold to above it. The previous candle had Percentile Rank &lt;= the target, and the current candle has Percentile Rank &gt; the target.</p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "prank_100"
+operator = "cross_above"
+target = "50"
+timeframe = "1h"
+</code></pre>
+<p><strong>Typical use:</strong> Detect the moment price crosses above the median of its recent range. This can serve as an exit signal for mean-reversion trades: you bought in the bottom percentile, and now price has recovered to the middle of its range -- the reversion is complete.</p>
+<h3 id="cross_below----event-based"><a class="header" href="#cross_below----event-based"><code>cross_below</code> -- Event-Based</a></h3>
+<p><strong>What it does:</strong> Fires <strong>once</strong>, at the exact candle where Percentile Rank transitions from above the threshold to below it. The previous candle had Percentile Rank &gt;= the target, and the current candle has Percentile Rank &lt; the target.</p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "prank_100"
+operator = "cross_below"
+target = "10"
+timeframe = "1h"
+</code></pre>
+<p><strong>Typical use:</strong> Detect the exact moment price falls into the bottom percentile zone. Unlike <code>&lt;</code> which stays active the entire time Percentile Rank is below 10, <code>cross_below</code> fires only at the transition -- giving you a single entry signal per dip.</p>
+<h3 id="-equal----not-recommended-for-percentile-rank"><a class="header" href="#-equal----not-recommended-for-percentile-rank"><code>=</code> (Equal) -- Not Recommended for Percentile Rank</a></h3>
+<p><strong>Why:</strong> While Percentile Rank produces integer-like values more often than Z-Score, exact matches are still unreliable for triggering. Use <code>&gt;</code> or <code>&lt;</code> instead.</p>
+<div id="admonition-choosing-the-right-operator" class="admonition admonish-tip" role="note" aria-labelledby="admonition-choosing-the-right-operator-title">
+<div class="admonition-title">
+<div id="admonition-choosing-the-right-operator-title">
+<p>Choosing the right operator</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-choosing-the-right-operator"></a>
+</div>
+<div>
+<ul>
+<li>Use <strong><code>&lt;</code></strong> with a low threshold (e.g., 5 or 10) to buy when price is at the bottom of its recent range. This is the most common Percentile Rank operator.</li>
+<li>Use <strong><code>&gt;</code></strong> with a high threshold (e.g., 90 or 95) to sell or take profit when price is at the top of its recent range.</li>
+<li>Use <strong><code>cross_below</code></strong> to enter once per dip (fires at the moment of transition, not on every candle).</li>
+<li>Use <strong><code>cross_above</code></strong> to detect the moment price recovers to mid-range (exit signal).</li>
+</ul>
+</div>
+</div>
+<hr />
+<h2 id="toml-examples"><a class="header" href="#toml-examples">TOML Examples</a></h2>
+<h3 id="buy-the-bottom-5th-percentile"><a class="header" href="#buy-the-bottom-5th-percentile">Buy the Bottom 5th Percentile</a></h3>
+<p>The classic contrarian trade: buy when the current price is lower than 95% of the last 100 closes. This is a purely statistical signal -- price is at the extreme low of its recent range. Add a trend filter to avoid buying into a sustained downtrend.</p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+  [[actions.triggers]]
+  indicator = "prank_100"
+  operator = "&lt;"
+  target = "5"
+  timeframe = "1h"
+
+  [[actions.triggers]]
+  indicator = "sma_50"
+  operator = "&gt;"
+  target = "sma_200"
+  timeframe = "1d"
+</code></pre>
+<h3 id="exit-at-60th-percentile"><a class="header" href="#exit-at-60th-percentile">Exit at 60th Percentile</a></h3>
+<p>Close the position when price recovers to the 60th percentile of its recent range. This exits above the median, capturing the majority of the reversion move without waiting for price to reach the top of the range (which may never happen).</p>
+<pre><code class="language-toml">[[actions]]
+type = "close_long"
+amount = "100%"
+
+  [[actions.triggers]]
+  indicator = "prank_100"
+  operator = "cross_above"
+  target = "60"
+  timeframe = "1h"
+</code></pre>
+<h3 id="percentile-rank-with-rsi-confluence"><a class="header" href="#percentile-rank-with-rsi-confluence">Percentile Rank with RSI Confluence</a></h3>
+<p>Combine Percentile Rank with RSI for double confirmation. Both indicators must agree that price is depressed: Percentile Rank says the price is in the bottom 10% of its recent range, and RSI says momentum is oversold. The confluence of two independent signals increases confidence in the entry.</p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+  [[actions.triggers]]
+  indicator = "prank_100"
+  operator = "&lt;"
+  target = "10"
+  timeframe = "1h"
+
+  [[actions.triggers]]
+  indicator = "rsi_14"
+  operator = "&lt;"
+  target = "30"
+  timeframe = "1h"
+
+  [[actions.triggers]]
+  indicator = "ema_21"
+  operator = "&gt;"
+  target = "ema_55"
+  timeframe = "1d"
+</code></pre>
+<h3 id="dca-at-different-percentile-levels"><a class="header" href="#dca-at-different-percentile-levels">DCA at Different Percentile Levels</a></h3>
+<p>Dollar-cost average into a position at progressively lower percentile levels. The deeper the dip, the larger the allocation. This creates a tiered entry strategy that averages into a position more aggressively as price becomes cheaper relative to recent history.</p>
+<pre><code class="language-toml"># Light entry at 15th percentile
+[[actions]]
+type = "open_long"
+amount = "50 USDC"
+
+  [[actions.triggers]]
+  indicator = "prank_100"
+  operator = "cross_below"
+  target = "15"
+  timeframe = "4h"
+
+# Medium entry at 8th percentile
+[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+  [[actions.triggers]]
+  indicator = "prank_100"
+  operator = "cross_below"
+  target = "8"
+  timeframe = "4h"
+
+# Heavy entry at 3rd percentile
+[[actions]]
+type = "open_long"
+amount = "200 USDC"
+
+  [[actions.triggers]]
+  indicator = "prank_100"
+  operator = "cross_below"
+  target = "3"
+  timeframe = "4h"
+</code></pre>
+<hr />
+<h2 id="tips"><a class="header" href="#tips">Tips</a></h2>
+<div id="admonition-percentile-rank-is-backward-looking" class="admonition admonish-warning" role="note" aria-labelledby="admonition-percentile-rank-is-backward-looking-title">
+<div class="admonition-title">
+<div id="admonition-percentile-rank-is-backward-looking-title">
+<p>Percentile Rank is backward-looking</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-percentile-rank-is-backward-looking"></a>
+</div>
+<div>
+<p>A Percentile Rank of 0 means price is the lowest close in the last N periods -- but it says nothing about whether price will continue falling. In a sustained downtrend, price can print a Percentile Rank of 0 on every new candle as it keeps making new lows. <strong>Always combine Percentile Rank with a trend filter</strong> to avoid buying into an accelerating decline.</p>
+</div>
+</div>
+<div id="admonition-distribution-free----no-assumptions-needed" class="admonition admonish-tip" role="note" aria-labelledby="admonition-distribution-free----no-assumptions-needed-title">
+<div class="admonition-title">
+<div id="admonition-distribution-free----no-assumptions-needed-title">
+<p>Distribution-free -- no assumptions needed</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-distribution-free----no-assumptions-needed"></a>
+</div>
+<div>
+<p>Unlike Z-Score, which interprets its thresholds based on a normal distribution assumption, Percentile Rank is completely non-parametric. A Percentile Rank of 5 literally means "current price is lower than 95% of the last N closes." No bell curve required. For crypto markets with fat tails and skewed returns, this is an advantage -- the number means exactly what it says.</p>
+</div>
+</div>
+<div id="admonition-compare-with-z-score-for-a-fuller-picture" class="admonition admonish-tip" role="note" aria-labelledby="admonition-compare-with-z-score-for-a-fuller-picture-title">
+<div class="admonition-title">
+<div id="admonition-compare-with-z-score-for-a-fuller-picture-title">
+<p>Compare with Z-Score for a fuller picture</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-compare-with-z-score-for-a-fuller-picture"></a>
+</div>
+<div>
+<p>Z-Score and Percentile Rank often agree, but when they diverge, it is informative. If Z-Score says -3 (extreme) but Percentile Rank says 15 (not that extreme), it means price is far from the mean but not actually near the lowest close -- volatility has expanded the Z-Score. Combining both gives you a parametric and non-parametric view of the same question: "Is this price cheap?"</p>
+</div>
+</div>
+<div id="admonition-longer-periods-for-swing-trading-shorter-for-scalping" class="admonition admonish-tip" role="note" aria-labelledby="admonition-longer-periods-for-swing-trading-shorter-for-scalping-title">
+<div class="admonition-title">
+<div id="admonition-longer-periods-for-swing-trading-shorter-for-scalping-title">
+<p>Longer periods for swing trading, shorter for scalping</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-longer-periods-for-swing-trading-shorter-for-scalping"></a>
+</div>
+<div>
+<p>A <code>prank_50</code> reaching 5 means price is the cheapest of the last ~2 days of hourly candles -- a short-term dip. A <code>prank_200</code> reaching 5 means price is the cheapest of the last ~8 days of hourly candles -- a more significant pullback. Choose your period based on your holding horizon: shorter periods for quick mean-reversion trades, longer periods for swing trades that may take days to play out.</p>
+</div>
+</div>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../strategies/indicators/zscore.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../strategies/indicators/hurst.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../strategies/indicators/zscore.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../strategies/indicators/hurst.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../mermaid.min.js"></script>
+        <script src="../../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

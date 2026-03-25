@@ -1,0 +1,470 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Kurtosis — Tail Risk - Botmarley User Manual</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Complete user guide for the Botmarley cryptocurrency trading bot">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../.././mdbook-admonish.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Botmarley User Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="kurt----rolling-kurtosis"><a class="header" href="#kurt----rolling-kurtosis">Kurt -- Rolling Kurtosis</a></h1>
+<h2 id="contents"><a class="header" href="#contents">Contents</a></h2>
+<ul>
+<li><a href="#format">Format</a></li>
+<li><a href="#understanding-kurtosis-values">Understanding Kurtosis Values</a></li>
+<li><a href="#understanding-operators-with-kurtosis">Understanding Operators with Kurtosis</a>
+<ul>
+<li><a href="#-less-than----state-based"><code>&lt;</code> Less Than</a></li>
+<li><a href="#-greater-than----state-based"><code>&gt;</code> Greater Than</a></li>
+<li><a href="#cross_below----event-based"><code>cross_below</code></a></li>
+<li><a href="#cross_above----event-based"><code>cross_above</code></a></li>
+<li><a href="#-equal----not-recommended-for-kurtosis"><code>=</code> Equal</a></li>
+</ul>
+</li>
+<li><a href="#toml-examples">TOML Examples</a>
+<ul>
+<li><a href="#low-kurtosis-safe-entry">Low Kurtosis Safe Entry</a></li>
+<li><a href="#high-kurtosis-exit">High Kurtosis Exit</a></li>
+<li><a href="#full-distribution-kurtosis--skewness">Full Distribution: Kurtosis + Skewness</a></li>
+<li><a href="#kurtosis-volatility-regime-filter">Kurtosis Volatility Regime Filter</a></li>
+</ul>
+</li>
+<li><a href="#tips">Tips</a></li>
+</ul>
+<hr />
+<h2 id="overview"><a class="header" href="#overview">Overview</a></h2>
+<p>Rolling Kurtosis measures how <strong>fat the tails</strong> of the return distribution are over a rolling window. It is computed on log returns using excess kurtosis (kurtosis relative to the normal distribution). Kurtosis answers a critical risk question: <strong>is the market producing more extreme moves than expected?</strong></p>
+<p>The formula computes the fourth moment of the return distribution, normalized by its variance, minus 3:</p>
+<pre><code>Kurtosis = E[(r - mean)^4] / std^4 - 3
+</code></pre>
+<p>The subtraction of 3 makes the result relative to the normal distribution (which has a kurtosis of 3). This means a reading of 0 indicates the tails match what you would expect from a normal distribution. Positive values mean the tails are fatter -- extreme moves are happening more often than a bell curve would predict.</p>
+<ul>
+<li><strong>High kurtosis (fat tails)</strong> means the market is producing extreme moves -- both up and down -- more frequently than normal. This is the domain of gap opens, flash crashes, and "impossible" events. Stop-losses get blown through because price jumps past them.</li>
+<li><strong>Low kurtosis (thin tails)</strong> means the market is behaving predictably. Returns cluster near the mean with few outliers. This is a safe, stable environment where systematic strategies perform well.</li>
+<li><strong>Zero kurtosis</strong> means the tails match the normal distribution exactly. This is the theoretical baseline.</li>
+</ul>
+<p>The key insight: kurtosis is a <strong>risk indicator</strong>. It does not tell you which direction the market will move -- it tells you how <em>extreme</em> the moves are likely to be. High kurtosis environments are dangerous because they produce the outsized moves that destroy positions. Low kurtosis environments are where systematic strategies thrive because price behavior is predictable and well-behaved.</p>
+<hr />
+<h2 id="format"><a class="header" href="#format">Format</a></h2>
+<pre><code>kurt_{period}
+</code></pre>
+<p>The period defines the rolling lookback window -- how many candles of log returns are included in the kurtosis calculation.</p>
+<div class="table-wrapper"><table><thead><tr><th>Example</th><th>Period</th><th>Use Case</th></tr></thead><tbody>
+<tr><td><code>kurt_60</code></td><td>60</td><td>Standard -- captures tail behavior over a meaningful window</td></tr>
+<tr><td><code>kurt_100</code></td><td>100</td><td>Slower -- more stable regime identification, filters out transient spikes</td></tr>
+<tr><td><code>kurt_30</code></td><td>30</td><td>Faster -- reacts quicker to changing tail behavior, noisier</td></tr>
+</tbody></table>
+</div>
+<p><strong>Period range:</strong> 20 to 500.</p>
+<p><strong>Value range:</strong> Typically -2.0 to +10.0. 0 = normal distribution tails. Positive = fat tails (more extremes than normal). Negative = thin tails (fewer extremes than normal). Values above 4 indicate a highly volatile, tail-heavy environment.</p>
+<hr />
+<h2 id="understanding-kurtosis-values"><a class="header" href="#understanding-kurtosis-values">Understanding Kurtosis Values</a></h2>
+<p>Kurtosis values are standardized (excess kurtosis relative to the normal distribution), making them <strong>universal</strong> across assets and timeframes.</p>
+<div class="table-wrapper"><table><thead><tr><th>Kurtosis Range</th><th>Zone</th><th>Interpretation</th></tr></thead><tbody>
+<tr><td>Below 0</td><td>Thin tails</td><td>Fewer extreme moves than a normal distribution. The market is highly predictable. Ideal environment for systematic strategies -- returns are well-behaved.</td></tr>
+<tr><td>0 to 2</td><td>Near-normal</td><td>Tail behavior is close to what a normal distribution would produce. Safe for most strategies. Occasional outliers occur but at expected frequency.</td></tr>
+<tr><td>2 to 4</td><td>Moderately fat tails</td><td>Extreme moves are happening more often than expected. The market is producing occasional surprises. Be cautious with tight stops and leveraged positions.</td></tr>
+<tr><td>Above 4</td><td>Very fat tails</td><td>Danger zone. Extreme moves are frequent and large. This is when "impossible" events occur -- gap moves, flash crashes, violent whipsaws. Risk management is critical. Reduce position size or avoid new entries entirely.</td></tr>
+</tbody></table>
+</div><div id="admonition-note" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-title">
+<div class="admonition-title">
+<div id="admonition-note-title">
+<p>Note</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-note"></a>
+</div>
+<div>
+<p>Crypto markets tend to have higher baseline kurtosis than traditional markets because of their 24/7 nature, thin order books, and susceptibility to news-driven events. A kurtosis of 2-3 is relatively common for crypto on hourly timeframes. Calibrate your thresholds through backtesting on your specific pair.</p>
+</div>
+</div>
+<hr />
+<h2 id="understanding-operators-with-kurtosis"><a class="header" href="#understanding-operators-with-kurtosis">Understanding Operators with Kurtosis</a></h2>
+<p>Each operator behaves differently with kurtosis. Because kurtosis is a <strong>risk/environment indicator</strong>, it is almost always used as a filter to gate entries and exits, not as a standalone signal.</p>
+<h3 id="less-than----state-based"><a class="header" href="#less-than----state-based"><code>&lt;</code> (Less Than) -- State-Based</a></h3>
+<p><strong>What it does:</strong> The trigger is true on <strong>every candle</strong> where kurtosis is below the threshold. This detects periods when the return distribution has thin or normal tails -- a safe, predictable trading environment.</p>
+<p><strong>On the chart:</strong> Returns are well-behaved. There are no extreme outliers in the recent lookback window. Price moves are consistent and predictable.</p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "kurt_60"
+operator = "&lt;"
+target = "2.0"
+timeframe = "1h"
+</code></pre>
+<p><strong>Typical use:</strong> Safety filter for entries. Only enter new positions when kurtosis is low -- the environment is predictable and stop-losses are likely to function as intended. This protects against opening positions right before extreme events.</p>
+<h3 id="greater-than----state-based"><a class="header" href="#greater-than----state-based"><code>&gt;</code> (Greater Than) -- State-Based</a></h3>
+<p><strong>What it does:</strong> The trigger is true on <strong>every candle</strong> where kurtosis is above the threshold. This detects periods when the return distribution has fat tails -- extreme moves are happening more often than expected.</p>
+<p><strong>On the chart:</strong> Price has been making sharp, unexpected moves. The recent return history includes large outliers -- spikes, crashes, or violent reversals.</p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "kurt_60"
+operator = "&gt;"
+target = "4.0"
+timeframe = "1h"
+</code></pre>
+<p><strong>Typical use:</strong> Risk management exit. When kurtosis spikes above 4, the market is in a dangerous state. Existing positions may need to be closed or reduced. Can also be used as a <em>negative</em> filter -- "do NOT enter when kurtosis &gt; 4."</p>
+<h3 id="cross_below----event-based"><a class="header" href="#cross_below----event-based"><code>cross_below</code> -- Event-Based</a></h3>
+<p><strong>What it does:</strong> Fires <strong>once</strong>, at the exact candle where kurtosis transitions from above the threshold to below it. The previous candle had kurtosis &gt;= the target, and the current candle has kurtosis &lt; the target.</p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "kurt_60"
+operator = "cross_below"
+target = "2.0"
+timeframe = "1h"
+</code></pre>
+<p><strong>Typical use:</strong> Detect the moment the market transitions from a fat-tail regime to a normal regime. The volatility storm has passed. This can signal that it is safe to resume systematic trading.</p>
+<h3 id="cross_above----event-based"><a class="header" href="#cross_above----event-based"><code>cross_above</code> -- Event-Based</a></h3>
+<p><strong>What it does:</strong> Fires <strong>once</strong>, at the exact candle where kurtosis transitions from below the threshold to above it. The previous candle had kurtosis &lt;= the target, and the current candle has kurtosis &gt; the target.</p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "kurt_60"
+operator = "cross_above"
+target = "4.0"
+timeframe = "1h"
+</code></pre>
+<p><strong>Typical use:</strong> Detect the moment the market enters a fat-tail regime. Kurtosis has just spiked -- extreme moves have started. This is an early warning signal to tighten stops, reduce exposure, or exit positions entirely.</p>
+<h3 id="-equal----not-recommended-for-kurtosis"><a class="header" href="#-equal----not-recommended-for-kurtosis"><code>=</code> (Equal) -- Not Recommended for Kurtosis</a></h3>
+<p><strong>Why:</strong> Kurtosis produces floating-point values that are rarely exactly equal to any specific number. Use <code>&lt;</code> or <code>&gt;</code> instead.</p>
+<div id="admonition-choosing-the-right-operator" class="admonition admonish-tip" role="note" aria-labelledby="admonition-choosing-the-right-operator-title">
+<div class="admonition-title">
+<div id="admonition-choosing-the-right-operator-title">
+<p>Choosing the right operator</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-choosing-the-right-operator"></a>
+</div>
+<div>
+<ul>
+<li>Use <strong><code>&lt;</code></strong> to identify safe trading environments -- low kurtosis means predictable markets. The most common kurtosis operator.</li>
+<li>Use <strong><code>&gt;</code></strong> to detect dangerous environments -- high kurtosis means extreme moves are likely. Use for exits or as a negative filter.</li>
+<li>Use <strong><code>cross_below</code> / <code>cross_above</code></strong> to detect the exact moment a risk regime changes.</li>
+</ul>
+</div>
+</div>
+<hr />
+<h2 id="toml-examples"><a class="header" href="#toml-examples">TOML Examples</a></h2>
+<h3 id="low-kurtosis-safe-entry"><a class="header" href="#low-kurtosis-safe-entry">Low Kurtosis Safe Entry</a></h3>
+<p>Enter long positions only when the market is in a predictable, low-kurtosis environment. Combined with a bullish trend filter, this ensures you are trading in calm conditions where systematic strategies perform best.</p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+  [[actions.triggers]]
+  indicator = "kurt_60"
+  operator = "&lt;"
+  target = "2.0"
+  timeframe = "1h"
+
+  [[actions.triggers]]
+  indicator = "ema_20"
+  operator = "&gt;"
+  target = "ema_50"
+  timeframe = "1h"
+
+  [[actions.triggers]]
+  indicator = "rsi_14"
+  operator = "&lt;"
+  target = "40"
+  timeframe = "1h"
+</code></pre>
+<h3 id="high-kurtosis-exit"><a class="header" href="#high-kurtosis-exit">High Kurtosis Exit</a></h3>
+<p>Exit existing positions when kurtosis spikes above 4. The market is producing extreme moves and the risk of a catastrophic loss increases dramatically. This is a defensive risk management action.</p>
+<pre><code class="language-toml">[[actions]]
+type = "sell"
+amount = "100%"
+
+  [[actions.triggers]]
+  indicator = "kurt_60"
+  operator = "cross_above"
+  target = "4.0"
+  timeframe = "1h"
+</code></pre>
+<h3 id="full-distribution-kurtosis--skewness"><a class="header" href="#full-distribution-kurtosis--skewness">Full Distribution: Kurtosis + Skewness</a></h3>
+<p>The complete distribution picture. Buy when: (1) skewness is negative (crash has occurred), (2) kurtosis is low (extreme moves have stopped -- the storm has passed), and (3) RSI confirms recovery. This is the highest-conviction contrarian setup.</p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+  [[actions.triggers]]
+  indicator = "skew_60"
+  operator = "&lt;"
+  target = "-0.8"
+  timeframe = "1h"
+
+  [[actions.triggers]]
+  indicator = "kurt_60"
+  operator = "&lt;"
+  target = "2.0"
+  timeframe = "1h"
+
+  [[actions.triggers]]
+  indicator = "rsi_14"
+  operator = "cross_above"
+  target = "30"
+  timeframe = "1h"
+</code></pre>
+<h3 id="kurtosis-volatility-regime-filter"><a class="header" href="#kurtosis-volatility-regime-filter">Kurtosis Volatility Regime Filter</a></h3>
+<p>Use kurtosis as a volatility regime gate. Only enter DCA positions when the market is calm (low kurtosis) and price is at a discount to VWAP. This avoids accumulating during chaotic markets where prices can gap unpredictably.</p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "50 USDC"
+
+  [[actions.triggers]]
+  indicator = "kurt_100"
+  operator = "&lt;"
+  target = "2.5"
+  timeframe = "4h"
+
+  [[actions.triggers]]
+  indicator = "price"
+  operator = "&lt;"
+  target = "vwap"
+  timeframe = "4h"
+
+  [[actions.triggers]]
+  indicator = "rsi_14"
+  operator = "&lt;"
+  target = "45"
+  timeframe = "4h"
+  max_count = 5
+</code></pre>
+<hr />
+<h2 id="tips"><a class="header" href="#tips">Tips</a></h2>
+<div id="admonition-kurtosis-is-a-risk-management-tool-not-an-entry-signal" class="admonition admonish-tip" role="note" aria-labelledby="admonition-kurtosis-is-a-risk-management-tool-not-an-entry-signal-title">
+<div class="admonition-title">
+<div id="admonition-kurtosis-is-a-risk-management-tool-not-an-entry-signal-title">
+<p>Kurtosis is a risk management tool, not an entry signal</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-kurtosis-is-a-risk-management-tool-not-an-entry-signal"></a>
+</div>
+<div>
+<p>Kurtosis does not tell you which direction to trade -- it tells you whether the market is safe to trade at all. Low kurtosis means the market is well-behaved and your stop-losses, position sizes, and strategy assumptions are likely to hold. High kurtosis means the market is producing moves that violate normal assumptions. Use kurtosis to decide <em>whether</em> to trade, then use directional indicators (RSI, EMA, MACD) to decide <em>how</em> to trade.</p>
+</div>
+</div>
+<div id="admonition-low-kurtosis--your-strategies-work-as-designed" class="admonition admonish-tip" role="note" aria-labelledby="admonition-low-kurtosis--your-strategies-work-as-designed-title">
+<div class="admonition-title">
+<div id="admonition-low-kurtosis--your-strategies-work-as-designed-title">
+<p>Low kurtosis = your strategies work as designed</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-low-kurtosis--your-strategies-work-as-designed"></a>
+</div>
+<div>
+<p>Systematic trading strategies are typically developed and backtested under normal market conditions. When kurtosis is low, the market matches those conditions -- your strategies are operating within their design parameters. When kurtosis is high, the market has shifted to a regime your strategy was not designed for. Using kurtosis as a gate filter ensures your strategy only runs in the environment it was built for.</p>
+</div>
+</div>
+<div id="admonition-combine-with-skewness-for-the-full-picture" class="admonition admonish-tip" role="note" aria-labelledby="admonition-combine-with-skewness-for-the-full-picture-title">
+<div class="admonition-title">
+<div id="admonition-combine-with-skewness-for-the-full-picture-title">
+<p>Combine with Skewness for the full picture</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-combine-with-skewness-for-the-full-picture"></a>
+</div>
+<div>
+<p>Kurtosis tells you how fat the tails are. Skewness tells you which direction the tail risk is. Together: high kurtosis + negative skew = active crash in progress (extreme downside moves). High kurtosis + positive skew = explosive rally with blow-off-top risk. Low kurtosis + negative skew = post-crash calm, high-probability bounce setup. The combination of both gives you the complete distribution shape.</p>
+</div>
+</div>
+<div id="admonition-beware-of-high-kurtosis-environments" class="admonition admonish-warning" role="note" aria-labelledby="admonition-beware-of-high-kurtosis-environments-title">
+<div class="admonition-title">
+<div id="admonition-beware-of-high-kurtosis-environments-title">
+<p>Beware of high-kurtosis environments</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-beware-of-high-kurtosis-environments"></a>
+</div>
+<div>
+<p>When kurtosis exceeds 4, the market is in "fat tail" territory. This means: stop-losses may not execute at your target price (gaps and slippage), position sizing models underestimate risk, and "impossible" events become possible. During these regimes, reduce position sizes, widen stop-losses, or step aside entirely. The goal is capital preservation. You can always re-enter when kurtosis drops back to normal levels.</p>
+</div>
+</div>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../strategies/indicators/skewness.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../strategies/indicators/autocorrelation.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../strategies/indicators/skewness.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../strategies/indicators/autocorrelation.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../mermaid.min.js"></script>
+        <script src="../../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

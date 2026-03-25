@@ -1,0 +1,657 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Strategy Examples - Botmarley User Manual</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Complete user guide for the Botmarley cryptocurrency trading bot">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href=".././mdbook-admonish.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Botmarley User Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="strategy-examples"><a class="header" href="#strategy-examples">Strategy Examples</a></h1>
+<p>This page contains four complete, working strategies with line-by-line explanations. You can use these as starting points for your own strategies -- copy the TOML, modify the parameters, and backtest to see how they perform on your target pair.</p>
+<hr />
+<h2 id="1-rsi-scalper"><a class="header" href="#1-rsi-scalper">1. RSI Scalper</a></h2>
+<p>A simple momentum strategy that buys when RSI signals oversold conditions and sells in two stages as price recovers.</p>
+<p><strong>Concept:</strong> RSI below 30 indicates extreme selling pressure. Statistically, price tends to bounce after reaching oversold levels. This strategy captures that bounce by entering at RSI &lt; 30 and exiting in two steps: partial at RSI &gt; 50 (neutral) and full at RSI &gt; 70 (overbought).</p>
+<h3 id="full-toml"><a class="header" href="#full-toml">Full TOML</a></h3>
+<pre><code class="language-toml">[meta]
+name = "RSI_Scalper"
+
+# ENTRY: Buy when RSI drops below 30 (oversold)
+[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+  [[actions.triggers]]
+  indicator = "rsi_14"
+  operator = "&lt;"
+  target = "30"
+
+# PARTIAL EXIT: Sell 50% when RSI recovers to neutral
+[[actions]]
+type = "sell"
+amount = "50%"
+
+  [[actions.triggers]]
+  indicator = "rsi_14"
+  operator = "&gt;"
+  target = "50"
+
+# FULL EXIT: Sell remaining when RSI reaches overbought
+[[actions]]
+type = "sell"
+amount = "100%"
+
+  [[actions.triggers]]
+  indicator = "rsi_14"
+  operator = "&gt;"
+  target = "70"
+</code></pre>
+<h3 id="line-by-line-explanation"><a class="header" href="#line-by-line-explanation">Line-by-Line Explanation</a></h3>
+<p><strong><code>[meta]</code></strong> -- Strategy metadata. No <code>max_open_positions</code> set, so only one position at a time by default behavior of the entry trigger.</p>
+<p><strong>Action 1 -- Entry:</strong></p>
+<ul>
+<li><code>type = "open_long"</code> -- Creates a new position.</li>
+<li><code>amount = "100 USDC"</code> -- Buys $100 worth of the asset.</li>
+<li>Trigger: <code>rsi_14 &lt; 30</code> -- RSI with a 14-period lookback drops below 30. This is the classic oversold signal.</li>
+</ul>
+<p><strong>Action 2 -- Partial Exit:</strong></p>
+<ul>
+<li><code>type = "sell"</code> -- Sells part of the existing position.</li>
+<li><code>amount = "50%"</code> -- Sells half. This locks in partial profit while leaving room for more upside.</li>
+<li>Trigger: <code>rsi_14 &gt; 50</code> -- RSI recovers to neutral territory. The worst of the selling is over.</li>
+</ul>
+<p><strong>Action 3 -- Full Exit:</strong></p>
+<ul>
+<li><code>type = "sell"</code> -- Sells the rest.</li>
+<li><code>amount = "100%"</code> -- Exits completely.</li>
+<li>Trigger: <code>rsi_14 &gt; 70</code> -- RSI reaches overbought. The bounce is likely exhausted.</li>
+</ul>
+<div id="admonition-tip" class="admonition admonish-tip" role="note" aria-labelledby="admonition-tip-title">
+<div class="admonition-title">
+<div id="admonition-tip-title">
+<p>Tip</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-tip"></a>
+</div>
+<div>
+<p>This strategy has no stop-loss. For production use, add a stop-loss action (e.g., sell 100% at pos_price_change of -5%). Without a stop-loss, the bot holds through any drawdown waiting for RSI to recover.</p>
+</div>
+</div>
+<h3 id="strengths-and-weaknesses"><a class="header" href="#strengths-and-weaknesses">Strengths and Weaknesses</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Strength</th><th>Weakness</th></tr></thead><tbody>
+<tr><td>Simple and easy to understand</td><td>No stop-loss -- can hold losing positions</td></tr>
+<tr><td>Works well in ranging markets</td><td>Performs poorly in strong downtrends</td></tr>
+<tr><td>Two-stage exit captures more gain</td><td>RSI can stay below 30 for extended periods</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="2-bollinger-bounce-dca"><a class="header" href="#2-bollinger-bounce-dca">2. Bollinger Bounce DCA</a></h2>
+<p>A mean-reversion strategy that enters when price touches the lower Bollinger Band, uses DCA to average down on continued dips, and exits on recovery.</p>
+<p><strong>Concept:</strong> Bollinger Bands measure volatility. When price drops below the lower band, it is statistically "extended" and tends to revert toward the middle band. This strategy exploits that tendency with DCA to handle cases where price continues to drop after the initial entry.</p>
+<h3 id="full-toml-1"><a class="header" href="#full-toml-1">Full TOML</a></h3>
+<pre><code class="language-toml">[meta]
+name = "BB_Bounce_DCA"
+description = "Enter at BB lower, DCA at -2% and -4%, exit at +3%"
+max_open_positions = 3
+
+# ENTRY: Price drops below the lower Bollinger Band
+[[actions]]
+type = "open_long"
+amount = "100 USDC"
+average_price = false
+
+  [[actions.triggers]]
+  indicator = "price"
+  operator = "&lt;"
+  target = "bb_lower"
+
+# DCA LEVEL 1: Position drops 2% -- buy more
+[[actions]]
+type = "buy"
+amount = "100 USDC"
+average_price = true
+
+  [[actions.triggers]]
+  type = "pos_price_change"
+  value = "-2%"
+  max_count = 1
+
+# DCA LEVEL 2: Position drops 4% -- buy even more
+[[actions]]
+type = "buy"
+amount = "200 USDC"
+average_price = true
+
+  [[actions.triggers]]
+  type = "pos_price_change"
+  value = "-4%"
+  max_count = 1
+
+# TAKE PROFIT: Exit at +3% from averaged entry
+[[actions]]
+type = "sell"
+amount = "100%"
+
+  [[actions.triggers]]
+  type = "pos_price_change"
+  value = "3%"
+
+# STOP LOSS: Cut losses at -8%
+[[actions]]
+type = "sell"
+amount = "100%"
+
+  [[actions.triggers]]
+  type = "pos_price_change"
+  value = "-8%"
+</code></pre>
+<h3 id="line-by-line-explanation-1"><a class="header" href="#line-by-line-explanation-1">Line-by-Line Explanation</a></h3>
+<p><strong><code>[meta]</code>:</strong></p>
+<ul>
+<li><code>max_open_positions = 3</code> -- allows up to 3 simultaneous positions. If the entry trigger fires while 3 positions are open, it is ignored.</li>
+</ul>
+<p><strong>Action 1 -- Entry:</strong></p>
+<ul>
+<li><code>price &lt; bb_lower</code> -- current price is below the lower Bollinger Band. This means price is at least 2 standard deviations below the 20-period mean.</li>
+<li><code>average_price = false</code> -- this is the initial entry, no averaging needed.</li>
+</ul>
+<p><strong>Action 2 -- DCA Level 1:</strong></p>
+<ul>
+<li><code>type = "buy"</code> -- adds to the existing position.</li>
+<li><code>average_price = true</code> -- recalculates entry price as a weighted average.</li>
+<li><code>pos_price_change = "-2%"</code> -- fires when price drops 2% below the entry price.</li>
+<li><code>max_count = 1</code> -- only triggers once per position, preventing repeated buys if price oscillates.</li>
+</ul>
+<p><strong>Action 3 -- DCA Level 2:</strong></p>
+<ul>
+<li>Same logic as Level 1, but fires at -4% with a larger amount ($200). The increasing amounts at deeper dips is pyramid DCA -- more capital deployed where risk-reward improves.</li>
+</ul>
+<p><strong>Action 4 -- Take Profit:</strong></p>
+<ul>
+<li><code>pos_price_change = "3%"</code> -- sell everything when price is 3% above the (averaged) entry. Thanks to DCA, the averaged entry is lower than the original entry, making this target easier to reach.</li>
+</ul>
+<p><strong>Action 5 -- Stop Loss:</strong></p>
+<ul>
+<li><code>pos_price_change = "-8%"</code> -- if price drops 8% from entry without recovery, cut losses.</li>
+</ul>
+<div id="admonition-note" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-title">
+<div class="admonition-title">
+<div id="admonition-note-title">
+<p>Note</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-note"></a>
+</div>
+<div>
+<p>The stop-loss at -8% means the maximum loss per position (before DCA) is 8% of $100 = $8. With DCA, total capital at risk is $100 + $100 + $200 = $400, but the averaged entry brings the stop-loss trigger closer to the deeper DCA levels.</p>
+</div>
+</div>
+<hr />
+<h2 id="3-macd-crossover"><a class="header" href="#3-macd-crossover">3. MACD Crossover</a></h2>
+<p>A trend-following strategy that enters on a MACD bullish crossover and exits on a bearish crossover, with DCA and a fixed take-profit target.</p>
+<p><strong>Concept:</strong> When the MACD line crosses above its signal line, it indicates bullish momentum is increasing. When it crosses below, momentum is fading. This strategy rides the momentum wave.</p>
+<h3 id="full-toml-2"><a class="header" href="#full-toml-2">Full TOML</a></h3>
+<pre><code class="language-toml">[meta]
+name = "MACD_Crossover"
+description = "Enter on MACD bullish cross, DCA on dips, exit on bearish cross or profit"
+max_open_positions = 3
+
+# ENTRY: MACD line crosses above signal line on 1h chart
+[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+  [[actions.triggers]]
+  indicator = "macd_line"
+  operator = "cross_above"
+  target = "macd_signal"
+  timeframe = "1h"
+
+# DCA LEVEL 1: Buy more if price dips 2%
+[[actions]]
+type = "buy"
+amount = "100 USDC"
+average_price = true
+
+  [[actions.triggers]]
+  type = "pos_price_change"
+  value = "-2%"
+  max_count = 1
+
+# DCA LEVEL 2: Buy more if price dips 4%
+[[actions]]
+type = "buy"
+amount = "200 USDC"
+average_price = true
+
+  [[actions.triggers]]
+  type = "pos_price_change"
+  value = "-4%"
+  max_count = 1
+
+# TAKE PROFIT: Exit at +3%
+[[actions]]
+type = "sell"
+amount = "100%"
+
+  [[actions.triggers]]
+  type = "pos_price_change"
+  value = "3%"
+
+# EXIT ON BEARISH CROSS: MACD line crosses below signal
+[[actions]]
+type = "sell"
+amount = "100%"
+
+  [[actions.triggers]]
+  indicator = "macd_line"
+  operator = "cross_below"
+  target = "macd_signal"
+  timeframe = "1h"
+</code></pre>
+<h3 id="line-by-line-explanation-2"><a class="header" href="#line-by-line-explanation-2">Line-by-Line Explanation</a></h3>
+<p><strong>Action 1 -- Entry:</strong></p>
+<ul>
+<li><code>macd_line cross_above macd_signal</code> on <code>1h</code> -- this is the classic MACD bullish crossover. It occurs when the difference between the 12-period and 26-period EMAs starts increasing, signaling that short-term momentum is turning bullish.</li>
+<li><code>timeframe = "1h"</code> -- using hourly candles filters out noise. A 1-minute MACD crossover is common and often meaningless; a 1-hour crossover is a stronger signal.</li>
+</ul>
+<p><strong>Actions 2 &amp; 3 -- DCA:</strong></p>
+<ul>
+<li>Same pyramid DCA pattern as the previous example. If the crossover was a false signal and price drops, DCA lowers the average entry.</li>
+<li><code>max_count = 1</code> prevents repeated buys.</li>
+</ul>
+<p><strong>Action 4 -- Take Profit:</strong></p>
+<ul>
+<li><code>pos_price_change = "3%"</code> -- exits with profit regardless of MACD state.</li>
+</ul>
+<p><strong>Action 5 -- Bearish Exit:</strong></p>
+<ul>
+<li><code>macd_line cross_below macd_signal</code> on <code>1h</code> -- the opposite crossover. Momentum has shifted from bullish to bearish.</li>
+<li>This acts as a <strong>dynamic stop-loss</strong> -- instead of a fixed percentage, you exit when the momentum signal that got you in reverses.</li>
+</ul>
+<div id="admonition-tip-1" class="admonition admonish-tip" role="note" aria-labelledby="admonition-tip-1-title">
+<div class="admonition-title">
+<div id="admonition-tip-1-title">
+<p>Tip</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-tip-1"></a>
+</div>
+<div>
+<p>The MACD crossover strategy has two exit conditions: a fixed profit target (+3%) and a dynamic momentum reversal (bearish cross). Whichever happens first closes the position. This is a good pattern -- you take profit when available, but cut losses when the thesis breaks.</p>
+</div>
+</div>
+<h3 id="strengths-and-weaknesses-1"><a class="header" href="#strengths-and-weaknesses-1">Strengths and Weaknesses</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Strength</th><th>Weakness</th></tr></thead><tbody>
+<tr><td>Follows momentum -- rides trends</td><td>MACD can whipsaw in ranging/choppy markets</td></tr>
+<tr><td>Dynamic exit based on momentum shift</td><td>Crossovers lag -- entry/exit is never at the top/bottom</td></tr>
+<tr><td>DCA mitigates false signal entries</td><td>1h timeframe means slower reaction to fast moves</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="4-multi-timeframe-trend-follower"><a class="header" href="#4-multi-timeframe-trend-follower">4. Multi-Timeframe Trend Follower</a></h2>
+<p>An advanced strategy that uses daily moving averages for trend direction, hourly RSI for timing, 5-minute momentum for precise entry, and a trailing stop for exits.</p>
+<p><strong>Concept:</strong> This strategy only enters in confirmed uptrends (daily SMA golden cross), waits for hourly oversold conditions, and times the entry using 5-minute momentum dips. The trailing stop locks in profits on runs while allowing the position to grow.</p>
+<h3 id="full-toml-3"><a class="header" href="#full-toml-3">Full TOML</a></h3>
+<pre><code class="language-toml">[meta]
+name = "Multi_TF_Trend_Follower"
+description = "Daily trend filter + hourly RSI + 5m entry + trailing stop exit"
+max_open_positions = 1
+
+# ENTRY: Three-layer confirmation
+# Layer 1: Daily uptrend (SMA 50 &gt; SMA 200 = golden cross)
+# Layer 2: Hourly RSI oversold (&lt; 40)
+# Layer 3: 5-minute sharp dip (ROC &lt; -3)
+[[actions]]
+type = "open_long"
+amount = "100 USDC"
+average_price = false
+
+  [[actions.triggers]]
+  indicator = "sma_50"
+  operator = "&gt;"
+  target = "sma_200"
+  timeframe = "1d"
+
+  [[actions.triggers]]
+  indicator = "rsi_14"
+  operator = "&lt;"
+  target = "40"
+  timeframe = "1h"
+
+  [[actions.triggers]]
+  indicator = "roc_10"
+  operator = "&lt;"
+  target = "-3"
+  timeframe = "5m"
+
+# DCA: Buy more if price drops 5%, but only if RSI confirms oversold
+[[actions]]
+type = "buy"
+amount = "100 USDC"
+average_price = true
+
+  [[actions.triggers]]
+  type = "pos_price_change"
+  value = "-5%"
+
+  [[actions.triggers]]
+  indicator = "rsi_14"
+  operator = "&lt;"
+  target = "35"
+  timeframe = "1h"
+
+# TAKE PROFIT: +5% fixed target
+[[actions]]
+type = "sell"
+amount = "100%"
+
+  [[actions.triggers]]
+  type = "pos_price_change"
+  value = "5%"
+
+# TRAILING STOP: Sell when price drops 3% from its peak since entry
+[[actions]]
+type = "sell"
+amount = "100%"
+
+  [[actions.triggers]]
+  type = "trailing_stop"
+  value = "-3%"
+
+# TREND BREAK EXIT: Sell if the daily trend reverses (death cross)
+[[actions]]
+type = "sell"
+amount = "100%"
+
+  [[actions.triggers]]
+  indicator = "sma_50"
+  operator = "cross_below"
+  target = "sma_200"
+  timeframe = "1d"
+
+# STOP LOSS: Hard stop at -8%
+[[actions]]
+type = "sell"
+amount = "100%"
+
+  [[actions.triggers]]
+  type = "pos_price_change"
+  value = "-8%"
+</code></pre>
+<h3 id="line-by-line-explanation-3"><a class="header" href="#line-by-line-explanation-3">Line-by-Line Explanation</a></h3>
+<p><strong><code>[meta]</code>:</strong></p>
+<ul>
+<li><code>max_open_positions = 1</code> -- conservative, only one position at a time. Quality over quantity.</li>
+</ul>
+<p><strong>Action 1 -- Entry (3 triggers, ALL must be true):</strong></p>
+<ul>
+<li><strong>Trigger 1:</strong> <code>sma_50 &gt; sma_200</code> on <code>1d</code> -- the daily 50-period SMA is above the 200-period SMA. This is the "golden cross" -- the strongest trend confirmation in traditional technical analysis. It ensures we only buy in a macro uptrend.</li>
+<li><strong>Trigger 2:</strong> <code>rsi_14 &lt; 40</code> on <code>1h</code> -- hourly RSI is oversold. Even in an uptrend, price dips temporarily. This catches those dips.</li>
+<li><strong>Trigger 3:</strong> <code>roc_10 &lt; -3</code> on <code>5m</code> -- the 5-minute Rate of Change shows a sharp 3%+ dip in the last 10 candles. This is the precise "buy the dip" moment.</li>
+</ul>
+<p>All three must be true simultaneously. This is a very selective entry that fires rarely but with high conviction.</p>
+<p><strong>Action 2 -- DCA with Confirmation:</strong></p>
+<ul>
+<li><code>pos_price_change = "-5%"</code> AND <code>rsi_14 &lt; 35</code> on <code>1h</code> -- adds to the position only if price has dropped significantly AND the hourly RSI confirms oversold. The RSI confirmation prevents DCA during a trend break.</li>
+</ul>
+<p><strong>Action 3 -- Take Profit:</strong></p>
+<ul>
+<li><code>pos_price_change = "5%"</code> -- exits with +5% profit. A higher target than the simpler strategies because the entry is more selective.</li>
+</ul>
+<p><strong>Action 4 -- Trailing Stop:</strong></p>
+<ul>
+<li><code>trailing_stop = "-3%"</code> -- this is the key feature. A trailing stop tracks the <strong>highest price since entry</strong> and sells when price drops 3% from that peak. If price rises 10% and then drops 3%, the trailing stop fires with approximately +7% profit locked in.</li>
+</ul>
+<p><strong>Action 5 -- Trend Break Exit:</strong></p>
+<ul>
+<li><code>sma_50 cross_below sma_200</code> on <code>1d</code> -- the daily death cross. If the macro trend that justified our entry reverses, exit immediately regardless of P&amp;L.</li>
+</ul>
+<p><strong>Action 6 -- Hard Stop Loss:</strong></p>
+<ul>
+<li><code>pos_price_change = "-8%"</code> -- absolute worst-case exit. If all other exits fail to trigger, this limits loss to 8%.</li>
+</ul>
+<div id="admonition-note-1" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-1-title">
+<div class="admonition-title">
+<div id="admonition-note-1-title">
+<p>Note</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-note-1"></a>
+</div>
+<div>
+<p>This strategy has <strong>four separate exit conditions</strong>. Whichever fires first closes the position:</p>
+<ol>
+<li>+5% profit target (ideal case)</li>
+<li>-3% trailing stop (locks in gains on a run)</li>
+<li>Daily death cross (trend reversal)</li>
+<li>-8% hard stop (absolute maximum loss)</li>
+</ol>
+<p>Multiple exit conditions provide layered protection -- this is a hallmark of well-designed strategies.</p>
+</div>
+</div>
+<h3 id="strengths-and-weaknesses-2"><a class="header" href="#strengths-and-weaknesses-2">Strengths and Weaknesses</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Strength</th><th>Weakness</th></tr></thead><tbody>
+<tr><td>Very selective -- high-quality entries</td><td>Fires infrequently; may miss opportunities</td></tr>
+<tr><td>Multi-timeframe reduces false signals</td><td>Requires data on all timeframes</td></tr>
+<tr><td>Trailing stop captures large moves</td><td>Complex -- harder to debug and optimize</td></tr>
+<tr><td>Trend filter avoids buying in downtrends</td><td>Daily golden cross can be late to form</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="comparing-the-strategies"><a class="header" href="#comparing-the-strategies">Comparing the Strategies</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Strategy</th><th>Complexity</th><th>Entry Frequency</th><th>Risk Level</th><th>Best Market Condition</th></tr></thead><tbody>
+<tr><td>RSI Scalper</td><td>Low</td><td>High</td><td>Medium</td><td>Ranging / choppy</td></tr>
+<tr><td>Bollinger Bounce DCA</td><td>Medium</td><td>Medium</td><td>Low-Medium</td><td>Mean-reverting</td></tr>
+<tr><td>MACD Crossover</td><td>Medium</td><td>Medium</td><td>Medium</td><td>Trending</td></tr>
+<tr><td>Multi-TF Trend Follower</td><td>High</td><td>Low</td><td>Low</td><td>Strong uptrend</td></tr>
+</tbody></table>
+</div><div id="admonition-tip-2" class="admonition admonish-tip" role="note" aria-labelledby="admonition-tip-2-title">
+<div class="admonition-title">
+<div id="admonition-tip-2-title">
+<p>Tip</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-tip-2"></a>
+</div>
+<div>
+<p>Start with the <strong>RSI Scalper</strong> or <strong>Bollinger Bounce DCA</strong> to learn how strategies work. Once you are comfortable, try the <strong>MACD Crossover</strong>. Graduate to the <strong>Multi-TF Trend Follower</strong> when you understand multi-timeframe analysis and trailing stops. Always backtest before going live.</p>
+</div>
+</div>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../strategies/position-management.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../backtesting/overview.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../strategies/position-management.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../backtesting/overview.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

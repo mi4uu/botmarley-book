@@ -1,0 +1,450 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Half-Life — Mean Reversion Speed - Botmarley User Manual</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Complete user guide for the Botmarley cryptocurrency trading bot">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../.././mdbook-admonish.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Botmarley User Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="half-life----half-life-of-mean-reversion"><a class="header" href="#half-life----half-life-of-mean-reversion">Half-Life -- Half-Life of Mean Reversion</a></h1>
+<h2 id="contents"><a class="header" href="#contents">Contents</a></h2>
+<ul>
+<li><a href="#format">Format</a></li>
+<li><a href="#understanding-half-life-values">Understanding Half-Life Values</a></li>
+<li><a href="#understanding-operators-with-half-life">Understanding Operators with Half-Life</a>
+<ul>
+<li><a href="#-less-than----state-based"><code>&lt;</code> Less Than</a></li>
+<li><a href="#-greater-than----state-based"><code>&gt;</code> Greater Than</a></li>
+<li><a href="#cross_below----event-based"><code>cross_below</code></a></li>
+<li><a href="#cross_above----event-based"><code>cross_above</code></a></li>
+<li><a href="#-equal----not-recommended-for-half-life"><code>=</code> Equal</a></li>
+</ul>
+</li>
+<li><a href="#toml-examples">TOML Examples</a>
+<ul>
+<li><a href="#short-half-life--rsi-dip-buy">Short Half-Life + RSI Dip Buy</a></li>
+<li><a href="#half-life-based-time-exit">Half-Life-Based Time Exit</a></li>
+<li><a href="#complete-regime-setup-hurst--half-life--entry">Complete Regime Setup: Hurst + Half-Life + Entry</a></li>
+</ul>
+</li>
+<li><a href="#tips">Tips</a></li>
+</ul>
+<hr />
+<h2 id="overview"><a class="header" href="#overview">Overview</a></h2>
+<p>The Half-Life of Mean Reversion estimates <strong>how many candles it takes for price to revert halfway back to its mean</strong>, using OLS regression on an Ornstein-Uhlenbeck process. It answers the question: <strong>if price deviates from the mean, how fast does it snap back?</strong></p>
+<p>The calculation fits a linear regression to the price series' first differences against its lagged levels (the discrete Ornstein-Uhlenbeck model). The regression coefficient gives the speed of mean reversion, and the half-life is derived as <code>-log(2) / coefficient</code>. A short half-life means price deviations are corrected quickly -- the market snaps back to its mean within a few candles. A long half-life means reversion is sluggish or essentially non-existent.</p>
+<p>The key insight: if Hurst Exponent tells you <em>whether</em> the market is mean-reverting, Half-Life tells you <em>how fast</em> that reversion happens. Knowing a market is mean-reverting is only half the picture -- you also need to know the timescale. If the half-life is 15 candles, you can expect a dip to recover halfway within 15 candles and calibrate your exits accordingly. If the half-life is 500 candles, reversion is so slow that it is practically useless for trading -- the statistical property exists but the time horizon is impractical.</p>
+<hr />
+<h2 id="format"><a class="header" href="#format">Format</a></h2>
+<pre><code>halflife_{period}
+</code></pre>
+<p>The period defines the lookback window -- how many candles of price data are used to estimate the mean-reversion speed via OLS regression.</p>
+<div class="table-wrapper"><table><thead><tr><th>Example</th><th>Period</th><th>Use Case</th></tr></thead><tbody>
+<tr><td><code>halflife_100</code></td><td>100</td><td>Moderate lookback -- captures recent regime, reacts faster to changes</td></tr>
+<tr><td><code>halflife_200</code></td><td>200</td><td>Standard -- stable estimate, good balance of accuracy and responsiveness</td></tr>
+<tr><td><code>halflife_500</code></td><td>500</td><td>Very stable -- captures the dominant long-term mean-reversion speed</td></tr>
+</tbody></table>
+</div>
+<p><strong>Period range:</strong> 50 to 500.</p>
+<p><strong>Value range:</strong> 1 to very large (in candles). Practical useful range: 5 to 100 candles.</p>
+<hr />
+<h2 id="understanding-half-life-values"><a class="header" href="#understanding-half-life-values">Understanding Half-Life Values</a></h2>
+<p>Half-Life values are expressed in <strong>candles</strong> (the number of bars on your chart). The interpretation depends on your timeframe:</p>
+<div class="table-wrapper"><table><thead><tr><th>Half-Life (candles)</th><th>Speed</th><th>Interpretation</th></tr></thead><tbody>
+<tr><td>1 -- 20</td><td>Very fast</td><td>Day-trading territory. Price reverts halfway to the mean within 20 candles. On a 1h chart, that is less than a day. Excellent for short-term mean-reversion trades with tight time exits.</td></tr>
+<tr><td>20 -- 50</td><td>Moderate</td><td>Swing-trading territory. On a 1h chart, reversion takes 1--2 days. Good for multi-day positions with RSI or Z-Score entries. Set <code>time_in_position</code> to roughly 2x the half-life.</td></tr>
+<tr><td>50 -- 100</td><td>Slow</td><td>Position-trading territory. On a 1h chart, reversion takes 2--4 days. Only worthwhile if the deviation is large enough to justify holding that long.</td></tr>
+<tr><td>100+</td><td>Impractically slow</td><td>Reversion exists statistically but takes too long to be tradeable. A half-life of 500 on the hourly chart means roughly 3 weeks to revert halfway. Other market dynamics will dominate before reversion completes.</td></tr>
+</tbody></table>
+</div><div id="admonition-note" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-title">
+<div class="admonition-title">
+<div id="admonition-note-title">
+<p>Note</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-note"></a>
+</div>
+<div>
+<p>Half-Life values depend heavily on the timeframe. A half-life of 20 on the 1h chart means ~20 hours. A half-life of 20 on the 1d chart means ~20 days. Always interpret half-life in the context of your chart's timeframe.</p>
+</div>
+</div>
+<hr />
+<h2 id="understanding-operators-with-half-life"><a class="header" href="#understanding-operators-with-half-life">Understanding Operators with Half-Life</a></h2>
+<p>Each operator behaves differently with Half-Life. Because Half-Life is a <strong>regime qualifier</strong> (it tells you how fast mean reversion works), it is almost always used in combination with a regime detector (Hurst) and a directional entry trigger (RSI, Z-Score).</p>
+<h3 id="less-than----state-based"><a class="header" href="#less-than----state-based"><code>&lt;</code> (Less Than) -- State-Based</a></h3>
+<p><strong>What it does:</strong> The trigger is true on <strong>every candle</strong> where the Half-Life is below the threshold.</p>
+<p><strong>On the chart:</strong> Mean reversion is happening fast. Price deviations are being corrected quickly. This trigger stays active for as long as the half-life remains short.</p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "halflife_200"
+operator = "&lt;"
+target = "30"
+timeframe = "1h"
+</code></pre>
+<p><strong>Typical use:</strong> "Only trade mean-reversion strategies when reversion is fast enough to be profitable." A half-life below 30 candles means price should recover halfway within about 30 hours on the hourly chart -- fast enough for swing trades. This filters out markets where reversion is too slow to be practical.</p>
+<h3 id="greater-than----state-based"><a class="header" href="#greater-than----state-based"><code>&gt;</code> (Greater Than) -- State-Based</a></h3>
+<p><strong>What it does:</strong> The trigger is true on <strong>every candle</strong> where the Half-Life is above the threshold.</p>
+<p><strong>On the chart:</strong> Mean reversion is slow or absent. Price deviations persist for long periods before correcting.</p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "halflife_200"
+operator = "&gt;"
+target = "100"
+timeframe = "1h"
+</code></pre>
+<p><strong>Typical use:</strong> Defensive filter -- "do not enter mean-reversion trades when the half-life is too long." If reversion takes 100+ candles, the trade will tie up capital for too long. Some strategies use <code>halflife &gt; 100</code> as a condition to <em>exit</em> or <em>avoid</em> mean-reversion positions entirely.</p>
+<h3 id="cross_below----event-based"><a class="header" href="#cross_below----event-based"><code>cross_below</code> -- Event-Based</a></h3>
+<p><strong>What it does:</strong> Fires <strong>once</strong>, at the exact candle where the Half-Life transitions from above the threshold to below it. The previous candle had Half-Life &gt;= the target, and the current candle has Half-Life &lt; the target.</p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "halflife_200"
+operator = "cross_below"
+target = "30"
+timeframe = "1h"
+</code></pre>
+<p><strong>Typical use:</strong> Detect the moment the market transitions into a fast-reverting regime. When the half-life drops below 30, mean reversion just became tradeable. This can trigger the activation of mean-reversion entries.</p>
+<h3 id="cross_above----event-based"><a class="header" href="#cross_above----event-based"><code>cross_above</code> -- Event-Based</a></h3>
+<p><strong>What it does:</strong> Fires <strong>once</strong>, at the exact candle where the Half-Life transitions from below the threshold to above it. The previous candle had Half-Life &lt;= the target, and the current candle has Half-Life &gt; the target.</p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "halflife_200"
+operator = "cross_above"
+target = "50"
+timeframe = "1h"
+</code></pre>
+<p><strong>Typical use:</strong> Detect the moment mean reversion slows down. When the half-life crosses above 50, the market is no longer reverting fast enough for swing trades. This can be used to disable mean-reversion entries or exit existing positions.</p>
+<h3 id="-equal----not-recommended-for-half-life"><a class="header" href="#-equal----not-recommended-for-half-life"><code>=</code> (Equal) -- Not Recommended for Half-Life</a></h3>
+<p><strong>Why:</strong> Half-Life produces floating-point values calculated to many decimal places. Exact equality (e.g., <code>halflife_200 = 20</code>) will almost never be true. Use <code>&lt;</code> or <code>&gt;</code> instead.</p>
+<div id="admonition-choosing-the-right-operator" class="admonition admonish-tip" role="note" aria-labelledby="admonition-choosing-the-right-operator-title">
+<div class="admonition-title">
+<div id="admonition-choosing-the-right-operator-title">
+<p>Choosing the right operator</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-choosing-the-right-operator"></a>
+</div>
+<div>
+<ul>
+<li>Use <strong><code>&lt;</code></strong> to ensure mean reversion is fast enough to trade. This is the most common Half-Life operator.</li>
+<li>Use <strong><code>&gt;</code></strong> to avoid or exit positions when reversion is too slow.</li>
+<li>Use <strong><code>cross_below</code> / <code>cross_above</code></strong> to detect the exact moment the reversion speed changes regime.</li>
+</ul>
+</div>
+</div>
+<hr />
+<h2 id="toml-examples"><a class="header" href="#toml-examples">TOML Examples</a></h2>
+<h3 id="short-half-life--rsi-dip-buy"><a class="header" href="#short-half-life--rsi-dip-buy">Short Half-Life + RSI Dip Buy</a></h3>
+<p>Only buy RSI oversold dips when the half-life confirms fast mean reversion. A half-life below 25 candles on the hourly chart means price should recover halfway within about a day -- ideal for swing dip-buying.</p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+  [[actions.triggers]]
+  indicator = "halflife_200"
+  operator = "&lt;"
+  target = "25"
+  timeframe = "1h"
+
+  [[actions.triggers]]
+  indicator = "rsi_14"
+  operator = "&lt;"
+  target = "30"
+  timeframe = "1h"
+  max_count = 1
+</code></pre>
+<h3 id="half-life-based-time-exit"><a class="header" href="#half-life-based-time-exit">Half-Life-Based Time Exit</a></h3>
+<p>Use the half-life to calibrate your exit timing. If the half-life is 20 candles, the market should revert halfway in 20 bars and fully in roughly 40--60 bars. Set <code>time_in_position</code> to 2x the estimated half-life (here ~40 candles) as a time-based stop.</p>
+<pre><code class="language-toml"># Entry: dip buy with half-life confirmation
+[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+  [[actions.triggers]]
+  indicator = "halflife_200"
+  operator = "&lt;"
+  target = "20"
+  timeframe = "1h"
+
+  [[actions.triggers]]
+  indicator = "rsi_14"
+  operator = "&lt;"
+  target = "30"
+  timeframe = "1h"
+  max_count = 1
+
+# Exit: time-based stop calibrated to ~2x half-life
+[[actions]]
+type = "sell"
+amount = "100%"
+
+  [[actions.triggers]]
+  type = "time_in_position"
+  candles = 40
+  timeframe = "1h"
+</code></pre>
+<h3 id="complete-regime-setup-hurst--half-life--entry"><a class="header" href="#complete-regime-setup-hurst--half-life--entry">Complete Regime Setup: Hurst + Half-Life + Entry</a></h3>
+<p>The full mean-reversion stack: Hurst confirms the market IS mean-reverting, Half-Life confirms reversion is fast enough, and RSI provides the actual entry signal.</p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+  [[actions.triggers]]
+  indicator = "hurst_200"
+  operator = "&lt;"
+  target = "0.45"
+  timeframe = "1h"
+
+  [[actions.triggers]]
+  indicator = "halflife_200"
+  operator = "&lt;"
+  target = "30"
+  timeframe = "1h"
+
+  [[actions.triggers]]
+  indicator = "rsi_14"
+  operator = "&lt;"
+  target = "30"
+  timeframe = "1h"
+  max_count = 1
+</code></pre>
+<hr />
+<h2 id="tips"><a class="header" href="#tips">Tips</a></h2>
+<div id="admonition-pair-with-hurst-hurst-says-if-half-life-says-when" class="admonition admonish-tip" role="note" aria-labelledby="admonition-pair-with-hurst-hurst-says-if-half-life-says-when-title">
+<div class="admonition-title">
+<div id="admonition-pair-with-hurst-hurst-says-if-half-life-says-when-title">
+<p>Pair with Hurst: Hurst says IF, Half-Life says WHEN</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-pair-with-hurst-hurst-says-if-half-life-says-when"></a>
+</div>
+<div>
+<p>Hurst Exponent and Half-Life are complementary. Hurst tells you whether the market is mean-reverting (H &lt; 0.5). Half-Life tells you how fast that reversion happens. A market with H = 0.35 and a half-life of 15 candles is a mean-reversion paradise. A market with H = 0.40 and a half-life of 300 candles is mean-reverting in theory but untradeable in practice. Always use both together.</p>
+</div>
+</div>
+<div id="admonition-use-half-life-to-calibrate-time_in_position" class="admonition admonish-tip" role="note" aria-labelledby="admonition-use-half-life-to-calibrate-time_in_position-title">
+<div class="admonition-title">
+<div id="admonition-use-half-life-to-calibrate-time_in_position-title">
+<p>Use Half-Life to calibrate time_in_position</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-use-half-life-to-calibrate-time_in_position"></a>
+</div>
+<div>
+<p>If the estimated half-life is N candles, price should revert halfway in N candles and approximately fully in 2--3x N candles. Set your <code>time_in_position</code> exit to roughly 2x the half-life as a safety stop. If the trade has not recovered by then, the regime may have changed and you should exit.</p>
+</div>
+</div>
+<div id="admonition-long-periods-for-stable-estimation" class="admonition admonish-tip" role="note" aria-labelledby="admonition-long-periods-for-stable-estimation-title">
+<div class="admonition-title">
+<div id="admonition-long-periods-for-stable-estimation-title">
+<p>Long periods for stable estimation</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-long-periods-for-stable-estimation"></a>
+</div>
+<div>
+<p>Like Hurst, the Half-Life estimate is noisy on short lookback windows. The OLS regression needs enough data points to produce a reliable slope estimate. Use 200+ candles for the period. Shorter periods may produce wildly fluctuating half-life values that are not actionable.</p>
+</div>
+</div>
+<div id="admonition-high-half-life--do-not-trade-mean-reversion" class="admonition admonish-warning" role="note" aria-labelledby="admonition-high-half-life--do-not-trade-mean-reversion-title">
+<div class="admonition-title">
+<div id="admonition-high-half-life--do-not-trade-mean-reversion-title">
+<p>High half-life = do not trade mean reversion</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-high-half-life--do-not-trade-mean-reversion"></a>
+</div>
+<div>
+<p>When the half-life exceeds 100 candles on your timeframe, mean reversion is too slow to be profitable. On the hourly chart, 100 candles is over 4 days -- other market dynamics (news, macro events, sentiment shifts) will dominate before the statistical reversion completes. If the half-life is high, either switch to momentum strategies or stay flat.</p>
+</div>
+</div>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../strategies/indicators/hurst.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../strategies/indicators/vol-regime.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../strategies/indicators/hurst.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../strategies/indicators/vol-regime.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../mermaid.min.js"></script>
+        <script src="../../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

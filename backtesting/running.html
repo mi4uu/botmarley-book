@@ -1,0 +1,309 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Running a Backtest - Botmarley User Manual</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Complete user guide for the Botmarley cryptocurrency trading bot">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href=".././mdbook-admonish.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Botmarley User Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="running-a-backtest"><a class="header" href="#running-a-backtest">Running a Backtest</a></h1>
+<p>This chapter walks you through running a backtest from start to finish. By the end, you will have a completed backtest result with PnL, trade markers on a chart, and a full action log.</p>
+<h2 id="prerequisites"><a class="header" href="#prerequisites">Prerequisites</a></h2>
+<p>Before you can run a backtest, you need two things:</p>
+<ol>
+<li>
+<p><strong>A strategy.</strong> You must have at least one strategy saved in the Strategy Editor. If you have not created one yet, see the <a href="../strategies/editor.html">Strategy Editor</a> chapter.</p>
+</li>
+<li>
+<p><strong>Historical candle data.</strong> Botmarley runs backtests against Arrow files stored on disk. You must download historical data for the pair you want to test before running a backtest. See <a href="../data/downloading.html">Downloading History</a> for how to do this.</p>
+</li>
+</ol>
+<div id="admonition-note" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-title">
+<div class="admonition-title">
+<div id="admonition-note-title">
+<p>Note</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-note"></a>
+</div>
+<div>
+<p>If you try to run a backtest without historical data for the selected pair and date range, the backtest will fail with an "insufficient data" error.</p>
+</div>
+</div>
+<h2 id="step-by-step-running-a-backtest"><a class="header" href="#step-by-step-running-a-backtest">Step-by-Step: Running a Backtest</a></h2>
+<h3 id="1-navigate-to-the-strategy-editor"><a class="header" href="#1-navigate-to-the-strategy-editor">1. Navigate to the Strategy Editor</a></h3>
+<p>Open the Botmarley web interface at <code>http://localhost:3000</code> and click <strong>Strategies</strong> in the sidebar. Find the strategy you want to test and click on it to open the detail page.</p>
+<h3 id="2-click-the-backtest-button"><a class="header" href="#2-click-the-backtest-button">2. Click the "Backtest" Button</a></h3>
+<p>On the strategy detail page, you will see a <strong>Backtest</strong> button (or section). Clicking it opens the backtest configuration form.</p>
+<h3 id="3-configure-the-backtest"><a class="header" href="#3-configure-the-backtest">3. Configure the Backtest</a></h3>
+<p>Fill in the backtest parameters:</p>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Description</th><th>Example</th></tr></thead><tbody>
+<tr><td><strong>Pair</strong></td><td>The trading pair to test against.</td><td>BTC/USD, ETH/USD</td></tr>
+<tr><td><strong>Start date</strong></td><td>The beginning of the historical period.</td><td>2025-09-01</td></tr>
+<tr><td><strong>End date</strong></td><td>The end of the historical period.</td><td>2025-10-01</td></tr>
+<tr><td><strong>Initial capital (USD)</strong></td><td>The starting balance for the simulated portfolio.</td><td>1000</td></tr>
+</tbody></table>
+</div><div id="admonition-choosing-a-date-range" class="admonition admonish-tip" role="note" aria-labelledby="admonition-choosing-a-date-range-title">
+<div class="admonition-title">
+<div id="admonition-choosing-a-date-range-title">
+<p>Choosing a date range</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-choosing-a-date-range"></a>
+</div>
+<div>
+<ul>
+<li>Start with a <strong>1-month range</strong> to get meaningful results without waiting too long.</li>
+<li>Make sure your downloaded historical data covers the entire date range. If you have data from Sept 15 to Oct 15 but set the start date to Sept 1, the backtest will only use data from Sept 15 onward.</li>
+<li>Avoid testing against extremely short periods (a few hours). Strategy triggers may not fire often enough to produce useful results.</li>
+</ul>
+</div>
+</div>
+<div id="admonition-choosing-initial-capital" class="admonition admonish-tip" role="note" aria-labelledby="admonition-choosing-initial-capital-title">
+<div class="admonition-title">
+<div id="admonition-choosing-initial-capital-title">
+<p>Choosing initial capital</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-choosing-initial-capital"></a>
+</div>
+<div>
+<ul>
+<li>Use an amount that reflects what you would actually trade with. A strategy tested with $100,000 may behave differently than one tested with $500 because position sizes scale with capital.</li>
+<li>Common starting points: $1,000 for exploration, $10,000 for more realistic testing.</li>
+</ul>
+</div>
+</div>
+<h3 id="4-submit-and-wait"><a class="header" href="#4-submit-and-wait">4. Submit and Wait</a></h3>
+<p>Click <strong>Run Backtest</strong>. Botmarley creates a background task for the backtest and adds it to the task queue. You will see a confirmation that the task has been queued.</p>
+<p>The backtest runs asynchronously -- you do not need to keep the page open. The pipeline is:</p>
+<pre class="mermaid">flowchart LR
+    A[&quot;Click Run Backtest&quot;] --&gt; B[&quot;Task queued&quot;]
+    B --&gt; C[&quot;Task worker picks up task&quot;]
+    C --&gt; D[&quot;Engine processes candles&quot;]
+    D --&gt; E[&quot;Results saved to database&quot;]
+    E --&gt; F[&quot;Backtest appears on&lt;br/&gt;Backtests page&quot;]
+</pre>
+<p>For a typical 1-month period (about 43,000 one-minute candles), the backtest completes in a few seconds to under 30 seconds, depending on your hardware and strategy complexity.</p>
+<h3 id="5-view-the-results"><a class="header" href="#5-view-the-results">5. View the Results</a></h3>
+<p>Navigate to the <strong>Backtests</strong> page by clicking <strong>Backtests</strong> in the sidebar. You will see a table of all backtest runs, sorted by creation date. Your new backtest will appear at the top with a status of <strong>Completed</strong> (or <strong>Failed</strong> if something went wrong).</p>
+<p><img src="../images/backtests-list.png" alt="Backtests list showing completed backtest runs with PnL, action counts, and status" /></p>
+<p>Click on the backtest row to open the full results page. See <a href="results.html">Understanding Results</a> for a detailed breakdown of what you will find there.</p>
+<h2 id="what-happens-behind-the-scenes"><a class="header" href="#what-happens-behind-the-scenes">What Happens Behind the Scenes</a></h2>
+<p>When you click Run Backtest, here is what Botmarley does internally:</p>
+<ol>
+<li><strong>Validates the strategy TOML</strong> and parses it into the internal strategy format.</li>
+<li><strong>Loads candle data</strong> from the Arrow files on disk for the selected pair and date range.</li>
+<li><strong>Enqueues a <code>BacktestRun</code> task</strong> in the task queue with your configuration.</li>
+<li><strong>The task worker</strong> picks up the task, creates a <code>BacktestEngine</code>, and calls <code>BacktestEngine::run()</code>.</li>
+<li>The engine <strong>pre-computes all indicator values</strong> (RSI, SMA, Bollinger Bands, etc.) into a cache for fast lookups.</li>
+<li>The engine <strong>walks through every candle</strong> tick-by-tick, evaluating your triggers and executing actions when conditions are met.</li>
+<li>After the last candle, it <strong>calculates summary metrics</strong> (PnL, win rate, fees, etc.).</li>
+<li><strong>Results and the full action log</strong> are saved to PostgreSQL.</li>
+<li><strong>The task is marked complete</strong>, and the backtest appears on the Backtests page.</li>
+</ol>
+<h2 id="troubleshooting"><a class="header" href="#troubleshooting">Troubleshooting</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Problem</th><th>Likely cause</th><th>Fix</th></tr></thead><tbody>
+<tr><td>Backtest status is "Failed"</td><td>Missing historical data for the pair/date range</td><td>Download history for that pair first</td></tr>
+<tr><td>Zero trades executed</td><td>Strategy triggers never fired during the period</td><td>Check your trigger thresholds -- they may be too strict for the selected period</td></tr>
+<tr><td>Backtest takes very long</td><td>Very large date range (several months of 1m data)</td><td>Try a shorter date range, or wait -- performance targets are under 30 seconds for one month</td></tr>
+<tr><td>"Insufficient data" error</td><td>Date range extends beyond available Arrow data</td><td>Adjust dates to match your downloaded data</td></tr>
+</tbody></table>
+</div>
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../backtesting/overview.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../backtesting/results.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../backtesting/overview.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../backtesting/results.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

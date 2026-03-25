@@ -1,0 +1,316 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Market Data - Botmarley User Manual</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Complete user guide for the Botmarley cryptocurrency trading bot">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href=".././mdbook-admonish.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Botmarley User Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="market-data-overview"><a class="header" href="#market-data-overview">Market Data Overview</a></h1>
+<p>Market data is the foundation of everything Botmarley does. Every backtest, every live trading session, and every chart you view depends on accurate, well-organized historical price data. This chapter explains what market data is, how Botmarley stores it, and how data flows through the system.</p>
+<h2 id="what-is-market-data"><a class="header" href="#what-is-market-data">What Is Market Data?</a></h2>
+<p>Market data in Botmarley means <strong>OHLCV candles</strong> -- structured snapshots of price activity over a fixed time period. Each candle captures five values:</p>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Meaning</th><th>Example</th></tr></thead><tbody>
+<tr><td><strong>Open</strong></td><td>The price at the start of the period</td><td>67,250.00</td></tr>
+<tr><td><strong>High</strong></td><td>The highest price during the period</td><td>67,410.50</td></tr>
+<tr><td><strong>Low</strong></td><td>The lowest price during the period</td><td>67,180.00</td></tr>
+<tr><td><strong>Close</strong></td><td>The price at the end of the period</td><td>67,390.25</td></tr>
+<tr><td><strong>Volume</strong></td><td>The total amount traded during the period</td><td>42.37 BTC</td></tr>
+</tbody></table>
+</div>
+<p>A single candle tells you a story: where the price started, how far it moved in each direction, and where it ended up. Thousands of candles together reveal trends, patterns, and opportunities that strategies can exploit.</p>
+<div id="admonition-note" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-title">
+<div class="admonition-title">
+<div id="admonition-note-title">
+<p>Note</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-note"></a>
+</div>
+<div>
+<p>Botmarley always fetches and stores <strong>1-minute candles</strong> as the base resolution. Larger timeframes (5m, 15m, 1h) are derived automatically by aggregating the 1-minute data. This means you only need to download once, and all timeframes are available immediately.</p>
+</div>
+</div>
+<h2 id="how-botmarley-stores-data"><a class="header" href="#how-botmarley-stores-data">How Botmarley Stores Data</a></h2>
+<p>Botmarley stores candle data in <strong>Apache Arrow</strong> format -- a columnar, binary file format designed for high-performance analytics. Each trading pair gets its own directory with <code>.arrow</code> files inside.</p>
+<pre><code>~/.botmarley/data/
+├── XBTUSD/
+│   └── 1m.arrow        ← all 1-minute candles for BTC/USD
+├── ETHUSD/
+│   └── 1m.arrow
+├── SOLUSD/
+│   └── 1m.arrow
+└── ...
+</code></pre>
+<h3 id="why-apache-arrow"><a class="header" href="#why-apache-arrow">Why Apache Arrow?</a></h3>
+<p>You might wonder why Botmarley does not just use CSV or JSON files like many other tools. The answer comes down to performance and efficiency:</p>
+<div class="table-wrapper"><table><thead><tr><th>Property</th><th>Arrow</th><th>CSV</th><th>JSON</th></tr></thead><tbody>
+<tr><td><strong>Read speed</strong></td><td>Extremely fast (memory-mapped)</td><td>Slow (must parse every line)</td><td>Slowest (must parse structure)</td></tr>
+<tr><td><strong>File size</strong></td><td>Compact binary</td><td>Medium (text)</td><td>Large (text + keys)</td></tr>
+<tr><td><strong>Type safety</strong></td><td>Columns are typed (f64, i64, timestamp)</td><td>Everything is a string</td><td>Mixed types</td></tr>
+<tr><td><strong>Column access</strong></td><td>Read only the columns you need</td><td>Must read entire rows</td><td>Must read entire objects</td></tr>
+<tr><td><strong>Ideal for</strong></td><td>Time-series data, analytics</td><td>Simple data exchange</td><td>API responses</td></tr>
+</tbody></table>
+</div>
+<p>Arrow's columnar layout means that when Botmarley needs to calculate an indicator like EMA (which only requires the "close" column), it can read just that column without touching open, high, low, or volume data. For a dataset with millions of candles, this makes a significant difference.</p>
+<div id="admonition-tip" class="admonition admonish-tip" role="note" aria-labelledby="admonition-tip-title">
+<div class="admonition-title">
+<div id="admonition-tip-title">
+<p>Tip</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-tip"></a>
+</div>
+<div>
+<p>You never need to interact with Arrow files directly. Botmarley handles reading and writing through the web interface and its internal engine. The files are mentioned here so you understand what is on disk and why.</p>
+</div>
+</div>
+<h2 id="data-flow"><a class="header" href="#data-flow">Data Flow</a></h2>
+<p>Here is how market data moves through the system, from the exchange to your screen:</p>
+<pre class="mermaid">flowchart LR
+    Exchange[&quot;Exchange REST API&lt;br/&gt;(Kraken or Binance)&quot;] --&gt;|&quot;Fetch 1m candles&quot;| Download[&quot;History Sync&lt;br/&gt;(Task Queue)&quot;]
+    Download --&gt;|&quot;Write .arrow&quot;| Disk[&quot;Arrow Files&lt;br/&gt;~/.botmarley/data/&quot;]
+    Disk --&gt;|&quot;Read&quot;| Backtest[&quot;Backtest Engine&quot;]
+    Disk --&gt;|&quot;Read&quot;| Browser[&quot;Data Browser&lt;br/&gt;&amp; Chart Viewer&quot;]
+    Disk --&gt;|&quot;Read&quot;| Indicators[&quot;Indicator&lt;br/&gt;Calculator&quot;]
+    Disk --&gt;|&quot;Seed history&quot;| Live[&quot;Live Trading&lt;br/&gt;Engine&quot;]
+    Exchange --&gt;|&quot;WebSocket feed&quot;| Live
+
+    style Exchange fill:#5865f2,color:#fff
+    style Disk fill:#f59e0b,color:#fff
+</pre>
+<ol>
+<li><strong>Fetch</strong> -- The <a href="downloading.html">History Sync</a> page lets you download candles from either Kraken's or Binance's REST API. Botmarley fetches 1-minute candles going as far back as you configure.</li>
+<li><strong>Store</strong> -- Downloaded candles are written to <code>.arrow</code> files on disk, organized by trading pair.</li>
+<li><strong>Use</strong> -- Stored data is consumed by multiple parts of the system:
+<ul>
+<li><strong>Backtest engine</strong> reads Arrow files to simulate strategy execution against historical prices.</li>
+<li><strong>Data browser</strong> renders candles in tables and interactive charts.</li>
+<li><strong>Indicator calculator</strong> reads price data and computes technical indicators.</li>
+<li><strong>Live trading engine</strong> loads recent history from Arrow files as a starting seed, then switches to a WebSocket feed for real-time data.</li>
+</ul>
+</li>
+</ol>
+<h2 id="data-freshness"><a class="header" href="#data-freshness">Data Freshness</a></h2>
+<p>When you download history for a pair, Botmarley records the last timestamp stored. The next time you sync that pair, it resumes from where it left off -- no duplicate downloads, no gaps. This incremental approach means:</p>
+<ul>
+<li><strong>First sync</strong> may take a while (months of 1-minute candles add up).</li>
+<li><strong>Subsequent syncs</strong> are fast -- only new candles since the last sync are fetched.</li>
+</ul>
+<div id="admonition-warning" class="admonition admonish-warning" role="note" aria-labelledby="admonition-warning-title">
+<div class="admonition-title">
+<div id="admonition-warning-title">
+<p>Warning</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-warning"></a>
+</div>
+<div>
+<p>Botmarley does not automatically keep historical data up to date. You need to trigger a History Sync manually or set it up before running a backtest on recent data. Live trading sessions handle their own real-time data via WebSocket and do not depend on Arrow files being current.</p>
+</div>
+</div>
+<p><img src="../images/data-browser.png" alt="Data Browser interface showing pair selection and candle chart" /></p>
+<h2 id="whats-next"><a class="header" href="#whats-next">What's Next</a></h2>
+<ul>
+<li><strong><a href="downloading.html">Downloading History</a></strong> -- how to fetch candle data from Kraken or Binance.</li>
+<li><strong><a href="browsing.html">Data Browser</a></strong> -- view and chart your stored data.</li>
+<li><strong><a href="indicators-calc.html">Indicator Calculator</a></strong> -- run technical indicators on your data.</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../trading/recovery.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../data/downloading.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../trading/recovery.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../data/downloading.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

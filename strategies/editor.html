@@ -1,0 +1,382 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Strategy Editor - Botmarley User Manual</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Complete user guide for the Botmarley cryptocurrency trading bot">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href=".././mdbook-admonish.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Botmarley User Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="strategy-editor"><a class="header" href="#strategy-editor">Strategy Editor</a></h1>
+<p>The Strategy Editor is where you create, edit, and manage your trading strategies. Access it from the sidebar by clicking <strong>Strategies</strong> or navigating directly to <code>/strats</code>.</p>
+<h2 id="the-strategies-list-page"><a class="header" href="#the-strategies-list-page">The Strategies List Page</a></h2>
+<p>The strategies list page (<code>/strats</code>) shows all your saved strategies. For each strategy you can see:</p>
+<ul>
+<li>The strategy <strong>name</strong> and <strong>description</strong></li>
+<li>When it was <strong>created</strong> and last <strong>updated</strong></li>
+<li>Action buttons for <strong>editing</strong>, <strong>duplicating</strong>, <strong>backtesting</strong>, and <strong>deleting</strong></li>
+</ul>
+<pre class="mermaid">flowchart LR
+    A[&quot;Strategies List&lt;br/&gt;/strats&quot;] --&gt; B[&quot;Edit&lt;br/&gt;/strats/edit/{id}&quot;]
+    A --&gt; C[&quot;New Strategy&lt;br/&gt;/strats/new&quot;]
+    A --&gt; D[&quot;Duplicate&quot;]
+    A --&gt; E[&quot;Delete&quot;]
+    A --&gt; F[&quot;Backtest&quot;]
+    B --&gt; G[&quot;Save&quot;]
+    C --&gt; G
+    G --&gt; A
+
+    style A fill:#4a9eff,color:#fff
+    style G fill:#22c55e,color:#fff
+</pre>
+<h2 id="creating-a-new-strategy"><a class="header" href="#creating-a-new-strategy">Creating a New Strategy</a></h2>
+<p>To create a new strategy:</p>
+<ol>
+<li>Navigate to <code>/strats</code> (click <strong>Strategies</strong> in the sidebar).</li>
+<li>Click the <strong>New Strategy</strong> button.</li>
+<li>The editor opens with an empty TOML document.</li>
+<li>Write your strategy in TOML format (see <a href="overview.html">Strategy Overview</a> for the structure).</li>
+<li>Click <strong>Save</strong>.</li>
+</ol>
+<p>The editor assigns a unique ID (UUID) to your new strategy automatically.</p>
+<div id="admonition-tip" class="admonition admonish-tip" role="note" aria-labelledby="admonition-tip-title">
+<div class="admonition-title">
+<div id="admonition-tip-title">
+<p>Tip</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-tip"></a>
+</div>
+<div>
+<p>If you are new to writing strategies, start by duplicating one of the existing strategies and modifying it. This is faster than writing from scratch and helps you learn the TOML structure by example.</p>
+</div>
+</div>
+<h2 id="the-visual-strategy-editor"><a class="header" href="#the-visual-strategy-editor">The Visual Strategy Editor</a></h2>
+<p>The visual editor provides a form-based interface for building strategies without writing TOML by hand. You can add actions, configure triggers, set indicator parameters, and define position management rules -- all through a structured UI.</p>
+<p><img src="../images/strategy-editor-viewport.png" alt="Visual strategy editor with form-based UI for building trading strategies" /></p>
+<h2 id="the-toml-text-editor"><a class="header" href="#the-toml-text-editor">The TOML Text Editor</a></h2>
+<p>The strategy editor at <code>/strats/edit/{id}</code> provides a text-based TOML editor where you write your strategy directly. The editor shows the raw TOML content of your strategy file.</p>
+<p><img src="../images/strategy-toml-editor.png" alt="Raw TOML editing view for direct strategy file editing" /></p>
+<p>A typical editing session looks like this:</p>
+<ol>
+<li>The <code>[meta]</code> section is at the top -- set your strategy's name and description here.</li>
+<li>Below that, define your <code>[[actions]]</code> blocks with their triggers.</li>
+<li>As you type, the editor validates your TOML in real time.</li>
+</ol>
+<h3 id="editor-layout"><a class="header" href="#editor-layout">Editor Layout</a></h3>
+<p>The editor page provides:</p>
+<ul>
+<li><strong>Strategy name</strong> displayed at the top</li>
+<li><strong>TOML text area</strong> for editing the strategy content</li>
+<li><strong>Save button</strong> to persist changes</li>
+<li><strong>Back to list</strong> link to return to <code>/strats</code></li>
+</ul>
+<h2 id="real-time-validation"><a class="header" href="#real-time-validation">Real-Time Validation</a></h2>
+<p>Every time you save or validate your strategy, Botmarley checks the TOML content for errors. The validation endpoint (<code>POST /api/strats/validate</code>) checks:</p>
+<ul>
+<li><strong>TOML syntax</strong> -- is the file valid TOML?</li>
+<li><strong>Required fields</strong> -- does <code>[meta]</code> have a <code>name</code>? Does each action have a <code>type</code> and <code>amount</code>?</li>
+<li><strong>Valid action types</strong> -- only <code>open_long</code>, <code>buy</code>, and <code>sell</code> are accepted.</li>
+<li><strong>Amount format</strong> -- must be <code>"100 USDC"</code> (fixed) or <code>"50%"</code> (percentage).</li>
+<li><strong>Indicator format</strong> -- must match known patterns like <code>rsi_14</code>, <code>sma_50</code>, <code>bb_lower</code>.</li>
+<li><strong>Operator validity</strong> -- must be one of <code>&gt;</code>, <code>&lt;</code>, <code>=</code>, <code>cross_above</code>, <code>cross_below</code>.</li>
+<li><strong>Timeframe validity</strong> -- if specified, must be <code>1m</code>, <code>5m</code>, <code>15m</code>, <code>1h</code>, <code>4h</code>, or <code>1d</code>.</li>
+<li><strong>Period ranges</strong> -- indicator periods must be between 1 and 200.</li>
+<li><strong><code>max_open_positions</code></strong> -- if set, must be 1 or greater.</li>
+</ul>
+<p>When validation fails, the error response includes:</p>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>field_path</code></td><td>Where the error is, e.g. <code>actions[0].triggers[1].operator</code></td></tr>
+<tr><td><code>error_code</code></td><td>Machine-readable code like <code>INVALID_FORMAT</code> or <code>REQUIRED</code></td></tr>
+<tr><td><code>message</code></td><td>Human-readable description of the problem</td></tr>
+<tr><td><code>suggestion</code></td><td>Hint for how to fix the error</td></tr>
+</tbody></table>
+</div><div id="admonition-warning" class="admonition admonish-warning" role="note" aria-labelledby="admonition-warning-title">
+<div class="admonition-title">
+<div id="admonition-warning-title">
+<p>Warning</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-warning"></a>
+</div>
+<div>
+<p>Botmarley will <strong>not</strong> let you save an invalid strategy. Fix all validation errors before saving. This prevents broken strategies from being used in backtests or live trading.</p>
+</div>
+</div>
+<h3 id="common-validation-errors"><a class="header" href="#common-validation-errors">Common Validation Errors</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Error</th><th>Cause</th><th>Fix</th></tr></thead><tbody>
+<tr><td><code>INVALID_ACTION_TYPE</code></td><td>Typo in action type</td><td>Use <code>open_long</code>, <code>buy</code>, or <code>sell</code></td></tr>
+<tr><td><code>INVALID_AMOUNT_FORMAT</code></td><td>Missing unit or wrong format</td><td>Use <code>"100 USDC"</code> or <code>"50%"</code></td></tr>
+<tr><td><code>INVALID_PERIOD</code></td><td>Non-numeric indicator period</td><td>Use <code>rsi_14</code> not <code>rsi_fourteen</code></td></tr>
+<tr><td><code>INVALID_PERIOD_RANGE</code></td><td>Period 0 or &gt; 200</td><td>Keep periods between 1 and 200</td></tr>
+<tr><td><code>REQUIRED</code></td><td>Missing indicator or operator</td><td>Add the missing field to your trigger</td></tr>
+<tr><td><code>INVALID_TIMEFRAME</code></td><td>Unknown timeframe string</td><td>Use <code>1m</code>, <code>5m</code>, <code>15m</code>, <code>1h</code>, <code>4h</code>, or <code>1d</code></td></tr>
+<tr><td><code>INVALID_OPERATOR</code></td><td>Unknown comparison operator</td><td>Use <code>&gt;</code>, <code>&lt;</code>, <code>=</code>, <code>cross_above</code>, <code>cross_below</code></td></tr>
+</tbody></table>
+</div>
+<h2 id="saving-strategies"><a class="header" href="#saving-strategies">Saving Strategies</a></h2>
+<p>When you click <strong>Save</strong>, Botmarley:</p>
+<ol>
+<li>Validates the TOML content server-side.</li>
+<li>If valid, writes the TOML file to the <code>strats/</code> directory with the strategy's UUID as the filename.</li>
+<li>Returns a success response with the strategy ID.</li>
+<li>Logs the save action to the activity log.</li>
+</ol>
+<p>If the strategy is new (no ID yet), a new UUID is generated. If you are editing an existing strategy, the same ID is reused and the file is overwritten.</p>
+<div id="admonition-note" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-title">
+<div class="admonition-title">
+<div id="admonition-note-title">
+<p>Note</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-note"></a>
+</div>
+<div>
+<p>Strategy files are stored as plain <code>.toml</code> files in the <code>strats/</code> directory. The filename is the UUID (e.g., <code>6f814a05-73e8-483f-8963-aa8a4ab8e1e7.toml</code>). You can also edit these files directly with any text editor -- Botmarley reads them from disk.</p>
+</div>
+</div>
+<h2 id="duplicating-strategies"><a class="header" href="#duplicating-strategies">Duplicating Strategies</a></h2>
+<p>To duplicate a strategy:</p>
+<ol>
+<li>Go to the strategies list (<code>/strats</code>).</li>
+<li>Click the <strong>Duplicate</strong> button on the strategy you want to copy.</li>
+<li>Botmarley creates a copy with " (Copy)" appended to the name.</li>
+<li>You are redirected to the editor for the new copy.</li>
+</ol>
+<p>This is useful when you want to create variations of an existing strategy (for example, testing different RSI thresholds or DCA levels).</p>
+<h2 id="deleting-strategies"><a class="header" href="#deleting-strategies">Deleting Strategies</a></h2>
+<p>To delete a strategy:</p>
+<ol>
+<li>Go to the strategies list (<code>/strats</code>).</li>
+<li>Click the <strong>Delete</strong> button on the strategy you want to remove.</li>
+<li>The TOML file is removed from the <code>strats/</code> directory.</li>
+<li>You are redirected back to the list.</li>
+</ol>
+<div id="admonition-danger" class="admonition admonish-danger" role="note" aria-labelledby="admonition-danger-title">
+<div class="admonition-title">
+<div id="admonition-danger-title">
+<p>Danger</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-danger"></a>
+</div>
+<div>
+<p>Deleting a strategy is <strong>permanent</strong>. The TOML file is removed from disk. If you think you might want the strategy later, <strong>duplicate it first</strong> or keep a backup.</p>
+</div>
+</div>
+<h3 id="bulk-delete"><a class="header" href="#bulk-delete">Bulk Delete</a></h3>
+<p>You can also select multiple strategies and delete them all at once using the bulk delete feature on the strategies list page. Select the checkboxes next to the strategies you want to remove, then click the bulk delete button.</p>
+<h2 id="discovering-available-pairs"><a class="header" href="#discovering-available-pairs">Discovering Available Pairs</a></h2>
+<p>When you open the backtest modal from the strategies list page, Botmarley automatically scans your downloaded market data to show you which trading pairs are available. This is based on the <code>.arrow</code> files in your data storage directory.</p>
+<p>The available pairs and their date ranges are shown in the backtest form, so you can select:</p>
+<ul>
+<li><strong>Which pair</strong> to backtest against (e.g., <code>XBTUSD</code>, <code>ETHUSD</code>)</li>
+<li><strong>Start and end dates</strong> -- pre-filled based on your actual data range</li>
+</ul>
+<div id="admonition-tip-1" class="admonition admonish-tip" role="note" aria-labelledby="admonition-tip-1-title">
+<div class="admonition-title">
+<div id="admonition-tip-1-title">
+<p>Tip</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-tip-1"></a>
+</div>
+<div>
+<p>If you do not see the pair you want, you need to download its historical data first. Go to the <strong>Market Data</strong> section to download candle history from Kraken.</p>
+</div>
+</div>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../strategies/overview.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../strategies/actions.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../strategies/overview.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../strategies/actions.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

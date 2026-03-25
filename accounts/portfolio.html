@@ -1,0 +1,384 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Portfolio Tracking - Botmarley User Manual</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Complete user guide for the Botmarley cryptocurrency trading bot">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href=".././mdbook-admonish.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Botmarley User Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="portfolio-tracking"><a class="header" href="#portfolio-tracking">Portfolio Tracking</a></h1>
+<p>The Portfolio page gives you a consolidated view of everything you hold across all your accounts -- Paper and exchange alike -- valued in both USD and BTC, updated automatically over time.</p>
+<h2 id="what-is-portfolio-tracking"><a class="header" href="#what-is-portfolio-tracking">What Is Portfolio Tracking?</a></h2>
+<p>Portfolio tracking answers a simple question: <strong>how much is everything worth, right now and over time?</strong></p>
+<p>Botmarley periodically takes a "snapshot" of your portfolio. Each snapshot records:</p>
+<ul>
+<li>The <strong>total value in USD</strong> across all accounts.</li>
+<li>The <strong>total value in BTC</strong> (your USD total divided by the current BTC price).</li>
+<li>The <strong>BTC/USD price</strong> at that moment.</li>
+<li>A <strong>per-token breakdown</strong> showing balance and USD value for each asset.</li>
+</ul>
+<p>By storing snapshots over time, Botmarley can draw charts showing how your portfolio value has changed -- and whether you are gaining or losing ground relative to Bitcoin itself.</p>
+<h2 id="how-it-works"><a class="header" href="#how-it-works">How It Works</a></h2>
+<p>Portfolio syncing follows a pipeline that runs on a fixed schedule and can also be triggered manually.</p>
+<h3 id="automatic-sync-schedule"><a class="header" href="#automatic-sync-schedule">Automatic sync schedule</a></h3>
+<p>A background scheduler starts when the Botmarley server boots. After an initial 60-second startup delay, it enqueues a <code>PortfolioSync</code> task <strong>every 1 hour</strong>. The task worker picks it up and runs the full sync pipeline.</p>
+<h3 id="the-sync-pipeline"><a class="header" href="#the-sync-pipeline">The sync pipeline</a></h3>
+<pre class="mermaid">flowchart LR
+    A[&quot;Scheduler\n(every 1h)&quot;] --&gt;|enqueues task| B[&quot;Task Worker&quot;]
+    B --&gt; C[&quot;Sync Exchange\nAccounts&quot;]
+    C --&gt; D[&quot;Query All\nAccount Assets&quot;]
+    D --&gt; E[&quot;Fetch USD Prices\n(Kraken Ticker API)&quot;]
+    E --&gt; F[&quot;Compute Totals\n(USD + BTC)&quot;]
+    F --&gt; G[&quot;Store Snapshot\n(PostgreSQL)&quot;]
+</pre>
+<p>In detail, each sync performs these steps:</p>
+<ol>
+<li><strong>Sync verified exchange accounts</strong> -- for every exchange account with status "Verified", Botmarley calls the exchange API to pull the latest balances. Failed syncs for individual accounts are logged but do not stop the pipeline.</li>
+<li><strong>Query all account assets</strong> -- reads every non-zero asset balance across all accounts (including Paper) from the database.</li>
+<li><strong>Fetch USD prices</strong> -- calls the Kraken public Ticker API to get current USD prices for each unique token. Stablecoins and fiat are handled locally (see below).</li>
+<li><strong>Compute totals</strong> -- sums up <code>balance * price</code> for every asset to get <code>total_value_usd</code>. Fetches the BTC/USD price separately and calculates <code>total_value_btc = total_value_usd / btc_price</code>.</li>
+<li><strong>Store snapshot</strong> -- inserts one aggregate row (with <code>account_id = NULL</code>) into the <code>portfolio_snapshots</code> table, including a JSON breakdown of per-token values.</li>
+</ol>
+<h2 id="the-portfolio-page"><a class="header" href="#the-portfolio-page">The Portfolio Page</a></h2>
+<p>The portfolio page is located at <code>/portfolio</code>. It has several sections, described from top to bottom.</p>
+<p><img src="../images/portfolio.png" alt="Portfolio page showing summary cards, value charts, and per-token asset breakdown" /></p>
+<h3 id="summary-cards"><a class="header" href="#summary-cards">Summary Cards</a></h3>
+<p>Four stat cards appear at the top of the page:</p>
+<div class="table-wrapper"><table><thead><tr><th>Card</th><th>Description</th><th>Example</th></tr></thead><tbody>
+<tr><td><strong>Total Value (USD)</strong></td><td>Sum of all assets across all accounts, converted to USD.</td><td>$12,345.67</td></tr>
+<tr><td><strong>Total Value (BTC)</strong></td><td>Your USD total divided by the current BTC price.</td><td>0.142857</td></tr>
+<tr><td><strong>BTC Price</strong></td><td>The latest BTC/USD price fetched from Kraken.</td><td>$86,420.00</td></tr>
+<tr><td><strong>Last Sync</strong></td><td>Timestamp of the most recent portfolio snapshot.</td><td>2026-03-11 14:00 UTC</td></tr>
+</tbody></table>
+</div>
+<p>If no snapshots exist yet (fresh install), the page shows an empty state with buttons to manage accounts or run a first sync.</p>
+<h3 id="range-selector"><a class="header" href="#range-selector">Range Selector</a></h3>
+<p>Below the summary cards, a row of small buttons lets you control the time range for the charts:</p>
+<div class="table-wrapper"><table><thead><tr><th>Button</th><th>Time range</th></tr></thead><tbody>
+<tr><td><strong>7d</strong></td><td>Last 7 days</td></tr>
+<tr><td><strong>30d</strong></td><td>Last 30 days (default)</td></tr>
+<tr><td><strong>90d</strong></td><td>Last 90 days</td></tr>
+<tr><td><strong>All</strong></td><td>All available history</td></tr>
+</tbody></table>
+</div>
+<p>Switching ranges fetches new data from <code>/api/portfolio/chart?range=...</code> and updates both charts without a full page reload. A small label next to the buttons shows how many data points are in the current view.</p>
+<h3 id="usd-chart-portfolio-value--btc-price-overlay"><a class="header" href="#usd-chart-portfolio-value--btc-price-overlay">USD Chart: Portfolio Value + BTC Price Overlay</a></h3>
+<p>The first chart displays two lines on a dual-axis layout:</p>
+<ul>
+<li><strong>Portfolio USD (blue, right axis)</strong> -- your total portfolio value over time in US dollars.</li>
+<li><strong>BTC Price (amber/dashed, left axis)</strong> -- the Bitcoin price over the same period.</li>
+</ul>
+<p>This overlay lets you visually compare whether your portfolio is outperforming or underperforming a simple Bitcoin hold. The charts are rendered using <a href="https://github.com/nicordev/lightweight-charts">Lightweight Charts</a> loaded from a CDN.</p>
+<h3 id="btc-chart-portfolio-value-in-btc"><a class="header" href="#btc-chart-portfolio-value-in-btc">BTC Chart: Portfolio Value in BTC</a></h3>
+<p>The second chart shows a single amber line: your portfolio's value expressed in Bitcoin. If this line trends upward, you are accumulating more BTC-equivalent value over time, even if the USD value moves sideways.</p>
+<h3 id="asset-breakdown-table"><a class="header" href="#asset-breakdown-table">Asset Breakdown Table</a></h3>
+<p>Below the charts, a table lists every token you hold across all accounts:</p>
+<div class="table-wrapper"><table><thead><tr><th>Column</th><th>Description</th></tr></thead><tbody>
+<tr><td><strong>Token</strong></td><td>The asset symbol (BTC, ETH, USDC, etc.)</td></tr>
+<tr><td><strong>Balance</strong></td><td>Total holdings of that token across all accounts.</td></tr>
+<tr><td><strong>USD Value</strong></td><td>Balance multiplied by the current USD price.</td></tr>
+<tr><td><strong>Account(s)</strong></td><td>Which accounts hold this token and how much each one holds.</td></tr>
+</tbody></table>
+</div>
+<p>The table includes a <strong>Refresh</strong> button that fetches the latest data via HTMX without reloading the page. Assets are sorted by USD value in descending order, so your largest holdings appear first.</p>
+<h2 id="manual-sync"><a class="header" href="#manual-sync">Manual Sync</a></h2>
+<p>You do not have to wait for the hourly scheduler. To trigger a portfolio sync on demand:</p>
+<ol>
+<li>Go to the Portfolio page (<code>/portfolio</code>).</li>
+<li>Click the <strong>Sync Now</strong> button in the top-right corner.</li>
+<li>Botmarley enqueues a <code>PortfolioSync</code> task and redirects you back to the portfolio page.</li>
+<li>The task worker processes the sync (usually completes within a few seconds).</li>
+<li>Refresh the page to see updated values and charts.</li>
+</ol>
+<div id="admonition-tip" class="admonition admonish-tip" role="note" aria-labelledby="admonition-tip-title">
+<div class="admonition-title">
+<div id="admonition-tip-title">
+<p>Tip</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-tip"></a>
+</div>
+<div>
+<p>After adding a new exchange account and verifying it, click "Sync Now" on the Portfolio page to immediately pull in its balances rather than waiting for the next scheduled sync.</p>
+</div>
+</div>
+<h2 id="how-prices-are-fetched"><a class="header" href="#how-prices-are-fetched">How Prices Are Fetched</a></h2>
+<p>Botmarley uses the <strong>Kraken public Ticker API</strong> to fetch USD prices. This endpoint requires no authentication and has generous rate limits.</p>
+<h3 id="the-api-call"><a class="header" href="#the-api-call">The API call</a></h3>
+<p>A single request is made to <code>https://api.kraken.com/0/public/Ticker?pair=XXBTZUSD,XETHZUSD,...</code> with all needed trading pairs joined by commas. The response includes the last trade price for each pair, which Botmarley uses as the current price.</p>
+<h3 id="token-to-pair-mapping"><a class="header" href="#token-to-pair-mapping">Token-to-pair mapping</a></h3>
+<p>Botmarley maps normalized token names to Kraken trading pair identifiers:</p>
+<div class="table-wrapper"><table><thead><tr><th>Token</th><th>Kraken Pair</th></tr></thead><tbody>
+<tr><td>BTC / XBT</td><td>XXBTZUSD</td></tr>
+<tr><td>ETH</td><td>XETHZUSD</td></tr>
+<tr><td>LTC</td><td>XLTCZUSD</td></tr>
+<tr><td>XRP</td><td>XXRPZUSD</td></tr>
+<tr><td>XLM</td><td>XXLMZUSD</td></tr>
+<tr><td>(others)</td><td><code>{TOKEN}USD</code></td></tr>
+</tbody></table>
+</div>
+<p>For tokens that Kraken does not list, the price falls back to <code>0.0</code> and a warning is logged.</p>
+<h3 id="stablecoin-handling"><a class="header" href="#stablecoin-handling">Stablecoin Handling</a></h3>
+<p>Stablecoins and fiat currencies are handled without an API call:</p>
+<div class="table-wrapper"><table><thead><tr><th>Tokens</th><th>Assumed USD price</th></tr></thead><tbody>
+<tr><td>USD, USDC, USDT, BUSD, DAI, TUSD, USDP, GUSD</td><td>$1.00</td></tr>
+<tr><td>EUR, GBP, CAD, AUD, CHF, JPY</td><td>~$1.00 (rough approximation)</td></tr>
+</tbody></table>
+</div><div id="admonition-note" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-title">
+<div class="admonition-title">
+<div id="admonition-note-title">
+<p>Note</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-note"></a>
+</div>
+<div>
+<p>The fiat approximation (treating EUR, GBP, etc. as $1.00) is a simplification. For portfolios with significant fiat holdings in non-USD currencies, the total USD value will be approximate. A more accurate forex conversion may be added in a future release.</p>
+</div>
+</div>
+<h2 id="architecture-full-sync-flow"><a class="header" href="#architecture-full-sync-flow">Architecture: Full Sync Flow</a></h2>
+<p>The following diagram shows the complete lifecycle of a portfolio sync, from trigger through to the stored snapshot.</p>
+<pre class="mermaid">sequenceDiagram
+    participant S as Scheduler (1h) /&lt;br&gt;Manual Button
+    participant Q as Task Queue
+    participant W as Task Worker
+    participant K as Kraken API
+    participant DB as PostgreSQL
+
+    S-&gt;&gt;Q: Enqueue PortfolioSync task
+    Q-&gt;&gt;W: Dequeue task
+
+    Note over W: Step 1: Sync exchange accounts
+    W-&gt;&gt;DB: List verified exchange accounts
+    DB--&gt;&gt;W: [Kraken accounts]
+    loop Each verified account
+        W-&gt;&gt;K: POST /0/private/Balance (signed)
+        K--&gt;&gt;W: Token balances
+        W-&gt;&gt;DB: Upsert account_assets
+    end
+
+    Note over W: Step 2: Gather all assets
+    W-&gt;&gt;DB: SELECT token, balance FROM account_assets
+    DB--&gt;&gt;W: All non-zero balances
+
+    Note over W: Step 3: Fetch prices
+    W-&gt;&gt;K: GET /0/public/Ticker?pair=...
+    K--&gt;&gt;W: USD prices per pair
+
+    Note over W: Step 4-5: Compute and store
+    W-&gt;&gt;W: total_usd = SUM(balance * price)&lt;br&gt;total_btc = total_usd / btc_price
+    W-&gt;&gt;DB: INSERT INTO portfolio_snapshots
+    DB--&gt;&gt;W: Snapshot ID
+
+    W-&gt;&gt;Q: Mark task complete
+</pre>
+<div id="admonition-note-1" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-1-title">
+<div class="admonition-title">
+<div id="admonition-note-1-title">
+<p>Note</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-note-1"></a>
+</div>
+<div>
+<p>If a single exchange account fails to sync (e.g., temporary network error), the pipeline continues with the remaining accounts. The snapshot will still be created using whatever data was successfully retrieved. Check the Activity Logs or Task Queue for details on any failures.</p>
+</div>
+</div>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../accounts/managing.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../strategies/overview.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../accounts/managing.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../strategies/overview.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

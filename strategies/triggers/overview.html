@@ -1,0 +1,383 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Triggers - Botmarley User Manual</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Complete user guide for the Botmarley cryptocurrency trading bot">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../.././mdbook-admonish.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Botmarley User Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="triggers-overview"><a class="header" href="#triggers-overview">Triggers Overview</a></h1>
+<p>Triggers are the <strong>decision engine</strong> of every Botmarley strategy. An action (buy, sell, open position) only executes when its triggers say "go." Without triggers, an action would never fire. Without the <em>right</em> triggers, your strategy would trade at the wrong time.</p>
+<p>Think of it this way:</p>
+<ul>
+<li>An <strong>action</strong> answers <em>what</em> to do (buy 100 USDC, sell 50%, open a long position).</li>
+<li>A <strong>trigger</strong> answers <em>when</em> to do it (RSI dropped below 30, price fell 3% from entry, the 4h candle just closed).</li>
+</ul>
+<p>Every action has one or more triggers attached to it. When all of them are satisfied at the same moment, the action fires.</p>
+<h2 id="the-three-trigger-types"><a class="header" href="#the-three-trigger-types">The Three Trigger Types</a></h2>
+<p>Botmarley supports three categories of triggers. Each watches a different kind of market signal:</p>
+<div class="table-wrapper"><table><thead><tr><th>Type</th><th>What It Watches</th><th>Example</th></tr></thead><tbody>
+<tr><td><strong>Technical</strong></td><td>Indicator values and crossovers</td><td>RSI(14) drops below 30, SMA(50) crosses above SMA(200)</td></tr>
+<tr><td><strong>PriceChange</strong></td><td>Price movement, position P&amp;L, time, momentum</td><td>Price dropped 3% in the last hour, position is up 2% from entry</td></tr>
+<tr><td><strong>NextCandle</strong></td><td>Candle close events</td><td>The 4h candle just closed, the daily candle just closed</td></tr>
+</tbody></table>
+</div>
+<p>You will often combine these types on the same action. For example, "buy when the 4h candle closes AND RSI is below 35" uses a NextCandle trigger together with a Technical trigger.</p>
+<p>The dedicated chapters cover each type in depth:</p>
+<ul>
+<li><a href="technical.html">Technical Indicators</a> -- indicator comparisons and crossovers</li>
+<li><a href="price-change.html">Price Change</a> -- price movement, P&amp;L tracking, trailing stops, time exits</li>
+<li><a href="next-candle.html">Next Candle</a> -- scheduled candle-close events</li>
+</ul>
+<h2 id="and-logic-multiple-triggers-on-one-action"><a class="header" href="#and-logic-multiple-triggers-on-one-action">AND Logic: Multiple Triggers on One Action</a></h2>
+<p>When you attach multiple triggers to a single action, Botmarley treats them as <strong>AND conditions</strong>. Every trigger must be true simultaneously for the action to fire.</p>
+<pre class="mermaid">graph LR
+    T1[&quot;Trigger 1&lt;br/&gt;RSI(14) &lt; 30&quot;]
+    T2[&quot;Trigger 2&lt;br/&gt;SMA(50) &gt; SMA(200)&quot;]
+    T3[&quot;Trigger 3&lt;br/&gt;Price fell -3%&quot;]
+    AND{{&quot;ALL must&lt;br/&gt;be true&quot;}}
+    A[&quot;Action fires:&lt;br/&gt;Buy 100 USDC&quot;]
+
+    T1 --&gt; AND
+    T2 --&gt; AND
+    T3 --&gt; AND
+    AND --&gt; A
+</pre>
+<p>In TOML, this looks like multiple <code>[[actions.triggers]]</code> blocks under the same <code>[[actions]]</code>:</p>
+<pre><code class="language-toml"># This action requires ALL THREE triggers to be true
+[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+[[actions.triggers]]
+indicator = "rsi_14"
+operator = "&lt;"
+target = "30"
+timeframe = "1h"
+
+[[actions.triggers]]
+indicator = "sma_50"
+operator = "&gt;"
+target = "sma_200"
+timeframe = "1d"
+
+[[actions.triggers]]
+type = "price_change"
+value = "-3%"
+timeframe = "1h"
+</code></pre>
+<div id="admonition-note" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-title">
+<div class="admonition-title">
+<div id="admonition-note-title">
+<p>Note</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-note"></a>
+</div>
+<div>
+<p>There is no OR logic within a single action. If you want "buy when RSI &lt; 30 OR price drops 5%," create two separate actions -- one with the RSI trigger, one with the price drop trigger. Each action fires independently.</p>
+</div>
+</div>
+<h2 id="the-max_count-field"><a class="header" href="#the-max_count-field">The <code>max_count</code> Field</a></h2>
+<p>Every trigger type supports an optional <code>max_count</code> field. It limits how many times that trigger can fire <strong>per position</strong>.</p>
+<pre><code class="language-toml">[[actions.triggers]]
+type = "pos_price_change"
+value = "-2%"
+max_count = 1
+</code></pre>
+<div class="table-wrapper"><table><thead><tr><th><code>max_count</code> value</th><th>Behavior</th></tr></thead><tbody>
+<tr><td>Not set (or <code>None</code>)</td><td>Trigger can fire unlimited times per position</td></tr>
+<tr><td><code>1</code></td><td>Trigger fires once per position, then is disabled for that position</td></tr>
+<tr><td><code>3</code></td><td>Trigger fires up to 3 times per position</td></tr>
+</tbody></table>
+</div>
+<p>This is essential for DCA (Dollar-Cost Averaging) strategies where you want layered entries. Without <code>max_count</code>, a DCA trigger at -2% would keep firing every time the price bounces back and forth across the -2% threshold. With <code>max_count = 1</code>, it fires once, and you rely on the next DCA level (-4%, -6%) to add more capital.</p>
+<div id="admonition-tip" class="admonition admonish-tip" role="note" aria-labelledby="admonition-tip-title">
+<div class="admonition-title">
+<div id="admonition-tip-title">
+<p>Tip</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-tip"></a>
+</div>
+<div>
+<p>A common pattern is to set <code>max_count = 1</code> on each DCA level so each level fires exactly once per position. This prevents accidental double-buying at the same price level.</p>
+</div>
+</div>
+<h2 id="how-triggers-reset"><a class="header" href="#how-triggers-reset">How Triggers Reset</a></h2>
+<p>Trigger fire counts reset when a <strong>new position opens</strong>. If a trigger on a DCA action has <code>max_count = 1</code> and it fires once during Position A, that counter goes back to zero when Position A is closed and Position B is opened later.</p>
+<p>The lifecycle looks like this:</p>
+<pre class="mermaid">graph TD
+    A[&quot;Position opens&quot;] --&gt; B[&quot;Triggers active&lt;br/&gt;fire counts = 0&quot;]
+    B --&gt; C{&quot;Trigger&lt;br/&gt;conditions met?&quot;}
+    C -- &quot;Yes&quot; --&gt; D[&quot;Action fires&lt;br/&gt;fire count += 1&quot;]
+    D --&gt; E{&quot;fire count&lt;br/&gt;&lt; max_count?&quot;}
+    E -- &quot;Yes&quot; --&gt; C
+    E -- &quot;No (or max_count reached)&quot; --&gt; F[&quot;Trigger disabled&lt;br/&gt;for this position&quot;]
+    C -- &quot;No&quot; --&gt; G[&quot;Wait for&lt;br/&gt;next evaluation&quot;]
+    G --&gt; C
+    F --&gt; H[&quot;Position closes&quot;]
+    H --&gt; I[&quot;All fire counts&lt;br/&gt;reset to 0&quot;]
+    I --&gt; A
+</pre>
+<div id="admonition-warning" class="admonition admonish-warning" role="note" aria-labelledby="admonition-warning-title">
+<div class="admonition-title">
+<div id="admonition-warning-title">
+<p>Warning</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-warning"></a>
+</div>
+<div>
+<p><code>max_count</code> is tracked per trigger, per position. If you have two separate actions each with their own <code>-2%</code> trigger and <code>max_count = 1</code>, each of them fires independently -- you would get two buys at the -2% level. Make sure your DCA levels are on separate actions with distinct thresholds.</p>
+</div>
+</div>
+<h2 id="putting-it-all-together"><a class="header" href="#putting-it-all-together">Putting It All Together</a></h2>
+<p>Here is a minimal strategy that demonstrates all three trigger types working together:</p>
+<pre><code class="language-toml">[meta]
+name = "Triggers Overview Demo"
+description = "Shows all three trigger types in one strategy"
+max_open_positions = 2
+
+# ENTRY: open when RSI is oversold (Technical)
+[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+[[actions.triggers]]
+indicator = "rsi_14"
+operator = "&lt;"
+target = "30"
+timeframe = "1h"
+
+# DCA: buy more if position drops 3% (PriceChange)
+[[actions]]
+type = "buy"
+amount = "100 USDC"
+average_price = true
+
+[[actions.triggers]]
+type = "pos_price_change"
+value = "-3%"
+max_count = 1
+
+# ACCUMULATE: buy on every 4h candle close (NextCandle)
+[[actions]]
+type = "buy"
+amount = "25 USDC"
+average_price = true
+
+[[actions.triggers]]
+type = "next_candle"
+timeframe = "4h"
+max_count = 5
+
+# EXIT: sell when position is up 2% (PriceChange)
+[[actions]]
+type = "sell"
+amount = "100%"
+
+[[actions.triggers]]
+type = "pos_price_change"
+value = "2%"
+</code></pre>
+<p>This strategy opens a position when RSI dips, adds to it on dips and on a schedule, and exits at +2% profit. The <code>max_count</code> values prevent runaway accumulation: the DCA fires once, and the scheduled buys stop after 5 candles.</p>
+<p>Continue reading the dedicated chapters for each trigger type to learn all the available fields and see more examples.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../strategies/actions.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../strategies/triggers/technical.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../strategies/actions.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../strategies/triggers/technical.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../mermaid.min.js"></script>
+        <script src="../../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

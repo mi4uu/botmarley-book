@@ -1,0 +1,518 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Technical Indicators - Botmarley User Manual</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Complete user guide for the Botmarley cryptocurrency trading bot">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../.././mdbook-admonish.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Botmarley User Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="technical-indicator-triggers"><a class="header" href="#technical-indicator-triggers">Technical Indicator Triggers</a></h1>
+<p>Technical triggers compare an indicator's current value against a target. They answer questions like "is RSI below 30?", "did the 50-day SMA just cross above the 200-day SMA?", or "is price above the upper Bollinger Band?"</p>
+<p>These are the most common triggers in any strategy. If you have used TradingView alerts or any charting tool, you will recognize the logic immediately.</p>
+<h2 id="anatomy-of-a-technical-trigger"><a class="header" href="#anatomy-of-a-technical-trigger">Anatomy of a Technical Trigger</a></h2>
+<p>A technical trigger has four fields:</p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "rsi_14"        # What to measure
+operator = "&lt;"              # How to compare
+target = "30"               # What to compare against
+timeframe = "1h"            # On which candle timeframe (optional)
+max_count = 1               # How many times it can fire per position (optional)
+</code></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Required</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>indicator</code></td><td>Yes</td><td>The indicator to read. Format: <code>type_period</code> (e.g., <code>rsi_14</code>, <code>sma_50</code>, <code>ema_200</code>) or a special name (<code>bb_lower</code>, <code>macd_line</code>, <code>price</code>, <code>ttm_trend</code>).</td></tr>
+<tr><td><code>operator</code></td><td>Yes</td><td>How to compare the indicator to the target. One of: <code>&gt;</code>, <code>&lt;</code>, <code>=</code>, <code>cross_above</code>, <code>cross_below</code>.</td></tr>
+<tr><td><code>target</code></td><td>Yes</td><td>The value to compare against. Either a number (<code>"30"</code>, <code>"0"</code>, <code>"-3"</code>) or another indicator (<code>"sma_200"</code>, <code>"bb_upper"</code>, <code>"price"</code>).</td></tr>
+<tr><td><code>timeframe</code></td><td>No</td><td>Which candle timeframe to evaluate on: <code>1m</code>, <code>5m</code>, <code>15m</code>, <code>1h</code>, <code>4h</code>, <code>1d</code>. If omitted, uses the session's default timeframe.</td></tr>
+<tr><td><code>max_count</code></td><td>No</td><td>Maximum number of times this trigger can fire per position. Omit for unlimited.</td></tr>
+</tbody></table>
+</div>
+<h2 id="available-indicators"><a class="header" href="#available-indicators">Available Indicators</a></h2>
+<p>All of these can be used in the <code>indicator</code> field or as a <code>target</code>:</p>
+<div class="table-wrapper"><table><thead><tr><th>Indicator</th><th>Format</th><th>Example</th><th>Description</th></tr></thead><tbody>
+<tr><td>SMA</td><td><code>sma_{period}</code></td><td><code>sma_50</code>, <code>sma_200</code></td><td>Simple Moving Average</td></tr>
+<tr><td>EMA</td><td><code>ema_{period}</code></td><td><code>ema_9</code>, <code>ema_21</code>, <code>ema_200</code></td><td>Exponential Moving Average</td></tr>
+<tr><td>RSI</td><td><code>rsi_{period}</code></td><td><code>rsi_14</code>, <code>rsi_7</code></td><td>Relative Strength Index (0-100)</td></tr>
+<tr><td>Bollinger Bands</td><td><code>bb_{band}</code></td><td><code>bb_lower</code>, <code>bb_upper</code>, <code>bb_middle</code></td><td>Bollinger Band levels</td></tr>
+<tr><td>MACD</td><td><code>macd_{component}</code></td><td><code>macd_line</code>, <code>macd_signal</code>, <code>macd_histogram</code></td><td>MACD components</td></tr>
+<tr><td>StochRSI</td><td><code>stoch_rsi_{period}</code></td><td><code>stoch_rsi_14</code></td><td>Stochastic RSI (0-100)</td></tr>
+<tr><td>ROC</td><td><code>roc_{period}</code></td><td><code>roc_10</code></td><td>Rate of Change (%)</td></tr>
+<tr><td>ATR</td><td><code>atr_{period}</code></td><td><code>atr_14</code></td><td>Average True Range</td></tr>
+<tr><td>OBV</td><td><code>obv</code></td><td><code>obv</code></td><td>On-Balance Volume (no period)</td></tr>
+<tr><td>OBV SMA</td><td><code>obv_sma_{period}</code></td><td><code>obv_sma_20</code></td><td>SMA of On-Balance Volume</td></tr>
+<tr><td>Volume SMA</td><td><code>vol_sma_{period}</code></td><td><code>vol_sma_20</code></td><td>SMA of Volume</td></tr>
+<tr><td>TTM Trend</td><td><code>ttm_trend</code></td><td><code>ttm_trend</code></td><td>TTM Squeeze trend (1 = bullish, -1 = bearish)</td></tr>
+<tr><td>Price</td><td><code>price</code></td><td><code>price</code></td><td>Current market price (close)</td></tr>
+</tbody></table>
+</div><div id="admonition-note" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-title">
+<div class="admonition-title">
+<div id="admonition-note-title">
+<p>Note</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-note"></a>
+</div>
+<div>
+<p>Period values must be between 1 and 200. Using <code>sma_0</code> or <code>rsi_300</code> will fail validation.</p>
+</div>
+</div>
+<h2 id="operators-explained"><a class="header" href="#operators-explained">Operators Explained</a></h2>
+<h3 id="greater-than-and--less-than"><a class="header" href="#greater-than-and--less-than"><code>&gt;</code> (Greater Than) and <code>&lt;</code> (Less Than)</a></h3>
+<p>Simple threshold comparisons. The trigger is true whenever the indicator is above or below the target value.</p>
+<pre><code class="language-toml"># True whenever RSI(14) is below 30
+[[actions.triggers]]
+indicator = "rsi_14"
+operator = "&lt;"
+target = "30"
+</code></pre>
+<p>These fire on <strong>every candle</strong> where the condition is true, not just the moment it crosses the threshold. If RSI stays below 30 for ten candles, the trigger is "active" on all ten. (Use <code>max_count</code> if you only want it to fire once.)</p>
+<h3 id="cross_above-and-cross_below-crossover-detection"><a class="header" href="#cross_above-and-cross_below-crossover-detection"><code>cross_above</code> and <code>cross_below</code> (Crossover Detection)</a></h3>
+<p>A crossover trigger fires at the <strong>moment of transition</strong>. It checks two consecutive candles:</p>
+<ul>
+<li><code>cross_above</code>: The indicator was <strong>at or below</strong> the target on the previous candle, and is <strong>above</strong> it on the current candle.</li>
+<li><code>cross_below</code>: The indicator was <strong>at or above</strong> the target on the previous candle, and is <strong>below</strong> it on the current candle.</li>
+</ul>
+<pre class="mermaid">graph LR
+    subgraph &quot;cross_above&quot;
+        P1[&quot;Previous candle:&lt;br/&gt;SMA(50) &lt;= SMA(200)&quot;]
+        C1[&quot;Current candle:&lt;br/&gt;SMA(50) &gt; SMA(200)&quot;]
+        P1 --&gt;|&quot;transition&quot;| C1
+    end
+    subgraph &quot;cross_below&quot;
+        P2[&quot;Previous candle:&lt;br/&gt;SMA(50) &gt;= SMA(200)&quot;]
+        C2[&quot;Current candle:&lt;br/&gt;SMA(50) &lt; SMA(200)&quot;]
+        P2 --&gt;|&quot;transition&quot;| C2
+    end
+</pre>
+<pre><code class="language-toml"># Golden cross: SMA(50) crosses above SMA(200)
+[[actions.triggers]]
+indicator = "sma_50"
+operator = "cross_above"
+target = "sma_200"
+timeframe = "1d"
+</code></pre>
+<div id="admonition-crossovers-are-the-most-powerful-tool-for-trend-detection" class="admonition admonish-tip" role="note" aria-labelledby="admonition-crossovers-are-the-most-powerful-tool-for-trend-detection-title">
+<div class="admonition-title">
+<div id="admonition-crossovers-are-the-most-powerful-tool-for-trend-detection-title">
+<p>Crossovers are the most powerful tool for trend detection</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-crossovers-are-the-most-powerful-tool-for-trend-detection"></a>
+</div>
+<div>
+<p>Use <code>cross_above</code> and <code>cross_below</code> instead of <code>&gt;</code> and <code>&lt;</code> when you want to catch the <strong>turning point</strong> rather than the sustained condition. A golden cross (<code>sma_50 cross_above sma_200</code>) fires once when the trend shifts bullish, rather than on every single candle where SMA(50) happens to be above SMA(200).</p>
+</div>
+</div>
+<h3 id="-equal"><a class="header" href="#-equal"><code>=</code> (Equal)</a></h3>
+<p>Exact match comparison. This is rarely used because indicator values are continuous floating-point numbers and exact equality is unlikely. The primary use case is the <strong>TTM Trend</strong> indicator, which outputs discrete integer values:</p>
+<ul>
+<li><code>1</code> = bullish trend</li>
+<li><code>-1</code> = bearish trend</li>
+</ul>
+<pre><code class="language-toml"># TTM Trend is bullish
+[[actions.triggers]]
+indicator = "ttm_trend"
+operator = "="
+target = "1"
+</code></pre>
+<div id="admonition-warning" class="admonition admonish-warning" role="note" aria-labelledby="admonition-warning-title">
+<div class="admonition-title">
+<div id="admonition-warning-title">
+<p>Warning</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-warning"></a>
+</div>
+<div>
+<p>Do not use <code>=</code> with floating-point indicators like RSI or SMA. A condition like <code>rsi_14 = 30</code> will almost never be exactly true because RSI values are typically decimals like 29.87 or 30.12. Use <code>&lt;</code> or <code>&gt;</code> instead.</p>
+</div>
+</div>
+<h2 id="target-types"><a class="header" href="#target-types">Target Types</a></h2>
+<p>The <code>target</code> field accepts two kinds of values:</p>
+<h3 id="numeric-target"><a class="header" href="#numeric-target">Numeric Target</a></h3>
+<p>A fixed number. Used for absolute thresholds like RSI levels, zero-line crossings, or price levels.</p>
+<pre><code class="language-toml">target = "30"      # RSI threshold
+target = "0"       # MACD zero-line
+target = "-3"      # Negative value (ROC dropped below -3%)
+target = "50000"   # A specific price level
+</code></pre>
+<h3 id="indicator-target"><a class="header" href="#indicator-target">Indicator Target</a></h3>
+<p>Another indicator. Used for comparing two moving averages, checking if price is above/below a band, or volume breakout detection.</p>
+<pre><code class="language-toml">target = "sma_200"     # Compare against 200-period SMA
+target = "ema_50"      # Compare against 50-period EMA
+target = "bb_upper"    # Compare against upper Bollinger Band
+target = "price"       # Compare indicator against current price
+target = "obv_sma_20"  # Compare OBV against its SMA
+target = "macd_signal" # Compare MACD line against its signal line
+</code></pre>
+<div id="admonition-note-1" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-1-title">
+<div class="admonition-title">
+<div id="admonition-note-1-title">
+<p>Note</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-note-1"></a>
+</div>
+<div>
+<p>When using an indicator as a target, both the <code>indicator</code> and <code>target</code> are evaluated on the same candle at the same timeframe. The order matters: <code>indicator = "sma_50"</code> with <code>target = "sma_200"</code> means "is SMA(50) above/below SMA(200)?", not the other way around.</p>
+</div>
+</div>
+<h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
+<h3 id="example-1-rsi-oversold-entry"><a class="header" href="#example-1-rsi-oversold-entry">Example 1: RSI Oversold Entry</a></h3>
+<p>Open a position when RSI(14) drops below 30 on the 1-hour chart.</p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+[[actions.triggers]]
+indicator = "rsi_14"
+operator = "&lt;"
+target = "30"
+timeframe = "1h"
+</code></pre>
+<p><strong>When to use:</strong> Classic mean-reversion entry. RSI below 30 suggests the asset is oversold and may bounce.</p>
+<h3 id="example-2-golden-cross-sma-50200"><a class="header" href="#example-2-golden-cross-sma-50200">Example 2: Golden Cross (SMA 50/200)</a></h3>
+<p>Open a position when the daily SMA(50) crosses above SMA(200).</p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "200 USDC"
+
+[[actions.triggers]]
+indicator = "sma_50"
+operator = "cross_above"
+target = "sma_200"
+timeframe = "1d"
+</code></pre>
+<p><strong>When to use:</strong> Long-term trend following. The golden cross is one of the most widely watched signals in traditional finance and crypto alike.</p>
+<h3 id="example-3-death-cross-exit"><a class="header" href="#example-3-death-cross-exit">Example 3: Death Cross Exit</a></h3>
+<p>Sell the entire position when SMA(50) crosses below SMA(200), signaling a trend reversal.</p>
+<pre><code class="language-toml">[[actions]]
+type = "sell"
+amount = "100%"
+
+[[actions.triggers]]
+indicator = "sma_50"
+operator = "cross_below"
+target = "sma_200"
+timeframe = "1d"
+</code></pre>
+<p><strong>When to use:</strong> As a safety exit. Even if your take-profit has not been reached, a death cross suggests the uptrend is over.</p>
+<h3 id="example-4-bollinger-band-bounce"><a class="header" href="#example-4-bollinger-band-bounce">Example 4: Bollinger Band Bounce</a></h3>
+<p>Open a position when price drops below the lower Bollinger Band on the 1-hour chart (and RSI confirms oversold conditions on the daily chart).</p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+[[actions.triggers]]
+indicator = "bb_lower"
+operator = "&gt;"
+target = "price"
+timeframe = "1h"
+
+[[actions.triggers]]
+indicator = "rsi_14"
+operator = "&lt;"
+target = "40"
+timeframe = "1d"
+</code></pre>
+<p><strong>When to use:</strong> Volatility-based entry. When price punches below the lower band, it has moved more than two standard deviations from the mean. Combining with RSI filters out false signals during strong downtrends.</p>
+<div id="admonition-note-2" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-2-title">
+<div class="admonition-title">
+<div id="admonition-note-2-title">
+<p>Note</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-note-2"></a>
+</div>
+<div>
+<p>Notice the operator direction: <code>bb_lower &gt; price</code> means "the lower band is above the current price," which is the same as saying "price is below the lower band." Botmarley always reads left-to-right: <code>indicator operator target</code>.</p>
+</div>
+</div>
+<h3 id="example-5-macd-zero-line-crossover"><a class="header" href="#example-5-macd-zero-line-crossover">Example 5: MACD Zero-Line Crossover</a></h3>
+<p>Buy when the MACD line crosses above zero, confirming bullish momentum.</p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+[[actions.triggers]]
+indicator = "macd_line"
+operator = "cross_above"
+target = "0"
+timeframe = "4h"
+</code></pre>
+<p><strong>When to use:</strong> Momentum confirmation. The MACD crossing above zero means the short-term EMA has moved above the long-term EMA, confirming upward momentum.</p>
+<h3 id="example-6-ttm-trend-filter-with-rsi"><a class="header" href="#example-6-ttm-trend-filter-with-rsi">Example 6: TTM Trend Filter with RSI</a></h3>
+<p>Only enter when RSI is oversold AND the TTM Trend confirms bullish direction.</p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+[[actions.triggers]]
+indicator = "rsi_14"
+operator = "&lt;"
+target = "35"
+
+[[actions.triggers]]
+indicator = "ttm_trend"
+operator = "="
+target = "1"
+</code></pre>
+<p><strong>When to use:</strong> Filtered entries. RSI alone can give false signals in a strong downtrend. Adding TTM Trend = 1 ensures you only buy dips during an overall uptrend.</p>
+<h3 id="example-7-ema-crossover-fast-over-slow"><a class="header" href="#example-7-ema-crossover-fast-over-slow">Example 7: EMA Crossover (Fast over Slow)</a></h3>
+<p>Enter when EMA(9) crosses above EMA(21) on the 5-minute chart for short-term scalping.</p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "50 USDC"
+
+[[actions.triggers]]
+indicator = "ema_9"
+operator = "cross_above"
+target = "ema_21"
+timeframe = "5m"
+</code></pre>
+<p><strong>When to use:</strong> Short-term momentum trading. Faster EMA pairs (9/21, 12/26) react more quickly than SMA pairs, making them suitable for scalping on lower timeframes.</p>
+<h3 id="example-8-uptrend-filter-sma-50-above-sma-200"><a class="header" href="#example-8-uptrend-filter-sma-50-above-sma-200">Example 8: Uptrend Filter (SMA 50 Above SMA 200)</a></h3>
+<p>Use as a guard condition on another action. Only allow entries while the macro trend is bullish.</p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+[[actions.triggers]]
+indicator = "sma_50"
+operator = "&gt;"
+target = "sma_200"
+timeframe = "1d"
+
+[[actions.triggers]]
+indicator = "rsi_14"
+operator = "&lt;"
+target = "35"
+timeframe = "1h"
+</code></pre>
+<p><strong>When to use:</strong> Multi-timeframe filtering. The daily SMA check acts as a macro trend gate (only buy in uptrends), while the hourly RSI finds dip entries within that uptrend. This is the foundation of the "trend-safe DCA" pattern.</p>
+<h2 id="timeframe-considerations"><a class="header" href="#timeframe-considerations">Timeframe Considerations</a></h2>
+<p>When you set a <code>timeframe</code> on a technical trigger, Botmarley evaluates the indicator on candles of that timeframe. A few things to keep in mind:</p>
+<ul>
+<li>If you omit <code>timeframe</code>, the trigger uses the trading session's default timeframe.</li>
+<li>You can mix timeframes on the same action. For example, one trigger checks the daily SMA while another checks the hourly RSI. Both must be true for the action to fire.</li>
+<li>Valid timeframes are: <code>1m</code>, <code>5m</code>, <code>15m</code>, <code>1h</code>, <code>4h</code>, <code>1d</code>.</li>
+<li>Lower timeframes (1m, 5m) produce more signals but are noisier. Higher timeframes (4h, 1d) produce fewer signals but are more reliable.</li>
+</ul>
+<div id="admonition-tip" class="admonition admonish-tip" role="note" aria-labelledby="admonition-tip-title">
+<div class="admonition-title">
+<div id="admonition-tip-title">
+<p>Tip</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-tip"></a>
+</div>
+<div>
+<p>A powerful pattern is to use a higher timeframe for trend direction (daily SMA or TTM Trend) and a lower timeframe for entry timing (hourly RSI or 5-minute EMA crossover). This gives you the best of both worlds: reliable trend identification with precise entry points.</p>
+</div>
+</div>
+<hr />
+<h2 id="deep-dive-indicators-reference"><a class="header" href="#deep-dive-indicators-reference">Deep-Dive: Indicators Reference</a></h2>
+<p>For in-depth explanations of each indicator — with annotated chart screenshots, operator behavior, and TOML examples — see the <strong><a href="../indicators.html">Indicators Reference</a></strong> and its sub-pages:</p>
+<ul>
+<li><strong><a href="../indicators/sma.html">SMA — Simple Moving Average</a></strong> — Golden Cross, Death Cross, trend filters</li>
+<li><strong><a href="../indicators/ema.html">EMA — Exponential Moving Average</a></strong> — Fast crossovers, scalping pairs</li>
+<li><strong><a href="../indicators/rsi.html">RSI — Relative Strength Index</a></strong> — Oversold/overbought zones, recovery signals</li>
+<li><strong><a href="../indicators/macd.html">MACD</a></strong> — Crossovers, histogram, zero-line signals</li>
+<li><strong><a href="../indicators/bollinger-bands.html">Bollinger Bands</a></strong> — Bounce, squeeze, mean reversion</li>
+<li><strong><a href="../indicators/stochrsi.html">StochRSI</a></strong>, <strong><a href="../indicators/roc.html">ROC</a></strong>, <strong><a href="../indicators/atr.html">ATR</a></strong>, <strong><a href="../indicators/obv.html">OBV</a></strong>, <strong><a href="../indicators/volume-sma.html">VolSMA</a></strong>, <strong><a href="../indicators/ttm-trend.html">TTM Trend</a></strong>, <strong><a href="../indicators/price.html">Price</a></strong></li>
+<li><strong><a href="../indicators/operators.html">Operators Reference</a></strong> — Complete guide to <code>&gt;</code>, <code>&lt;</code>, <code>=</code>, <code>cross_above</code>, <code>cross_below</code></li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../strategies/triggers/overview.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../strategies/indicators.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../strategies/triggers/overview.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../strategies/indicators.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../mermaid.min.js"></script>
+        <script src="../../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

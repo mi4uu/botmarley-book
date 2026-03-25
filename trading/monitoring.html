@@ -1,0 +1,343 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Monitoring - Botmarley User Manual</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Complete user guide for the Botmarley cryptocurrency trading bot">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href=".././mdbook-admonish.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Botmarley User Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="monitoring"><a class="header" href="#monitoring">Monitoring</a></h1>
+<p>Once a trading session is running, Botmarley provides a real-time monitoring dashboard on the session detail page. This chapter explains every element of that page and how to use it effectively.</p>
+<h2 id="accessing-the-session-detail-page"><a class="header" href="#accessing-the-session-detail-page">Accessing the Session Detail Page</a></h2>
+<p>Click on any session in the <strong>Trading</strong> session list to open its detail page. The URL follows the pattern:</p>
+<pre><code>http://localhost:3000/trading/session/{session-id}
+</code></pre>
+<p>The page updates automatically -- you do not need to refresh.</p>
+<h2 id="real-time-data-via-sse"><a class="header" href="#real-time-data-via-sse">Real-Time Data via SSE</a></h2>
+<p>Botmarley uses <strong>Server-Sent Events (SSE)</strong> to push live updates from the server to your browser. When you open a session detail page, your browser establishes a persistent connection to the SSE endpoint:</p>
+<pre><code>/sse/trading/{session-id}
+</code></pre>
+<p>Through this connection, the server sends updates whenever the engine processes a new candle, executes a trade, or changes status. The UI components on the page listen for these events and update themselves instantly via HTMX partial swaps.</p>
+<p>This means:</p>
+<ul>
+<li><strong>No polling delays.</strong> You see changes within a second of them happening on the server.</li>
+<li><strong>No manual refresh needed.</strong> The page stays current as long as you have it open.</li>
+<li><strong>Low bandwidth.</strong> SSE sends only the data that changed, not the entire page.</li>
+</ul>
+<h2 id="monitoring-elements"><a class="header" href="#monitoring-elements">Monitoring Elements</a></h2>
+<h3 id="current-price"><a class="header" href="#current-price">Current Price</a></h3>
+<p>The session displays the <strong>latest candle close price</strong> for the trading pair. This updates every poll cycle (default: every 60 seconds when a new candle arrives).</p>
+<h3 id="balance-and-pnl"><a class="header" href="#balance-and-pnl">Balance and PnL</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody>
+<tr><td><strong>Current Balance</strong></td><td>Total portfolio value in USD (cash + crypto holdings valued at current price).</td></tr>
+<tr><td><strong>PnL (USD)</strong></td><td>Absolute profit or loss: current balance minus initial capital.</td></tr>
+<tr><td><strong>PnL (%)</strong></td><td>PnL as a percentage of initial capital.</td></tr>
+</tbody></table>
+</div>
+<p>These values update after every candle is processed. During volatile markets, you will see them change with each tick.</p>
+<h3 id="candles-processed"><a class="header" href="#candles-processed">Candles Processed</a></h3>
+<p>A counter showing how many candles the engine has evaluated since the session started. This gives you a sense of how long the session has been active and confirms that the engine is receiving data from the exchange.</p>
+<h3 id="open-positions"><a class="header" href="#open-positions">Open Positions</a></h3>
+<p>Displays the number of currently open positions and their details:</p>
+<ul>
+<li><strong>Position number</strong> (e.g., #1, #2 for multi-position strategies)</li>
+<li><strong>Entry price</strong> -- the average price at which the position was opened</li>
+<li><strong>Current value</strong> -- the position's value at the current market price</li>
+<li><strong>Unrealized PnL</strong> -- how much the position would gain or lose if sold now</li>
+</ul>
+<h3 id="trade-action-history"><a class="header" href="#trade-action-history">Trade Action History</a></h3>
+<p>A table of all executed trade actions for this session, ordered newest first. Each row shows:</p>
+<div class="table-wrapper"><table><thead><tr><th>Column</th><th>Description</th></tr></thead><tbody>
+<tr><td><strong>Time</strong></td><td>When the action occurred.</td></tr>
+<tr><td><strong>Action</strong></td><td>Type: <code>open_long</code>, <code>buy</code>, or <code>sell</code>.</td></tr>
+<tr><td><strong>Price</strong></td><td>The execution price.</td></tr>
+<tr><td><strong>Amount</strong></td><td>USD and crypto amounts.</td></tr>
+<tr><td><strong>Trigger</strong></td><td>Which trigger condition caused the action.</td></tr>
+<tr><td><strong>PnL</strong></td><td>Realized profit/loss (for sells).</td></tr>
+</tbody></table>
+</div>
+<p>New actions appear at the top of the table automatically via SSE.</p>
+<h3 id="strategy-trigger-status"><a class="header" href="#strategy-trigger-status">Strategy Trigger Status</a></h3>
+<p>Shows the current state of each trigger in your strategy:</p>
+<ul>
+<li>Whether the trigger condition is currently met or not.</li>
+<li>For technical indicators: the current indicator value (e.g., RSI = 42.3).</li>
+<li>For price-based triggers: how close the current price is to the trigger threshold.</li>
+</ul>
+<p>This helps you understand what the strategy is "thinking" right now and anticipate when the next trade might fire.</p>
+<h3 id="session-controls"><a class="header" href="#session-controls">Session Controls</a></h3>
+<p>At the top of the page, you will find buttons to control the session:</p>
+<ul>
+<li><strong>Pause</strong> -- temporarily stop evaluation (available when running).</li>
+<li><strong>Resume</strong> -- continue from pause (available when paused).</li>
+<li><strong>Stop</strong> -- permanently end the session.</li>
+</ul>
+<p>See <a href="sessions.html">Trading Sessions</a> for details on each action.</p>
+<h2 id="live-candlestick-chart"><a class="header" href="#live-candlestick-chart">Live Candlestick Chart</a></h2>
+<p>The session detail page includes an interactive candlestick chart powered by Lightweight Charts. The chart displays:</p>
+<ul>
+<li><strong>Candlesticks</strong> showing OHLCV data for the session's trading pair.</li>
+<li><strong>Buy markers</strong> (green arrows) at the exact candles where buy actions executed.</li>
+<li><strong>Sell markers</strong> (red arrows) at sell action candles.</li>
+<li><strong>Indicator overlays</strong> if the strategy uses technical indicators (togglable).</li>
+</ul>
+<p>The chart updates in real time as new candles arrive. You can:</p>
+<ul>
+<li><strong>Zoom</strong> in and out with the scroll wheel.</li>
+<li><strong>Pan</strong> by clicking and dragging.</li>
+<li><strong>Switch timeframes</strong> between 1m, 5m, 15m, and 1h for different levels of detail.</li>
+</ul>
+<div id="admonition-tip" class="admonition admonish-tip" role="note" aria-labelledby="admonition-tip-title">
+<div class="admonition-title">
+<div id="admonition-tip-title">
+<p>Tip</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-tip"></a>
+</div>
+<div>
+<p>The 5-minute view is a good default for monitoring. It gives enough detail to see individual trades while keeping the chart readable over longer periods.</p>
+</div>
+</div>
+<h2 id="tips-for-monitoring-during-volatile-markets"><a class="header" href="#tips-for-monitoring-during-volatile-markets">Tips for Monitoring During Volatile Markets</a></h2>
+<p>Volatile markets (high price swings, rapid moves) are when your strategy is most likely to trigger actions. Here are some practical tips:</p>
+<ol>
+<li>
+<p><strong>Keep the session page open.</strong> SSE updates ensure you see trades the moment they happen. If you close the page and come back later, you might miss critical context about why a trade fired.</p>
+</li>
+<li>
+<p><strong>Watch the trigger status panel.</strong> During high volatility, indicators like RSI can swing rapidly between overbought and oversold zones. The trigger status panel shows you in real time how close the strategy is to firing.</p>
+</li>
+<li>
+<p><strong>Check open positions.</strong> If your strategy opens positions during a volatile period, monitor unrealized PnL closely. A position that is +5% can swing to -5% quickly.</p>
+</li>
+<li>
+<p><strong>Do not panic-stop.</strong> If the strategy is executing trades during a volatile period, that is what it is designed to do. Stopping the session mid-volatility may leave you with an unfavorable open position. If you are uncomfortable, <strong>pause</strong> the session instead -- this preserves state and lets you resume later.</p>
+</li>
+<li>
+<p><strong>Review the action log after the event.</strong> Once volatility subsides, scroll through the action history to understand what the strategy did and why. This is valuable feedback for refining triggers.</p>
+</li>
+</ol>
+<div id="admonition-note" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-title">
+<div class="admonition-title">
+<div id="admonition-note-title">
+<p>Note</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-note"></a>
+</div>
+<div>
+<p>If you are running multiple sessions simultaneously, each one has its own SSE stream and monitoring page. You can open multiple browser tabs to monitor several sessions at once.</p>
+</div>
+</div>
+<h2 id="what-gets-persisted"><a class="header" href="#what-gets-persisted">What Gets Persisted</a></h2>
+<p>Not everything you see on the monitoring page is stored permanently. Here is the breakdown:</p>
+<div class="table-wrapper"><table><thead><tr><th>Data</th><th>Stored in DB?</th><th>Notes</th></tr></thead><tbody>
+<tr><td>Trade actions</td><td>Yes</td><td>Full action log with all details</td></tr>
+<tr><td>Session state (balance, PnL, status)</td><td>Yes</td><td>Updated periodically</td></tr>
+<tr><td>Session events (start, pause, resume, stop)</td><td>Yes</td><td>Timestamped audit trail</td></tr>
+<tr><td>Candle buffer</td><td>No</td><td>In-memory only; refetched on restart</td></tr>
+<tr><td>Indicator cache</td><td>No</td><td>Rebuilt from candle buffer each cycle</td></tr>
+<tr><td>Progress store (current price, live PnL)</td><td>No</td><td>In-memory; reconstructed from DB on restart</td></tr>
+</tbody></table>
+</div>
+<p>This means if the server restarts, you will not lose any trade history or session state, but the live monitoring data (current price, indicator values) will take one poll cycle to repopulate. See <a href="recovery.html">Session Recovery</a> for details.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../trading/sessions.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../trading/recovery.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../trading/sessions.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../trading/recovery.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

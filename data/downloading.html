@@ -1,0 +1,365 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Downloading History - Botmarley User Manual</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Complete user guide for the Botmarley cryptocurrency trading bot">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href=".././mdbook-admonish.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Botmarley User Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="downloading-history"><a class="header" href="#downloading-history">Downloading History</a></h1>
+<p>Before you can backtest a strategy or browse historical charts, you need candle data on disk. The History Sync page lets you download 1-minute candles from Kraken or Binance and store them as Arrow files.</p>
+<h2 id="the-history-page"><a class="header" href="#the-history-page">The History Page</a></h2>
+<p>Navigate to <strong><code>/history</code></strong> in the sidebar. This page shows:</p>
+<ul>
+<li>A list of trading pairs available for download.</li>
+<li>The current sync status for each pair (last synced timestamp, number of candles stored).</li>
+<li>A <strong>Sync</strong> button to start downloading.</li>
+</ul>
+<p><img src="../images/history-sync.png" alt="History Sync page showing exchange selection, pair list, and sync status" /></p>
+<h2 id="step-by-step-downloading-candle-data"><a class="header" href="#step-by-step-downloading-candle-data">Step by Step: Downloading Candle Data</a></h2>
+<h3 id="1-select-the-exchange"><a class="header" href="#1-select-the-exchange">1. Select the Exchange</a></h3>
+<p>At the top of the History page, choose which exchange to fetch data from using the exchange radio buttons:</p>
+<ul>
+<li><strong>Kraken</strong> -- uses the Kraken REST API (<code>/0/public/OHLC</code>). Returns up to 720 candles per request.</li>
+<li><strong>Binance</strong> -- uses the Binance REST API (<code>/api/v3/klines</code>). Returns up to 1000 candles per request.</li>
+</ul>
+<h3 id="2-select-trading-pairs"><a class="header" href="#2-select-trading-pairs">2. Select Trading Pairs</a></h3>
+<p>Choose which pairs you want to download data for. Note that each exchange uses its own pair naming convention:</p>
+<div class="table-wrapper"><table><thead><tr><th>Exchange</th><th>Pair</th><th>Description</th></tr></thead><tbody>
+<tr><td>Kraken</td><td><code>XBTUSD</code></td><td>Bitcoin / US Dollar</td></tr>
+<tr><td>Kraken</td><td><code>ETHUSD</code></td><td>Ethereum / US Dollar</td></tr>
+<tr><td>Kraken</td><td><code>SOLUSD</code></td><td>Solana / US Dollar</td></tr>
+<tr><td>Kraken</td><td><code>XBTEUR</code></td><td>Bitcoin / Euro</td></tr>
+<tr><td>Binance</td><td><code>BTCUSDC</code></td><td>Bitcoin / USDC</td></tr>
+<tr><td>Binance</td><td><code>ETHUSDC</code></td><td>Ethereum / USDC</td></tr>
+<tr><td>Binance</td><td><code>SOLUSDC</code></td><td>Solana / USDC</td></tr>
+<tr><td>Binance</td><td><code>BTCUSDT</code></td><td>Bitcoin / Tether</td></tr>
+</tbody></table>
+</div><div id="admonition-tip" class="admonition admonish-tip" role="note" aria-labelledby="admonition-tip-title">
+<div class="admonition-title">
+<div id="admonition-tip-title">
+<p>Tip</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-tip"></a>
+</div>
+<div>
+<p>Only download pairs you actually plan to trade or backtest. Each pair consumes disk space and sync time. You can always add more pairs later.</p>
+</div>
+</div>
+<div id="admonition-note" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-title">
+<div class="admonition-title">
+<div id="admonition-note-title">
+<p>Note</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-note"></a>
+</div>
+<div>
+<p>Botmarley converts the user-friendly pair format internally. For example, "BTC/USD" becomes "XXBTZUSD" for Kraken and "BTC/USDC" becomes "BTCUSDC" for Binance. The History page handles this conversion automatically.</p>
+</div>
+</div>
+<h3 id="3-click-sync"><a class="header" href="#3-click-sync">3. Click Sync</a></h3>
+<p>Click the <strong>Sync</strong> button next to a pair. This creates a <strong>HistorySync</strong> task in the <a href="../system/tasks.html">Task Queue</a> and begins downloading in the background.</p>
+<h3 id="4-monitor-progress"><a class="header" href="#4-monitor-progress">4. Monitor Progress</a></h3>
+<p>The sync runs as a background task. You can monitor it in two ways:</p>
+<ul>
+<li><strong>History page</strong> -- the status updates with a progress indicator showing how many candles have been fetched so far.</li>
+<li><strong>Tasks page</strong> (<code>/tasks</code>) -- the HistorySync task shows its current state (Pending, Running, Completed, or Failed).</li>
+</ul>
+<p>The page auto-refreshes, so you do not need to manually reload.</p>
+<h2 id="what-gets-downloaded"><a class="header" href="#what-gets-downloaded">What Gets Downloaded</a></h2>
+<p>Botmarley fetches <strong>1-minute candles</strong> from the selected exchange's REST API. For Kraken, each API call returns up to 720 candles (12 hours of 1-minute data). For Binance, each call returns up to 1000 candles (roughly 16.5 hours). For a full history going back several months, Botmarley makes many sequential requests, paging backward through time.</p>
+<h3 id="derived-timeframes"><a class="header" href="#derived-timeframes">Derived Timeframes</a></h3>
+<p>Once 1-minute data is on disk, Botmarley can compute larger timeframes automatically by aggregating the base candles:</p>
+<div class="table-wrapper"><table><thead><tr><th>Derived Timeframe</th><th>How It Is Built</th></tr></thead><tbody>
+<tr><td><strong>5m</strong></td><td>Every 5 consecutive 1m candles are merged</td></tr>
+<tr><td><strong>15m</strong></td><td>Every 15 consecutive 1m candles are merged</td></tr>
+<tr><td><strong>1h</strong></td><td>Every 60 consecutive 1m candles are merged</td></tr>
+</tbody></table>
+</div><pre class="mermaid">flowchart LR
+    A[&quot;1m candles&lt;br/&gt;(stored on disk)&quot;] --&gt; B[&quot;5m&lt;br/&gt;(aggregated)&quot;]
+    A --&gt; C[&quot;15m&lt;br/&gt;(aggregated)&quot;]
+    A --&gt; D[&quot;1h&lt;br/&gt;(aggregated)&quot;]
+
+    style A fill:#5865f2,color:#fff
+</pre>
+<p>The aggregation computes each derived candle as follows:</p>
+<ul>
+<li><strong>Open</strong> = open of the first 1m candle in the group.</li>
+<li><strong>High</strong> = maximum high across all 1m candles in the group.</li>
+<li><strong>Low</strong> = minimum low across all 1m candles in the group.</li>
+<li><strong>Close</strong> = close of the last 1m candle in the group.</li>
+<li><strong>Volume</strong> = sum of volumes across all 1m candles in the group.</li>
+</ul>
+<div id="admonition-note-1" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-1-title">
+<div class="admonition-title">
+<div id="admonition-note-1-title">
+<p>Note</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-note-1"></a>
+</div>
+<div>
+<p>Derived timeframes are computed on the fly when needed -- they are not stored as separate files. This keeps storage requirements low while still supporting multi-timeframe strategies and analysis.</p>
+</div>
+</div>
+<h2 id="storage-location"><a class="header" href="#storage-location">Storage Location</a></h2>
+<p>Downloaded candle data is stored in your Botmarley data directory:</p>
+<pre><code>~/.botmarley/data/
+├── XBTUSD/
+│   └── 1m.arrow
+├── ETHUSD/
+│   └── 1m.arrow
+└── ...
+</code></pre>
+<p>The default base path is <code>~/.botmarley/data/</code>. You can change this in <a href="../system/settings.html">Settings</a> under the <strong>Data</strong> section.</p>
+<h2 id="setting-a-custom-start-date"><a class="header" href="#setting-a-custom-start-date">Setting a Custom Start Date</a></h2>
+<p>By default, Botmarley downloads as much history as the exchange provides (which can go back several years for major pairs). If you want to limit the download to a specific date range:</p>
+<ol>
+<li>Go to <strong>Settings</strong> (<code>/settings</code>).</li>
+<li>Under <strong>Data Settings</strong>, find the <strong>History Start Date</strong> field.</li>
+<li>Enter the earliest date you want data for (e.g., <code>2024-01-01</code>).</li>
+<li>Save settings.</li>
+</ol>
+<p>The next time you run a History Sync, Botmarley will only fetch candles from that date onward. Candles already downloaded before that date are not deleted -- they remain on disk.</p>
+<h2 id="incremental-downloads"><a class="header" href="#incremental-downloads">Incremental Downloads</a></h2>
+<p>Botmarley tracks the latest candle timestamp for each pair. When you click Sync again:</p>
+<ul>
+<li>If data exists on disk, only candles <strong>after</strong> the last stored timestamp are fetched.</li>
+<li>If no data exists, a full download starts from the configured start date (or from the earliest available on the exchange).</li>
+</ul>
+<p>This makes subsequent syncs fast -- typically just a few seconds to catch up to the present.</p>
+<h2 id="tips-for-effective-data-management"><a class="header" href="#tips-for-effective-data-management">Tips for Effective Data Management</a></h2>
+<div id="admonition-tip-1" class="admonition admonish-tip" role="note" aria-labelledby="admonition-tip-1-title">
+<div class="admonition-title">
+<div id="admonition-tip-1-title">
+<p>Tip</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-tip-1"></a>
+</div>
+<div>
+<p><strong>Download at least 90 days of data</strong> for any pair you plan to backtest. Most indicators need a warm-up period (e.g., a 200-period EMA needs at least 200 candles before producing meaningful values), and short data ranges can lead to misleading backtest results.</p>
+</div>
+</div>
+<div id="admonition-warning" class="admonition admonish-warning" role="note" aria-labelledby="admonition-warning-title">
+<div class="admonition-title">
+<div id="admonition-warning-title">
+<p>Warning</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-warning"></a>
+</div>
+<div>
+<p>Both Kraken and Binance rate-limit API requests. If you are downloading data for many pairs simultaneously, some sync tasks may take longer or temporarily pause while respecting rate limits. Botmarley handles this automatically -- just let the tasks run.</p>
+</div>
+</div>
+<ul>
+<li><strong>Disk space</strong>: 1-minute candles for one year of a major pair like XBTUSD or BTCUSDC typically use around 50-100 MB in Arrow format. This is very modest by modern standards.</li>
+<li><strong>Network</strong>: First syncs for pairs with years of history may take 10-30 minutes depending on your connection and the exchange's rate limits.</li>
+<li><strong>Freshness</strong>: Remember to re-sync before running backtests if you want results that include recent market activity.</li>
+</ul>
+<h2 id="troubleshooting"><a class="header" href="#troubleshooting">Troubleshooting</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Problem</th><th>Solution</th></tr></thead><tbody>
+<tr><td>Sync task stays "Pending"</td><td>Check that the task worker is running. See <a href="../system/tasks.html">Task Queue</a>.</td></tr>
+<tr><td>Sync fails with "Rate limit"</td><td>Wait a few minutes and retry. Both Kraken and Binance impose request limits.</td></tr>
+<tr><td>No data for a pair</td><td>Verify the pair name matches the exchange's naming convention. Kraken uses names like <code>XBTUSD</code> (not <code>BTCUSD</code>). Binance uses names like <code>BTCUSDC</code> (not <code>BTC/USDC</code>).</td></tr>
+<tr><td>Very slow first sync</td><td>This is normal for pairs with years of history. Let it run to completion.</td></tr>
+</tbody></table>
+</div>
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../data/overview.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../data/browsing.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../data/overview.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../data/browsing.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

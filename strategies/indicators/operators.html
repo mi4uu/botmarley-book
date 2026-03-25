@@ -1,0 +1,400 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Operators Reference - Botmarley User Manual</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Complete user guide for the Botmarley cryptocurrency trading bot">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../.././mdbook-admonish.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Botmarley User Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="operators-reference"><a class="header" href="#operators-reference">Operators Reference</a></h1>
+<p>Every technical trigger in Botmarley compares an <strong>indicator</strong> to a <strong>target</strong> using an <strong>operator</strong>. There are five operators, and choosing the right one is critical to how your strategy behaves.</p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "rsi_14"       # left side
+operator = "&lt;"             # comparison
+target = "30"              # right side
+</code></pre>
+<p>Botmarley always reads left-to-right: <strong>indicator operator target</strong>. The trigger is true when the statement <code>indicator operator target</code> evaluates to true on the current candle.</p>
+<hr />
+<h2 id="the-five-operators"><a class="header" href="#the-five-operators">The Five Operators</a></h2>
+<h3 id="---greater-than"><a class="header" href="#---greater-than"><code>&gt;</code> -- Greater Than</a></h3>
+<p><strong>Type:</strong> State-based</p>
+<p>The trigger is true on <strong>every candle</strong> where the indicator value is greater than the target. It remains true for as long as the condition holds.</p>
+<pre><code class="language-toml"># True on every candle where RSI is above 70
+[[actions.triggers]]
+indicator = "rsi_14"
+operator = "&gt;"
+target = "70"
+</code></pre>
+<p>If RSI stays above 70 for ten consecutive candles, this trigger is active on all ten. The action associated with this trigger can fire multiple times unless you limit it with <code>max_count</code>.</p>
+<p><strong>When to use:</strong> Continuous conditions, zone detection, and filters. "Only enter when the macro trend is bullish" (<code>sma_50 &gt; sma_200</code>), "sell when RSI is overbought" (<code>rsi_14 &gt; 70</code>).</p>
+<hr />
+<h3 id="---less-than"><a class="header" href="#---less-than"><code>&lt;</code> -- Less Than</a></h3>
+<p><strong>Type:</strong> State-based</p>
+<p>The trigger is true on <strong>every candle</strong> where the indicator value is less than the target. Like <code>&gt;</code>, it fires continuously as long as the condition holds.</p>
+<pre><code class="language-toml"># True on every candle where RSI is below 30
+[[actions.triggers]]
+indicator = "rsi_14"
+operator = "&lt;"
+target = "30"
+</code></pre>
+<p>If price stays below the lower Bollinger Band for five candles, the trigger fires on all five. Use <code>max_count</code> to limit it to a single firing per position.</p>
+<p><strong>When to use:</strong> Oversold detection (<code>rsi_14 &lt; 30</code>), price below a band (<code>price &lt; bb_lower</code>), negative momentum (<code>roc_10 &lt; -3</code>).</p>
+<hr />
+<h3 id="----equal"><a class="header" href="#----equal"><code>=</code> -- Equal</a></h3>
+<p><strong>Type:</strong> State-based</p>
+<p>The trigger is true when the indicator value <strong>exactly equals</strong> the target. This operator is only useful for indicators that output <strong>discrete integer values</strong>.</p>
+<pre><code class="language-toml"># True when TTM Trend is bullish
+[[actions.triggers]]
+indicator = "ttm_trend"
+operator = "="
+target = "1"
+</code></pre>
+<div id="admonition-do-not-use--with-floating-point-indicators" class="admonition admonish-warning" role="note" aria-labelledby="admonition-do-not-use--with-floating-point-indicators-title">
+<div class="admonition-title">
+<div id="admonition-do-not-use--with-floating-point-indicators-title">
+<p>Do not use = with floating-point indicators</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-do-not-use--with-floating-point-indicators"></a>
+</div>
+<div>
+<p>Indicators like RSI, SMA, EMA, MACD, and Bollinger Bands produce continuous floating-point values (e.g., 29.87, 30.12). A condition like <code>rsi_14 = 30</code> will almost never be exactly true. Use <code>&lt;</code> or <code>&gt;</code> for these indicators instead.</p>
+</div>
+</div>
+<p><strong>When to use:</strong> TTM Trend (<code>ttm_trend = 1</code> for bullish, <code>ttm_trend = -1</code> for bearish). This is effectively the only practical use case for <code>=</code>.</p>
+<hr />
+<h3 id="cross_above----cross-above"><a class="header" href="#cross_above----cross-above"><code>cross_above</code> -- Cross Above</a></h3>
+<p><strong>Type:</strong> Event-based</p>
+<p>The trigger fires <strong>once</strong> at the exact moment the indicator crosses from below to above the target. It requires two consecutive candles:</p>
+<ul>
+<li><strong>Previous candle:</strong> indicator value &lt;= target value</li>
+<li><strong>Current candle:</strong> indicator value &gt; target value</li>
+</ul>
+<pre><code class="language-toml"># Fires once when SMA(50) crosses above SMA(200) -- the "Golden Cross"
+[[actions.triggers]]
+indicator = "sma_50"
+operator = "cross_above"
+target = "sma_200"
+timeframe = "1d"
+</code></pre>
+<p>After the crossing, the trigger does <strong>not</strong> fire again until the indicator drops back below the target and crosses above it again. This makes <code>cross_above</code> ideal for catching turning points.</p>
+<div id="admonition-the-most-powerful-tool-for-trend-detection" class="admonition admonish-tip" role="note" aria-labelledby="admonition-the-most-powerful-tool-for-trend-detection-title">
+<div class="admonition-title">
+<div id="admonition-the-most-powerful-tool-for-trend-detection-title">
+<p>The most powerful tool for trend detection</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-the-most-powerful-tool-for-trend-detection"></a>
+</div>
+<div>
+<p>Use <code>cross_above</code> instead of <code>&gt;</code> when you want to catch the <strong>turning point</strong> rather than the sustained condition. A golden cross (<code>sma_50 cross_above sma_200</code>) fires once when the trend shifts bullish. Using <code>sma_50 &gt; sma_200</code> would fire on every candle where SMA(50) happens to be above SMA(200) -- potentially hundreds of candles.</p>
+</div>
+</div>
+<p><strong>When to use:</strong> Moving average crossovers (<code>sma_50 cross_above sma_200</code>), MACD signal crossovers (<code>macd_line cross_above macd_signal</code>), price crossing above a band (<code>price cross_above bb_middle</code>), zero-line crossings (<code>macd_line cross_above 0</code>).</p>
+<hr />
+<h3 id="cross_below----cross-below"><a class="header" href="#cross_below----cross-below"><code>cross_below</code> -- Cross Below</a></h3>
+<p><strong>Type:</strong> Event-based</p>
+<p>The trigger fires <strong>once</strong> at the exact moment the indicator crosses from above to below the target. It requires two consecutive candles:</p>
+<ul>
+<li><strong>Previous candle:</strong> indicator value &gt;= target value</li>
+<li><strong>Current candle:</strong> indicator value &lt; target value</li>
+</ul>
+<pre><code class="language-toml"># Fires once when SMA(50) crosses below SMA(200) -- the "Death Cross"
+[[actions.triggers]]
+indicator = "sma_50"
+operator = "cross_below"
+target = "sma_200"
+timeframe = "1d"
+</code></pre>
+<p>After the crossing, the trigger does not fire again until the indicator rises back above the target and crosses below it again.</p>
+<p><strong>When to use:</strong> Trend reversal exits (<code>sma_50 cross_below sma_200</code>), bearish MACD crossovers (<code>macd_line cross_below macd_signal</code>), price breaking below support (<code>price cross_below bb_lower</code>).</p>
+<hr />
+<h2 id="state-based-vs-event-based"><a class="header" href="#state-based-vs-event-based">State-Based vs Event-Based</a></h2>
+<p>The most important distinction in Botmarley's operator system is between <strong>state-based</strong> and <strong>event-based</strong> operators.</p>
+<div class="table-wrapper"><table><thead><tr><th>Type</th><th>Operators</th><th>Fires</th><th>Best for</th></tr></thead><tbody>
+<tr><td>State-based</td><td><code>&gt;</code>, <code>&lt;</code>, <code>=</code></td><td>Every candle where the condition is true</td><td>Filters, zones, continuous conditions</td></tr>
+<tr><td>Event-based</td><td><code>cross_above</code>, <code>cross_below</code></td><td>Once at the moment of crossing</td><td>Entry signals, exit signals, trend shifts</td></tr>
+</tbody></table>
+</div>
+<h3 id="why-it-matters"><a class="header" href="#why-it-matters">Why it matters</a></h3>
+<p>Consider RSI dropping below 30. With <code>&lt;</code>, the trigger fires on <strong>every candle</strong> where RSI is below 30. If RSI stays oversold for 20 candles, the associated action can fire up to 20 times. With <code>cross_below</code>, the trigger fires <strong>once</strong> -- on the candle where RSI first drops below 30.</p>
+<pre><code class="language-toml"># STATE-BASED: fires on every candle where RSI &lt; 30
+[[actions.triggers]]
+indicator = "rsi_14"
+operator = "&lt;"
+target = "30"
+
+# EVENT-BASED: fires once when RSI crosses below 30
+[[actions.triggers]]
+indicator = "rsi_14"
+operator = "cross_below"
+target = "30"
+</code></pre>
+<p>Neither is inherently better -- the right choice depends on your strategy:</p>
+<ul>
+<li>Use <strong>state-based</strong> when the condition is a prerequisite (e.g., "only enter during uptrends" with <code>sma_50 &gt; sma_200</code>).</li>
+<li>Use <strong>event-based</strong> when you want a precise entry or exit signal (e.g., "enter when MACD crosses above signal").</li>
+</ul>
+<hr />
+<h2 id="targets"><a class="header" href="#targets">Targets</a></h2>
+<p>The <code>target</code> field in a trigger accepts two types of values:</p>
+<h3 id="numeric-targets"><a class="header" href="#numeric-targets">Numeric Targets</a></h3>
+<p>A fixed number, written as a string. Used for absolute thresholds.</p>
+<pre><code class="language-toml">target = "30"       # RSI threshold
+target = "0"        # MACD zero-line
+target = "-3"       # Negative value (ROC below -3%)
+target = "50000"    # A specific price level
+target = "500"      # ATR threshold
+</code></pre>
+<h3 id="indicator-targets"><a class="header" href="#indicator-targets">Indicator Targets</a></h3>
+<p>Another indicator name. Both the <code>indicator</code> and <code>target</code> are evaluated on the same candle at the same timeframe. This enables indicator-vs-indicator comparisons.</p>
+<pre><code class="language-toml">target = "sma_200"       # Compare against 200-period SMA
+target = "ema_50"        # Compare against 50-period EMA
+target = "bb_upper"      # Compare against upper Bollinger Band
+target = "bb_lower"      # Compare against lower Bollinger Band
+target = "bb_middle"     # Compare against middle Bollinger Band
+target = "price"         # Compare indicator against current price
+target = "obv_sma_20"    # Compare OBV against its SMA
+target = "macd_signal"   # Compare MACD line against signal line
+</code></pre>
+<div id="admonition-note" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-title">
+<div class="admonition-title">
+<div id="admonition-note-title">
+<p>Note</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-note"></a>
+</div>
+<div>
+<p>When using an indicator as a target, the <strong>order matters</strong>. <code>indicator = "sma_50"</code> with <code>target = "sma_200"</code> and <code>operator = "&gt;"</code> means "is SMA(50) greater than SMA(200)?" -- not the other way around. Botmarley always reads left-to-right.</p>
+</div>
+</div>
+<hr />
+<h2 id="controlling-state-based-firing-with-max_count"><a class="header" href="#controlling-state-based-firing-with-max_count">Controlling State-Based Firing with <code>max_count</code></a></h2>
+<p>State-based operators (<code>&gt;</code>, <code>&lt;</code>, <code>=</code>) fire on every candle where the condition holds. This can cause an action to execute many more times than intended. The <code>max_count</code> field limits how many times a trigger can fire <strong>per position</strong>.</p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "rsi_14"
+operator = "&lt;"
+target = "30"
+max_count = 1          # Only fire once per position
+</code></pre>
+<p>Without <code>max_count</code>, a <code>rsi_14 &lt; 30</code> trigger would fire on every candle where RSI is below 30 -- potentially buying repeatedly. With <code>max_count = 1</code>, it fires once and then stays inactive for the remainder of the position.</p>
+<div id="admonition-tip" class="admonition admonish-tip" role="note" aria-labelledby="admonition-tip-title">
+<div class="admonition-title">
+<div id="admonition-tip-title">
+<p>Tip</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-tip"></a>
+</div>
+<div>
+<p><code>max_count</code> is especially important for DCA (Dollar Cost Averaging) actions. Each DCA level should typically have <code>max_count = 1</code> so it only adds to the position once at each level, not repeatedly.</p>
+</div>
+</div>
+<p><code>max_count</code> has no effect on event-based operators (<code>cross_above</code>, <code>cross_below</code>) because crossovers inherently fire only once per crossing event.</p>
+<hr />
+<h2 id="quick-reference"><a class="header" href="#quick-reference">Quick Reference</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Operator</th><th>Type</th><th>Fires</th><th>Example</th><th>Reads as</th></tr></thead><tbody>
+<tr><td><code>&gt;</code></td><td>State</td><td>Every matching candle</td><td><code>rsi_14 &gt; 70</code></td><td>"RSI is above 70"</td></tr>
+<tr><td><code>&lt;</code></td><td>State</td><td>Every matching candle</td><td><code>price &lt; bb_lower</code></td><td>"Price is below the lower band"</td></tr>
+<tr><td><code>=</code></td><td>State</td><td>Every matching candle</td><td><code>ttm_trend = 1</code></td><td>"TTM Trend is bullish"</td></tr>
+<tr><td><code>cross_above</code></td><td>Event</td><td>Once at crossing</td><td><code>sma_50 cross_above sma_200</code></td><td>"SMA 50 just crossed above SMA 200"</td></tr>
+<tr><td><code>cross_below</code></td><td>Event</td><td>Once at crossing</td><td><code>macd_line cross_below macd_signal</code></td><td>"MACD just crossed below signal"</td></tr>
+</tbody></table>
+</div>
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../strategies/indicators/autocorrelation.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../strategies/triggers/price-change.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../strategies/indicators/autocorrelation.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../strategies/triggers/price-change.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../mermaid.min.js"></script>
+        <script src="../../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

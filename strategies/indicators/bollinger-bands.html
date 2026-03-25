@@ -1,0 +1,411 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Bollinger Bands - Botmarley User Manual</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Complete user guide for the Botmarley cryptocurrency trading bot">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../.././mdbook-admonish.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Botmarley User Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="bollinger-bands"><a class="header" href="#bollinger-bands">Bollinger Bands</a></h1>
+<h2 id="contents"><a class="header" href="#contents">Contents</a></h2>
+<ul>
+<li><a href="#components">Components</a></li>
+<li><a href="#understanding-operators-with-bollinger-bands">Understanding Operators with Bollinger Bands</a>
+<ul>
+<li><a href="#----price-below-a-band"><code>&lt;</code> Price Below a Band</a></li>
+<li><a href="#----price-above-a-band"><code>&gt;</code> Price Above a Band</a></li>
+<li><a href="#cross_below----crossing-below-a-band"><code>cross_below</code> Crossing Below a Band</a></li>
+<li><a href="#cross_above----crossing-above-a-band"><code>cross_above</code> Crossing Above a Band</a></li>
+</ul>
+</li>
+<li><a href="#toml-examples">TOML Examples</a>
+<ul>
+<li><a href="#buy-when-price-drops-below-lower-band">Buy When Price Drops Below Lower Band</a></li>
+<li><a href="#alternative-form----lower-band-above-price">Alternative Form -- Lower Band Above Price</a></li>
+<li><a href="#sell-when-price-breaks-above-upper-band">Sell When Price Breaks Above Upper Band</a></li>
+<li><a href="#mean-reversion----price-crosses-back-above-middle-band">Mean Reversion -- Price Crosses Back Above Middle Band</a></li>
+<li><a href="#bollinger-bounce-with-rsi-confirmation">Bollinger Bounce with RSI Confirmation</a></li>
+</ul>
+</li>
+<li><a href="#tips">Tips</a></li>
+</ul>
+<hr />
+<h2 id="overview"><a class="header" href="#overview">Overview</a></h2>
+<p>Bollinger Bands are a volatility-based indicator that creates a dynamic envelope around price. The indicator consists of three lines:</p>
+<ul>
+<li><strong>Middle band</strong> -- a 20-period Simple Moving Average (SMA) of the closing price.</li>
+<li><strong>Upper band</strong> -- the middle band plus 2 standard deviations.</li>
+<li><strong>Lower band</strong> -- the middle band minus 2 standard deviations.</li>
+</ul>
+<p>Because the bands are derived from standard deviation, they automatically <strong>widen</strong> when the market is volatile and <strong>narrow</strong> (squeeze) when the market is calm. Roughly 95% of price action stays within the bands under normal conditions, so a move outside them is statistically significant.</p>
+<p><img src="../../images/bb-squeeze.png" alt="Bollinger Bands squeeze — bands narrowing during low volatility" /></p>
+<p><em>A Bollinger Squeeze — the bands narrow when volatility drops. This compression often precedes a strong breakout move in either direction.</em></p>
+<p><img src="../../images/indicator-bb-labeled.png" alt="Bollinger Bands overlaid on BTC/USDC 1h candle chart with band labels" /></p>
+<p><em>BTC/USDC 1-hour chart with Bollinger Bands. The <span style="color: #ff6464;"><strong>upper band</strong></span> (bb_upper), <span style="color: #c8c800;"><strong>middle band</strong></span> (SMA 20), and <span style="color: #6496ff;"><strong>lower band</strong></span> (bb_lower) create a dynamic envelope around price. Notice how the bands widen during volatile periods and squeeze during consolidation.</em></p>
+<hr />
+<h2 id="components"><a class="header" href="#components">Components</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Component</th><th>TOML Format</th><th>Description</th></tr></thead><tbody>
+<tr><td>Upper Band</td><td><code>bb_upper</code></td><td>Middle band + 2 standard deviations. Acts as dynamic resistance.</td></tr>
+<tr><td>Middle Band</td><td><code>bb_middle</code></td><td>20-period SMA. The "fair value" center line.</td></tr>
+<tr><td>Lower Band</td><td><code>bb_lower</code></td><td>Middle band - 2 standard deviations. Acts as dynamic support.</td></tr>
+</tbody></table>
+</div>
+<p>All three components can be used as either the <code>indicator</code> or the <code>target</code> in a trigger.</p>
+<div id="admonition-note" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-title">
+<div class="admonition-title">
+<div id="admonition-note-title">
+<p>Note</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-note"></a>
+</div>
+<div>
+<p>Bollinger Bands use fixed parameters: <strong>20-period</strong> lookback and <strong>2 standard deviations</strong>. You cannot change these values -- the format is always <code>bb_upper</code>, <code>bb_middle</code>, or <code>bb_lower</code>.</p>
+</div>
+</div>
+<hr />
+<h2 id="understanding-operators-with-bollinger-bands"><a class="header" href="#understanding-operators-with-bollinger-bands">Understanding Operators with Bollinger Bands</a></h2>
+<p>Bollinger Bands are price-level indicators, so they pair naturally with comparison and crossover operators. Here is how each operator behaves in context:</p>
+<h3 id="---price-below-a-band"><a class="header" href="#---price-below-a-band"><code>&lt;</code> -- Price Below a Band</a></h3>
+<pre><code>price &lt; bb_lower
+</code></pre>
+<p>Price drops below the lower band. On the chart, the candle closes below the bottom line of the envelope. This is the classic <strong>Bollinger Bounce</strong> buy signal -- price has moved more than 2 standard deviations below the mean and is statistically likely to revert.</p>
+<p><img src="../../images/bb-touch-lower.png" alt="Price touching the lower Bollinger Band" /></p>
+<p><em>Price dropping to touch the lower Bollinger Band — a potential mean-reversion buy signal. The upper and lower bands define the 2-standard-deviation envelope.</em></p>
+<p>This is a <strong>state-based</strong> operator. It fires on every candle where price remains below the band. Use <code>max_count</code> if you only want it to fire once per position.</p>
+<h3 id="---price-above-a-band"><a class="header" href="#---price-above-a-band"><code>&gt;</code> -- Price Above a Band</a></h3>
+<pre><code>price &gt; bb_upper
+</code></pre>
+<p>Price breaks above the upper band. This can signal either a <strong>breakout</strong> (strong momentum continuing upward) or an <strong>overbought</strong> condition (price extended too far and likely to pull back). Context matters -- in a strong uptrend, price can ride the upper band for extended periods.</p>
+<p><img src="../../images/bb-price-above-upper.png" alt="Price breaking above the upper Bollinger Band" /></p>
+<p><em>Price extending above the upper Bollinger Band — overbought territory. The red zone highlights where price has moved more than 2 standard deviations above the mean.</em></p>
+<h3 id="cross_below----crossing-below-a-band"><a class="header" href="#cross_below----crossing-below-a-band"><code>cross_below</code> -- Crossing Below a Band</a></h3>
+<pre><code>price cross_below bb_lower
+</code></pre>
+<p>Price crosses from above to below the lower band. This is an <strong>event-based</strong> operator -- it fires exactly once at the moment the crossing happens. On the previous candle, price was at or above <code>bb_lower</code>; on the current candle, price is below it.</p>
+<p><img src="../../images/bb-cross-below-lower.png" alt="Price crossing below the lower Bollinger Band" /></p>
+<p><em>The moment price breaks below the lower Bollinger Band — an event-based signal that fires once at the crossing candle. Use this instead of <code>&lt;</code> when you want the precise breakout moment.</em></p>
+<p>Use this instead of <code>&lt;</code> when you want to catch the precise moment price breaks below the band rather than the sustained condition of being below it.</p>
+<h3 id="cross_above----crossing-above-a-band"><a class="header" href="#cross_above----crossing-above-a-band"><code>cross_above</code> -- Crossing Above a Band</a></h3>
+<pre><code>price cross_above bb_middle
+</code></pre>
+<p>Price crosses from below to above the middle band. This is a <strong>mean reversion confirmation</strong> signal -- after a dip below the lower band, price crossing back above the middle band confirms that the reversion is underway. This is an event-based operator and fires once at the crossing.</p>
+<p><img src="../../images/bb-cross-above-middle.png" alt="Price crossing above the middle Bollinger Band" /></p>
+<p><em>Price crossing back above the middle Bollinger Band (SMA 20) — mean reversion confirmed. After touching the lower band, this crossing signals the recovery is underway.</em></p>
+<div id="admonition-tip" class="admonition admonish-tip" role="note" aria-labelledby="admonition-tip-title">
+<div class="admonition-title">
+<div id="admonition-tip-title">
+<p>Tip</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-tip"></a>
+</div>
+<div>
+<p>The direction you read a trigger matters. <code>bb_lower &gt; price</code> is equivalent to <code>price &lt; bb_lower</code> -- both mean "price is below the lower Bollinger Band." Botmarley reads left-to-right: <strong>indicator operator target</strong>.</p>
+</div>
+</div>
+<hr />
+<h2 id="toml-examples"><a class="header" href="#toml-examples">TOML Examples</a></h2>
+<h3 id="buy-when-price-drops-below-lower-band"><a class="header" href="#buy-when-price-drops-below-lower-band">Buy When Price Drops Below Lower Band</a></h3>
+<p>The classic Bollinger Bounce entry. Price below the lower band means it is extended more than 2 standard deviations from the mean.</p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+[[actions.triggers]]
+indicator = "price"
+operator = "&lt;"
+target = "bb_lower"
+timeframe = "1h"
+</code></pre>
+<h3 id="alternative-form----lower-band-above-price"><a class="header" href="#alternative-form----lower-band-above-price">Alternative Form -- Lower Band Above Price</a></h3>
+<p>This is identical in meaning to the example above but written with the indicator and target swapped:</p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "bb_lower"
+operator = "&gt;"
+target = "price"
+timeframe = "1h"
+</code></pre>
+<h3 id="sell-when-price-breaks-above-upper-band"><a class="header" href="#sell-when-price-breaks-above-upper-band">Sell When Price Breaks Above Upper Band</a></h3>
+<p>Price above the upper band may indicate an overbought condition -- a good time to take profit.</p>
+<pre><code class="language-toml">[[actions]]
+type = "sell"
+amount = "50%"
+
+[[actions.triggers]]
+indicator = "price"
+operator = "&gt;"
+target = "bb_upper"
+timeframe = "1h"
+</code></pre>
+<h3 id="mean-reversion----price-crosses-back-above-middle-band"><a class="header" href="#mean-reversion----price-crosses-back-above-middle-band">Mean Reversion -- Price Crosses Back Above Middle Band</a></h3>
+<p>After a dip below the lower band, wait for price to cross back above the middle band before entering. This confirms the reversion is in progress rather than catching a still-falling knife.</p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+[[actions.triggers]]
+indicator = "price"
+operator = "cross_above"
+target = "bb_middle"
+timeframe = "1h"
+</code></pre>
+<h3 id="bollinger-bounce-with-rsi-confirmation"><a class="header" href="#bollinger-bounce-with-rsi-confirmation">Bollinger Bounce with RSI Confirmation</a></h3>
+<p>Combine Bollinger Bands with RSI to filter out false signals. Only buy when price is below the lower band AND RSI confirms oversold conditions.</p>
+<p><img src="../../images/bb-rsi-confirmation.png" alt="Bollinger Bands with RSI confirmation — multi-indicator buy signal" /></p>
+<p><em>Multi-indicator confirmation: price below the lower Bollinger Band AND RSI below 35. Combining two independent signals filters out false positives and increases the reliability of the entry.</em></p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+[[actions.triggers]]
+indicator = "price"
+operator = "&lt;"
+target = "bb_lower"
+timeframe = "1h"
+
+[[actions.triggers]]
+indicator = "rsi_14"
+operator = "&lt;"
+target = "35"
+timeframe = "1h"
+</code></pre>
+<hr />
+<h2 id="tips"><a class="header" href="#tips">Tips</a></h2>
+<div id="admonition-bollinger-bounce-vs-bollinger-breakout" class="admonition admonish-tip" role="note" aria-labelledby="admonition-bollinger-bounce-vs-bollinger-breakout-title">
+<div class="admonition-title">
+<div id="admonition-bollinger-bounce-vs-bollinger-breakout-title">
+<p>Bollinger Bounce vs Bollinger Breakout</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-bollinger-bounce-vs-bollinger-breakout"></a>
+</div>
+<div>
+<p>There are two opposing strategies with Bollinger Bands:</p>
+<ul>
+<li><strong>Bollinger Bounce</strong> -- buy when price touches the lower band, expecting a reversion to the middle. Works best in ranging, sideways markets.</li>
+<li><strong>Bollinger Breakout</strong> -- buy when price breaks above the upper band, expecting momentum to continue. Works best in trending markets.</li>
+</ul>
+<p>Backtest both approaches on your target pair to see which fits the market regime.</p>
+</div>
+</div>
+<div id="admonition-combine-with-volume" class="admonition admonish-tip" role="note" aria-labelledby="admonition-combine-with-volume-title">
+<div class="admonition-title">
+<div id="admonition-combine-with-volume-title">
+<p>Combine with Volume</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-combine-with-volume"></a>
+</div>
+<div>
+<p>A Bollinger Band breakout is more meaningful when accompanied by a volume spike. Add a volume confirmation trigger (e.g., <code>vol_sma_20</code>) to filter out low-conviction breakouts.</p>
+</div>
+</div>
+<div id="admonition-bands-in-strong-trends" class="admonition admonish-warning" role="note" aria-labelledby="admonition-bands-in-strong-trends-title">
+<div class="admonition-title">
+<div id="admonition-bands-in-strong-trends-title">
+<p>Bands in Strong Trends</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-bands-in-strong-trends"></a>
+</div>
+<div>
+<p>In strong trends, price can "walk the band" -- staying near the upper band in an uptrend or the lower band in a downtrend for many candles. A state-based trigger like <code>price &lt; bb_lower</code> will fire on every one of those candles. Use <code>max_count</code> to limit firing, or switch to <code>cross_below</code> for a one-time signal.</p>
+</div>
+</div>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../strategies/indicators/macd.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../strategies/indicators/stochrsi.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../strategies/indicators/macd.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../strategies/indicators/stochrsi.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../mermaid.min.js"></script>
+        <script src="../../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

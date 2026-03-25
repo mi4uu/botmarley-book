@@ -1,0 +1,280 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Introduction - Botmarley User Manual</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Complete user guide for the Botmarley cryptocurrency trading bot">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="./mdbook-admonish.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Botmarley User Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="welcome-to-botmarley"><a class="header" href="#welcome-to-botmarley">Welcome to Botmarley</a></h1>
+<p>Botmarley is a <strong>self-hosted, sovereign cryptocurrency trading bot</strong> built in Rust. It runs entirely on your own hardware, giving you full control over your trading strategies, API keys, and market data. No cloud services, no third-party access to your funds, no monthly subscriptions.</p>
+<p>You install it, you run it, you own it.</p>
+<p><img src="images/dashboard.png" alt="Botmarley dashboard showing active sessions, portfolio summary, and quick navigation" /></p>
+<div id="admonition-info" class="admonition admonish-info" role="note" aria-labelledby="admonition-info-title">
+<div class="admonition-title">
+<div id="admonition-info-title">
+<p>Info</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-info"></a>
+</div>
+<div>
+<p>Botmarley supports <strong>Kraken</strong> and <strong>Binance</strong> exchanges. It automatically detects which exchange to use based on your account type and trading pair.</p>
+</div>
+</div>
+<h2 id="what-botmarley-does"><a class="header" href="#what-botmarley-does">What Botmarley Does</a></h2>
+<p>At its core, Botmarley automates cryptocurrency trading based on rules you define. You write a strategy that says things like "buy BTC when RSI drops below 30" or "sell 50% of my position when price rises 5% from entry," and Botmarley executes those rules 24/7 without you needing to watch charts.</p>
+<p>Here is how the pieces fit together:</p>
+<pre class="mermaid">graph LR
+    Browser[&quot;Browser&lt;br/&gt;(Web Interface)&quot;]
+    Bot[&quot;Botmarley&lt;br/&gt;(Trading Bot)&quot;]
+    PG[&quot;PostgreSQL&lt;br/&gt;(Your Data)&quot;]
+    Exchange[&quot;Exchange API&lt;br/&gt;(Kraken / Binance)&quot;]
+
+    Browser &lt;--&gt;|&quot;http://localhost:3000&quot;| Bot
+    Bot &lt;--&gt;|&quot;State &amp; Logs&quot;| PG
+    Bot &lt;--&gt;|&quot;Market Data &amp; Orders&quot;| Exchange
+</pre>
+<ul>
+<li><strong>Browser</strong> -- You interact with Botmarley through a web interface at <code>http://localhost:3000</code>. Pages update in real time as your bot trades.</li>
+<li><strong>Botmarley</strong> -- A blazing-fast trading engine built in <strong>Rust</strong> with <strong>Tokio</strong> and <strong>Axum</strong>. Handles strategy execution, order placement, data fetching, and serves a reactive web interface powered by <strong>HTMX</strong>.</li>
+<li><strong>PostgreSQL</strong> -- Stores your accounts, trading sessions, backtest results, PnL history, activity logs, and configuration.</li>
+<li><strong>Exchange API</strong> -- Botmarley connects to Kraken and Binance to fetch market data and place orders on your behalf.</li>
+</ul>
+<h2 id="key-features"><a class="header" href="#key-features">Key Features</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Feature</th><th>Description</th></tr></thead><tbody>
+<tr><td><strong>Dashboard</strong></td><td>At-a-glance overview of active sessions, total PnL, and quick navigation to key areas.</td></tr>
+<tr><td><strong>Strategy Editor</strong></td><td>Visual builder and raw TOML editor for defining trading rules. Real-time validation as you build.</td></tr>
+<tr><td><strong>Backtesting</strong></td><td>Test strategies against historical data before risking real money. See PnL, trade count, win rate, and individual actions on a chart.</td></tr>
+<tr><td><strong>Live Trading</strong></td><td>Execute strategies in real-time on Kraken and Binance. Start, pause, resume, and stop sessions. Live-updating charts with trade markers.</td></tr>
+<tr><td><strong>Accounts</strong></td><td>Manage exchange API keys and paper (simulated) accounts. Each account is isolated.</td></tr>
+<tr><td><strong>Portfolio</strong></td><td>Track total portfolio value over time in USD and BTC, with asset breakdowns per account.</td></tr>
+<tr><td><strong>Market Data</strong></td><td>Download, browse, chart, and analyze historical candle data. Run indicators on stored data.</td></tr>
+<tr><td><strong>History Sync</strong></td><td>Fetch historical 1-minute candles from your exchange. Derived timeframes (5m, 15m, 1h) are calculated locally.</td></tr>
+<tr><td><strong>Task Queue</strong></td><td>Background job system for long-running operations like data sync and bulk backtests.</td></tr>
+<tr><td><strong>Activity Logs</strong></td><td>Detailed log of every action the bot takes, filterable by category (strategy, trading, backtest, account, data, system).</td></tr>
+<tr><td><strong>Settings</strong></td><td>Configure server host/port, storage paths, active trading pairs, Telegram notifications, password protection, and UI themes.</td></tr>
+</tbody></table>
+</div>
+<h2 id="who-this-manual-is-for"><a class="header" href="#who-this-manual-is-for">Who This Manual Is For</a></h2>
+<p>This manual is for <strong>cryptocurrency traders</strong> -- both beginners exploring automated trading for the first time and experienced traders who want full control over their bot.</p>
+<ul>
+<li>If you are new to trading bots, start with the <a href="getting-started/installation.html">Getting Started</a> section. It walks you through installation, your first run, and a tour of every page.</li>
+<li>If you want to jump straight into building strategies, head to <a href="strategies/overview.html">Strategies</a>.</li>
+<li>If you are deploying Botmarley on a server, see <a href="deployment/local.html">Deployment</a>.</li>
+</ul>
+<div id="admonition-tip" class="admonition admonish-tip" role="note" aria-labelledby="admonition-tip-title">
+<div class="admonition-title">
+<div id="admonition-tip-title">
+<p>Tip</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-tip"></a>
+</div>
+<div>
+<p>You do not need any programming knowledge to use Botmarley. Strategies are defined in TOML files (a simple configuration format), and everything else is done through the web interface.</p>
+</div>
+</div>
+<h2 id="how-to-use-this-manual"><a class="header" href="#how-to-use-this-manual">How to Use This Manual</a></h2>
+<p>The sidebar on the left organizes content into sections:</p>
+<ul>
+<li><strong>Getting Started</strong> -- Installation, first run walkthrough, and a tour of the interface.</li>
+<li><strong>Features</strong> -- Deep dives into each major feature: Dashboard, Accounts, Strategies, Backtesting, Live Trading, and Market Data.</li>
+<li><strong>System</strong> -- Settings, task queue, activity logs, authentication, and Telegram integration.</li>
+<li><strong>Deployment</strong> -- Running Botmarley locally and in production environments.</li>
+<li><strong>Reference</strong> -- Strategy TOML specification, indicator reference, and glossary.</li>
+</ul>
+<p>Use the search bar at the top to find specific topics. Each page is self-contained, so you can read them in any order.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+                            <a rel="next prefetch" href="getting-started/installation.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+                    <a rel="next prefetch" href="getting-started/installation.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="mermaid.min.js"></script>
+        <script src="mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

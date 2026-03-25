@@ -1,0 +1,341 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Accounts - Botmarley User Manual</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Complete user guide for the Botmarley cryptocurrency trading bot">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href=".././mdbook-admonish.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Botmarley User Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="accounts"><a class="header" href="#accounts">Accounts</a></h1>
+<p>Accounts are the bridge between Botmarley and the outside world. Every action the bot takes -- whether it is placing a live trade on an exchange or simulating one locally -- happens through an account. Before you can backtest a strategy, run a live session, or track a portfolio, you need at least one account configured.</p>
+<p><img src="../images/accounts-list.png" alt="Accounts list showing account names, types, and verification status badges" /></p>
+<h2 id="what-is-an-account"><a class="header" href="#what-is-an-account">What Is an Account?</a></h2>
+<p>An account in Botmarley represents a single source of funds. It stores:</p>
+<ul>
+<li><strong>Name and description</strong> -- a human-readable label you choose (e.g. "My Kraken Spot" or "Paper Testing").</li>
+<li><strong>Account type</strong> -- determines whether the account connects to a real exchange or runs in simulation.</li>
+<li><strong>API credentials</strong> -- only required for real exchange accounts.</li>
+<li><strong>Verification status</strong> -- tells you whether Botmarley has successfully tested the credentials.</li>
+<li><strong>Assets</strong> -- the token balances held in that account (BTC, ETH, USD, etc.).</li>
+</ul>
+<p>You can have as many accounts as you like. A common setup is one Paper account for testing and one Kraken account for live trading.</p>
+<h2 id="account-types"><a class="header" href="#account-types">Account Types</a></h2>
+<p>Botmarley supports three account types. Each behaves differently with respect to credentials, verification, and trading.</p>
+<h3 id="paper-simulated"><a class="header" href="#paper-simulated">Paper (Simulated)</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Property</th><th>Value</th></tr></thead><tbody>
+<tr><td>Requires credentials</td><td>No</td></tr>
+<tr><td>Connects to exchange</td><td>No</td></tr>
+<tr><td>Verification status</td><td>Always "N/A"</td></tr>
+</tbody></table>
+</div>
+<p>Paper accounts are purely local. No money leaves your machine, and no API calls are made to any exchange. Paper accounts are ideal for:</p>
+<ul>
+<li>Learning how Botmarley works without financial risk.</li>
+<li>Testing a new strategy before going live.</li>
+<li>Running backtests against historical data.</li>
+</ul>
+<p>When you create a Paper account, Botmarley assigns it a starting balance that you can adjust manually. Trades executed against a Paper account update its local balances but never touch a real order book.</p>
+<div id="admonition-tip" class="admonition admonish-tip" role="note" aria-labelledby="admonition-tip-title">
+<div class="admonition-title">
+<div id="admonition-tip-title">
+<p>Tip</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-tip"></a>
+</div>
+<div>
+<p>Start with a Paper account. You can always add a real exchange account later once you are comfortable with how your strategies behave.</p>
+</div>
+</div>
+<h3 id="kraken-real-exchange"><a class="header" href="#kraken-real-exchange">Kraken (Real Exchange)</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Property</th><th>Value</th></tr></thead><tbody>
+<tr><td>Requires credentials</td><td>Yes (API key + secret)</td></tr>
+<tr><td>Connects to exchange</td><td>Yes -- Kraken REST + WebSocket APIs</td></tr>
+<tr><td>Verification status</td><td>Must be verified before use</td></tr>
+</tbody></table>
+</div>
+<p>Kraken accounts connect Botmarley to your real Kraken exchange account using API credentials that you generate on Kraken's website. Once verified, Botmarley can:</p>
+<ul>
+<li><strong>Sync balances</strong> -- pull your current holdings from Kraken.</li>
+<li><strong>Place orders</strong> -- execute buy/sell orders during live trading sessions.</li>
+<li><strong>Fetch market data</strong> -- download candle history via the Kraken REST API.</li>
+</ul>
+<p>You control what Botmarley is allowed to do by setting the appropriate API key permissions on Kraken (see the <a href="managing.html">Managing Accounts</a> chapter for details).</p>
+<div id="admonition-warning" class="admonition admonish-warning" role="note" aria-labelledby="admonition-warning-title">
+<div class="admonition-title">
+<div id="admonition-warning-title">
+<p>Warning</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-warning"></a>
+</div>
+<div>
+<p>A Kraken account operates with real money. Double-check your strategy in Paper mode before pointing it at a Kraken account.</p>
+</div>
+</div>
+<h3 id="binance"><a class="header" href="#binance">Binance</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Property</th><th>Value</th></tr></thead><tbody>
+<tr><td>Requires credentials</td><td>Yes (API key + secret)</td></tr>
+<tr><td>Connects to exchange</td><td>Yes</td></tr>
+<tr><td>Verification</td><td>HMAC-SHA256 signed request to <code>/api/v3/account</code></td></tr>
+</tbody></table>
+</div>
+<p>A Binance account connects to the Binance exchange using your API key and secret. Botmarley supports:</p>
+<ul>
+<li><strong>Verify credentials</strong> -- test the connection with a signed request.</li>
+<li><strong>Sync balances</strong> -- pull your current holdings from Binance.</li>
+<li><strong>Place orders</strong> -- execute spot market orders (BUY with quoteOrderQty, SELL with quantity).</li>
+<li><strong>Fetch market data</strong> -- download candle history via the Binance REST API.</li>
+</ul>
+<p>Botmarley automatically applies LOT_SIZE and MARKET_LOT_SIZE filters from Binance exchangeInfo to ensure order quantities are valid.</p>
+<div id="admonition-warning-1" class="admonition admonish-warning" role="note" aria-labelledby="admonition-warning-1-title">
+<div class="admonition-title">
+<div id="admonition-warning-1-title">
+<p>Warning</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-warning-1"></a>
+</div>
+<div>
+<p>A Binance account operates with real money. Double-check your strategy in Paper mode before pointing it at a Binance account.</p>
+</div>
+</div>
+<h2 id="verification-states"><a class="header" href="#verification-states">Verification States</a></h2>
+<p>Every account has a verification status that reflects whether Botmarley has successfully tested the connection to the exchange.</p>
+<div class="table-wrapper"><table><thead><tr><th>Status</th><th>Badge Color</th><th>Meaning</th></tr></thead><tbody>
+<tr><td><strong>Unverified</strong></td><td>Yellow</td><td>Credentials have been entered but not yet tested.</td></tr>
+<tr><td><strong>Verified</strong></td><td>Green</td><td>Botmarley connected to the exchange and confirmed the credentials work.</td></tr>
+<tr><td><strong>Failed</strong></td><td>Red</td><td>The last verification attempt failed (bad key, wrong permissions, network error).</td></tr>
+<tr><td><strong>N/A</strong></td><td>Gray</td><td>Verification does not apply to this account type (Paper accounts).</td></tr>
+</tbody></table>
+</div>
+<p>Verification is performed by making a signed API request to the exchange's private balance endpoint. If the exchange responds without errors, the credentials are marked Verified. If the exchange returns an authentication error or the request fails, the status is set to Failed.</p>
+<div id="admonition-tip-1" class="admonition admonish-tip" role="note" aria-labelledby="admonition-tip-1-title">
+<div class="admonition-title">
+<div id="admonition-tip-1-title">
+<p>Tip</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-tip-1"></a>
+</div>
+<div>
+<p>If verification fails, check that your API key has not expired and that you copied both the key and the secret correctly. Kraken secrets are base64-encoded strings -- make sure you copied the entire value without extra whitespace.</p>
+</div>
+</div>
+<h2 id="when-to-use-paper-vs-real-accounts"><a class="header" href="#when-to-use-paper-vs-real-accounts">When to Use Paper vs. Real Accounts</a></h2>
+<pre class="mermaid">flowchart TD
+    A[&quot;New strategy idea&quot;] --&gt; B{&quot;Tested in backtesting?&quot;}
+    B -- No --&gt; C[&quot;Run backtest with Paper account&quot;]
+    C --&gt; B
+    B -- Yes --&gt; D{&quot;Happy with results?&quot;}
+    D -- No --&gt; E[&quot;Adjust strategy parameters&quot;]
+    E --&gt; C
+    D -- Yes --&gt; F{&quot;Ready for real money?&quot;}
+    F -- No --&gt; G[&quot;Run live Paper session\n(simulated orders)&quot;]
+    G --&gt; F
+    F -- Yes --&gt; H[&quot;Switch to Kraken account\nfor live trading&quot;]
+</pre>
+<p>The recommended workflow:</p>
+<ol>
+<li><strong>Backtest first</strong> -- use a Paper account and historical data to validate your strategy logic.</li>
+<li><strong>Paper-trade live</strong> -- run the strategy in live mode against a Paper account. This exercises the real-time data feed without risking funds.</li>
+<li><strong>Go live</strong> -- once confident, create or select a verified Kraken account and start a live trading session.</li>
+</ol>
+<p>This progression lets you catch problems early, before any real capital is at stake.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../dashboard/overview.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../accounts/managing.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../dashboard/overview.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../accounts/managing.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

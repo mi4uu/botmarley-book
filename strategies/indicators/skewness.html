@@ -1,0 +1,462 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Skewness — Distribution Asymmetry - Botmarley User Manual</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Complete user guide for the Botmarley cryptocurrency trading bot">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../.././mdbook-admonish.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Botmarley User Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="skew----rolling-skewness"><a class="header" href="#skew----rolling-skewness">Skew -- Rolling Skewness</a></h1>
+<h2 id="contents"><a class="header" href="#contents">Contents</a></h2>
+<ul>
+<li><a href="#format">Format</a></li>
+<li><a href="#understanding-skewness-values">Understanding Skewness Values</a></li>
+<li><a href="#understanding-operators-with-skewness">Understanding Operators with Skewness</a>
+<ul>
+<li><a href="#-less-than----state-based"><code>&lt;</code> Less Than</a></li>
+<li><a href="#-greater-than----state-based"><code>&gt;</code> Greater Than</a></li>
+<li><a href="#cross_below----event-based"><code>cross_below</code></a></li>
+<li><a href="#cross_above----event-based"><code>cross_above</code></a></li>
+<li><a href="#-equal----not-recommended-for-skewness"><code>=</code> Equal</a></li>
+</ul>
+</li>
+<li><a href="#toml-examples">TOML Examples</a>
+<ul>
+<li><a href="#panic-buyer-negative-skew--rsi-oversold">Panic Buyer: Negative Skew + RSI Oversold</a></li>
+<li><a href="#ride-the-positive-skew-upside">Ride the Positive Skew Upside</a></li>
+<li><a href="#exit-on-extreme-negative-skew-shift">Exit on Extreme Negative Skew Shift</a></li>
+<li><a href="#skewness-combined-with-kurtosis">Skewness Combined with Kurtosis</a></li>
+</ul>
+</li>
+<li><a href="#tips">Tips</a></li>
+</ul>
+<hr />
+<h2 id="overview"><a class="header" href="#overview">Overview</a></h2>
+<p>Rolling Skewness measures the <strong>asymmetry</strong> of the return distribution over a rolling window. It is computed on log returns (the natural logarithm of price ratios between consecutive candles). Skewness answers a fundamental question: <strong>is the market more prone to sudden crashes or sudden rallies?</strong></p>
+<p>A symmetric distribution (skewness = 0) means upside moves and downside moves are roughly mirror images of each other. But financial markets are rarely symmetric. Skewness quantifies the direction of that asymmetry:</p>
+<ul>
+<li><strong>Negative skew</strong> means the return distribution has a long left tail. Most returns are clustered slightly positive, but occasional large drops drag the tail to the left. The market is prone to sudden crashes -- "left-tail events." This is the classic risk profile before major crypto selloffs.</li>
+<li><strong>Positive skew</strong> means the return distribution has a long right tail. Most returns are clustered slightly negative or flat, but occasional large rallies push the tail to the right. Upside surprises are more likely than downside surprises.</li>
+<li><strong>Zero skew</strong> means the distribution is roughly symmetric. Neither tail is dominant.</li>
+</ul>
+<p>The key insight: skewness tells you WHERE the risk is hiding. In a negatively skewed market, the average return may look fine, but the risk of a sudden crash is elevated. For contrarian strategies, negative skew combined with oversold conditions creates high-probability bounce setups -- the market has already experienced panic, and the left tail has been "spent." For trend-following strategies, positive skew confirms that upside momentum has room to run.</p>
+<hr />
+<h2 id="format"><a class="header" href="#format">Format</a></h2>
+<pre><code>skew_{period}
+</code></pre>
+<p>The period defines the rolling lookback window -- how many candles of log returns are included in the skewness calculation.</p>
+<div class="table-wrapper"><table><thead><tr><th>Example</th><th>Period</th><th>Use Case</th></tr></thead><tbody>
+<tr><td><code>skew_60</code></td><td>60</td><td>Standard -- captures distribution shape over a meaningful window without excessive smoothing</td></tr>
+<tr><td><code>skew_100</code></td><td>100</td><td>Slower -- more stable reading, better for regime identification</td></tr>
+<tr><td><code>skew_30</code></td><td>30</td><td>Faster -- reacts quicker to distribution shifts, noisier</td></tr>
+</tbody></table>
+</div>
+<p><strong>Period range:</strong> 20 to 500.</p>
+<p><strong>Value range:</strong> Typically -3.0 to +3.0. Values near 0 indicate a symmetric distribution. Values beyond +/-1.0 indicate significant asymmetry. Extreme values beyond +/-2.0 are rare.</p>
+<hr />
+<h2 id="understanding-skewness-values"><a class="header" href="#understanding-skewness-values">Understanding Skewness Values</a></h2>
+<p>Skewness values are standardized and <strong>universal</strong> -- a reading of -1.5 means the same degree of left-tail asymmetry regardless of the asset or timeframe.</p>
+<div class="table-wrapper"><table><thead><tr><th>Skewness Range</th><th>Zone</th><th>Interpretation</th></tr></thead><tbody>
+<tr><td>Below -1.0</td><td>Heavily left-skewed</td><td>Panic mode. The return distribution has a pronounced left tail -- large drops have dominated. The market is crash-prone. For contrarian traders: if combined with oversold momentum, the crash may be exhausting itself.</td></tr>
+<tr><td>-1.0 to -0.3</td><td>Moderately negative</td><td>Returns skew to the downside. Downside risk is elevated but not extreme. Caution is warranted for new long entries without confirmation.</td></tr>
+<tr><td>-0.3 to +0.3</td><td>Roughly symmetric</td><td>No significant asymmetry. The distribution of returns is balanced. Neither tail dominates. Neutral reading.</td></tr>
+<tr><td>+0.3 to +1.0</td><td>Moderately positive</td><td>Returns skew to the upside. Upside surprises are more likely than downside crashes. Favorable environment for trend-following longs.</td></tr>
+<tr><td>Above +1.0</td><td>Heavily right-skewed</td><td>Strong upside bias. The return distribution has a pronounced right tail -- large rallies have been occurring. Momentum is heavily bullish. For contrarian traders: the upside may be overextended.</td></tr>
+</tbody></table>
+</div><div id="admonition-note" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-title">
+<div class="admonition-title">
+<div id="admonition-note-title">
+<p>Note</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-note"></a>
+</div>
+<div>
+<p>Skewness is a lagging measure -- it describes what the distribution of returns has looked like over the past N candles, not what it will look like in the future. However, skewness regimes tend to persist for meaningful periods, making it a useful regime filter. A market that has been negatively skewed is statistically more likely to experience further left-tail events until the regime shifts.</p>
+</div>
+</div>
+<hr />
+<h2 id="understanding-operators-with-skewness"><a class="header" href="#understanding-operators-with-skewness">Understanding Operators with Skewness</a></h2>
+<p>Each operator behaves differently with skewness. Because skewness is a <strong>distribution shape indicator</strong>, it is most powerful as a regime filter combined with directional triggers.</p>
+<h3 id="less-than----state-based"><a class="header" href="#less-than----state-based"><code>&lt;</code> (Less Than) -- State-Based</a></h3>
+<p><strong>What it does:</strong> The trigger is true on <strong>every candle</strong> where skewness is below the threshold. This detects periods when the return distribution is negatively skewed -- crash risk is elevated or a crash has recently occurred.</p>
+<p><strong>On the chart:</strong> Recent returns have been dominated by sharp drops. The left tail of the distribution is elongated. This trigger stays active for as long as the skewness reading remains below the threshold.</p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "skew_60"
+operator = "&lt;"
+target = "-1.0"
+timeframe = "1h"
+</code></pre>
+<p><strong>Typical use:</strong> Contrarian panic-buying. When skewness is deeply negative, the market has been experiencing sharp drops. Combined with oversold RSI, this identifies washout moments where selling pressure is exhausted. Also used as a risk filter to <em>avoid</em> entries during crash-prone regimes.</p>
+<h3 id="greater-than----state-based"><a class="header" href="#greater-than----state-based"><code>&gt;</code> (Greater Than) -- State-Based</a></h3>
+<p><strong>What it does:</strong> The trigger is true on <strong>every candle</strong> where skewness is above the threshold. This detects periods when the return distribution is positively skewed -- upside surprises are more frequent.</p>
+<p><strong>On the chart:</strong> Recent returns have included sharp rallies. The right tail of the distribution is elongated. Momentum favors the upside.</p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "skew_60"
+operator = "&gt;"
+target = "0.5"
+timeframe = "1h"
+</code></pre>
+<p><strong>Typical use:</strong> Trend confirmation filter. Positive skewness confirms that the market's return distribution favors upside moves. Combine with trend-following entries (EMA cross, price above SMA) for higher-conviction longs.</p>
+<h3 id="cross_below----event-based"><a class="header" href="#cross_below----event-based"><code>cross_below</code> -- Event-Based</a></h3>
+<p><strong>What it does:</strong> Fires <strong>once</strong>, at the exact candle where skewness transitions from above the threshold to below it. The previous candle had skewness &gt;= the target, and the current candle has skewness &lt; the target.</p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "skew_60"
+operator = "cross_below"
+target = "-1.0"
+timeframe = "1h"
+</code></pre>
+<p><strong>Typical use:</strong> Detect the moment the market enters a crash regime. Skewness has just shifted to heavily negative -- the distribution has tilted toward left-tail events. This can be an exit signal to protect existing positions.</p>
+<h3 id="cross_above----event-based"><a class="header" href="#cross_above----event-based"><code>cross_above</code> -- Event-Based</a></h3>
+<p><strong>What it does:</strong> Fires <strong>once</strong>, at the exact candle where skewness transitions from below the threshold to above it. The previous candle had skewness &lt;= the target, and the current candle has skewness &gt; the target.</p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "skew_60"
+operator = "cross_above"
+target = "0"
+timeframe = "1h"
+</code></pre>
+<p><strong>Typical use:</strong> Detect the moment the market exits a negative skew regime. Skewness returning to zero or positive means the distribution is normalizing -- the crash regime may be ending. This can signal the "all clear" to resume normal entries.</p>
+<h3 id="-equal----not-recommended-for-skewness"><a class="header" href="#-equal----not-recommended-for-skewness"><code>=</code> (Equal) -- Not Recommended for Skewness</a></h3>
+<p><strong>Why:</strong> Skewness produces floating-point values that are rarely exactly equal to any specific number. Use <code>&lt;</code> or <code>&gt;</code> instead.</p>
+<div id="admonition-choosing-the-right-operator" class="admonition admonish-tip" role="note" aria-labelledby="admonition-choosing-the-right-operator-title">
+<div class="admonition-title">
+<div id="admonition-choosing-the-right-operator-title">
+<p>Choosing the right operator</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-choosing-the-right-operator"></a>
+</div>
+<div>
+<ul>
+<li>Use <strong><code>&lt;</code></strong> to detect negative skew regimes -- crash-prone or post-crash environments. The most common skewness operator.</li>
+<li>Use <strong><code>&gt;</code></strong> to confirm positive skew -- upside momentum in the return distribution.</li>
+<li>Use <strong><code>cross_below</code> / <code>cross_above</code></strong> to detect regime transitions -- the exact moment the distribution shifts.</li>
+</ul>
+</div>
+</div>
+<hr />
+<h2 id="toml-examples"><a class="header" href="#toml-examples">TOML Examples</a></h2>
+<h3 id="panic-buyer-negative-skew--rsi-oversold"><a class="header" href="#panic-buyer-negative-skew--rsi-oversold">Panic Buyer: Negative Skew + RSI Oversold</a></h3>
+<p>The contrarian play: when skewness is deeply negative (the market has been crashing) AND RSI confirms oversold conditions, buy the panic. The logic: left-tail events have already occurred, selling pressure is likely exhausted, and a mean-reversion bounce is probable.</p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+  [[actions.triggers]]
+  indicator = "skew_60"
+  operator = "&lt;"
+  target = "-1.0"
+  timeframe = "1h"
+
+  [[actions.triggers]]
+  indicator = "rsi_14"
+  operator = "&lt;"
+  target = "25"
+  timeframe = "1h"
+  max_count = 2
+</code></pre>
+<h3 id="ride-the-positive-skew-upside"><a class="header" href="#ride-the-positive-skew-upside">Ride the Positive Skew Upside</a></h3>
+<p>When skewness is positive (upside surprises dominate) and the trend is confirmed by EMA, enter long. The return distribution itself confirms that momentum favors buyers.</p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+  [[actions.triggers]]
+  indicator = "skew_100"
+  operator = "&gt;"
+  target = "0.5"
+  timeframe = "1h"
+
+  [[actions.triggers]]
+  indicator = "ema_20"
+  operator = "&gt;"
+  target = "ema_50"
+  timeframe = "1h"
+
+  [[actions.triggers]]
+  indicator = "rsi_14"
+  operator = "&lt;"
+  target = "60"
+  timeframe = "1h"
+</code></pre>
+<h3 id="exit-on-extreme-negative-skew-shift"><a class="header" href="#exit-on-extreme-negative-skew-shift">Exit on Extreme Negative Skew Shift</a></h3>
+<p>Protect existing positions when skewness suddenly plunges below -1.5. This signals a regime shift toward crash-prone conditions -- the distribution is becoming dangerously asymmetric.</p>
+<pre><code class="language-toml">[[actions]]
+type = "sell"
+amount = "100%"
+
+  [[actions.triggers]]
+  indicator = "skew_60"
+  operator = "cross_below"
+  target = "-1.5"
+  timeframe = "1h"
+</code></pre>
+<h3 id="skewness-combined-with-kurtosis"><a class="header" href="#skewness-combined-with-kurtosis">Skewness Combined with Kurtosis</a></h3>
+<p>The full distribution picture: buy when skewness is negative (crash has happened) but kurtosis is low (the market is not producing extreme moves anymore -- the volatility storm has passed). This ensures you are buying after the crash, not during it.</p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+  [[actions.triggers]]
+  indicator = "skew_60"
+  operator = "&lt;"
+  target = "-0.8"
+  timeframe = "1h"
+
+  [[actions.triggers]]
+  indicator = "kurt_60"
+  operator = "&lt;"
+  target = "2.0"
+  timeframe = "1h"
+
+  [[actions.triggers]]
+  indicator = "rsi_14"
+  operator = "cross_above"
+  target = "30"
+  timeframe = "1h"
+</code></pre>
+<hr />
+<h2 id="tips"><a class="header" href="#tips">Tips</a></h2>
+<div id="admonition-negative-skew--crash-risk-not-crash-certainty" class="admonition admonish-tip" role="note" aria-labelledby="admonition-negative-skew--crash-risk-not-crash-certainty-title">
+<div class="admonition-title">
+<div id="admonition-negative-skew--crash-risk-not-crash-certainty-title">
+<p>Negative skew = crash risk, not crash certainty</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-negative-skew--crash-risk-not-crash-certainty"></a>
+</div>
+<div>
+<p>A heavily negative skewness reading tells you that the recent return distribution is dominated by left-tail events -- large drops have been happening. This does not guarantee another crash is imminent. It means the environment is crash-<em>prone</em>. For contrarian traders, this is the setup: when combined with oversold indicators, negative skew identifies moments where the crash has already happened and a bounce is probable.</p>
+</div>
+</div>
+<div id="admonition-combine-with-kurtosis-for-the-full-distribution-picture" class="admonition admonish-tip" role="note" aria-labelledby="admonition-combine-with-kurtosis-for-the-full-distribution-picture-title">
+<div class="admonition-title">
+<div id="admonition-combine-with-kurtosis-for-the-full-distribution-picture-title">
+<p>Combine with Kurtosis for the full distribution picture</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-combine-with-kurtosis-for-the-full-distribution-picture"></a>
+</div>
+<div>
+<p>Skewness tells you which direction the tail risk is. Kurtosis tells you how fat the tails are. Together, they describe the complete shape of the return distribution. Negative skew + high kurtosis = active crash in progress (large, frequent extreme moves to the downside). Negative skew + low kurtosis = crash has exhausted itself (the skew persists in the data but extreme moves have stopped). The second scenario is the higher-probability bounce setup.</p>
+</div>
+</div>
+<div id="admonition-use-longer-periods-for-stability" class="admonition admonish-tip" role="note" aria-labelledby="admonition-use-longer-periods-for-stability-title">
+<div class="admonition-title">
+<div id="admonition-use-longer-periods-for-stability-title">
+<p>Use longer periods for stability</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-use-longer-periods-for-stability"></a>
+</div>
+<div>
+<p>Short-period skewness (20-30 candles) is noisy and can flip rapidly between positive and negative. For regime identification, longer periods (60-100 candles) produce more stable readings that better capture the underlying distribution shape. Reserve short periods for lower timeframes (1m, 5m) where you need faster reaction. For hourly and daily charts, 60-100 periods are recommended.</p>
+</div>
+</div>
+<div id="admonition-skewness-is-backward-looking" class="admonition admonish-warning" role="note" aria-labelledby="admonition-skewness-is-backward-looking-title">
+<div class="admonition-title">
+<div id="admonition-skewness-is-backward-looking-title">
+<p>Skewness is backward-looking</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-skewness-is-backward-looking"></a>
+</div>
+<div>
+<p>Skewness describes what the return distribution looked like over the past N candles. It does not predict what will happen next. However, distribution regimes tend to be persistent -- a market that has been negatively skewed often remains so for a meaningful period. Use skewness as a regime filter to set context, then rely on real-time indicators (RSI, price crossovers) for precise timing.</p>
+</div>
+</div>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../strategies/indicators/vwap-dev.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../strategies/indicators/kurtosis.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../strategies/indicators/vwap-dev.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../strategies/indicators/kurtosis.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../mermaid.min.js"></script>
+        <script src="../../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

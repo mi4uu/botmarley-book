@@ -1,0 +1,353 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Strategies - Botmarley User Manual</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Complete user guide for the Botmarley cryptocurrency trading bot">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href=".././mdbook-admonish.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Botmarley User Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="strategies-overview"><a class="header" href="#strategies-overview">Strategies Overview</a></h1>
+<h2 id="what-is-a-trading-strategy"><a class="header" href="#what-is-a-trading-strategy">What Is a Trading Strategy?</a></h2>
+<p>A trading strategy is a set of rules that tell Botmarley <strong>when</strong> to buy and <strong>when</strong> to sell a cryptocurrency. Instead of watching charts all day and making emotional decisions, you define your rules once, and Botmarley follows them automatically -- 24 hours a day, 7 days a week.</p>
+<p>Think of a strategy as a recipe:</p>
+<ul>
+<li><strong>Ingredients</strong> are market data (prices, indicators, candle patterns).</li>
+<li><strong>Instructions</strong> are the rules (if RSI drops below 30, buy).</li>
+<li><strong>The result</strong> is consistent, disciplined trading without human emotion.</li>
+</ul>
+<h2 id="the-strategies-list"><a class="header" href="#the-strategies-list">The Strategies List</a></h2>
+<p>The web interface provides a central place to manage all your strategies. From the list page you can edit, duplicate, delete, backtest, or start live trading for any strategy with a single click.</p>
+<p><img src="../images/strategies-list.png" alt="Strategies list page showing saved strategies with action buttons for Edit, TOML, Duplicate, Delete, Backtest, and Start Live" /></p>
+<h2 id="how-botmarley-strategies-work"><a class="header" href="#how-botmarley-strategies-work">How Botmarley Strategies Work</a></h2>
+<p>Botmarley strategies are defined as <strong>TOML files</strong> -- simple, human-readable text files that describe a rule engine. Each strategy file lives in the <code>strats/</code> directory and contains:</p>
+<ol>
+<li><strong>Metadata</strong> -- the strategy's name, description, and position limits.</li>
+<li><strong>Actions</strong> -- a list of things the bot can do (open a position, add to it, or sell).</li>
+<li><strong>Triggers</strong> -- conditions that must be true for each action to fire.</li>
+</ol>
+<div id="admonition-note" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-title">
+<div class="admonition-title">
+<div id="admonition-note-title">
+<p>Note</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-note"></a>
+</div>
+<div>
+<p>Botmarley's strategy engine is <strong>exchange-agnostic</strong>. The same strategy TOML file works for any trading pair -- you select the pair when you start a backtest or live session, not in the strategy itself.</p>
+</div>
+</div>
+<h2 id="strategy-evaluation-flow"><a class="header" href="#strategy-evaluation-flow">Strategy Evaluation Flow</a></h2>
+<p>Every time a new candle closes, Botmarley evaluates your strategy. Here is how the evaluation loop works:</p>
+<pre class="mermaid">flowchart TD
+    A[&quot;New Candle Received&quot;] --&gt; B[&quot;For Each Action in Strategy&quot;]
+    B --&gt; C{&quot;Check ALL Triggers&lt;br/&gt;(AND logic)&quot;}
+    C -- &quot;All triggers TRUE&quot; --&gt; D[&quot;Execute Action&lt;br/&gt;(open_long / buy / sell)&quot;]
+    C -- &quot;Any trigger FALSE&quot; --&gt; E[&quot;Skip This Action&quot;]
+    D --&gt; F[&quot;Update Position State&quot;]
+    E --&gt; F
+    F --&gt; G{&quot;More Actions?&quot;}
+    G -- &quot;Yes&quot; --&gt; B
+    G -- &quot;No&quot; --&gt; H[&quot;Wait for Next Candle&quot;]
+    H --&gt; A
+
+    style A fill:#4a9eff,color:#fff
+    style D fill:#22c55e,color:#fff
+    style E fill:#6b7280,color:#fff
+    style H fill:#4a9eff,color:#fff
+</pre>
+<p>Key points about evaluation:</p>
+<ul>
+<li><strong>Each action is evaluated independently</strong> -- one strategy can have multiple buy and sell actions, and each is checked every tick.</li>
+<li><strong>Triggers within an action are AND-combined</strong> -- ALL triggers must be true for the action to fire.</li>
+<li><strong>Actions are evaluated in order</strong> -- from first to last as written in the TOML file.</li>
+</ul>
+<h2 id="basic-strategy-anatomy"><a class="header" href="#basic-strategy-anatomy">Basic Strategy Anatomy</a></h2>
+<p>A Botmarley strategy TOML file has two main sections:</p>
+<h3 id="1-the-meta-section"><a class="header" href="#1-the-meta-section">1. The <code>[meta]</code> Section</a></h3>
+<p>This defines your strategy's identity and global settings:</p>
+<pre><code class="language-toml">[meta]
+name = "My First Strategy"
+description = "A simple RSI-based entry and exit"
+max_open_positions = 3
+</code></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Required</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>name</code></td><td>Yes</td><td>Human-readable name for the strategy</td></tr>
+<tr><td><code>description</code></td><td>No</td><td>Optional explanation of the strategy's logic</td></tr>
+<tr><td><code>max_open_positions</code></td><td>No</td><td>Maximum concurrent open positions. Omit for unlimited.</td></tr>
+</tbody></table>
+</div>
+<h3 id="2-the-actions-array"><a class="header" href="#2-the-actions-array">2. The <code>[[actions]]</code> Array</a></h3>
+<p>Each <code>[[actions]]</code> block defines one thing the bot can do, along with the conditions that must be met:</p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"          # What to do: open_long, buy, or sell
+amount = "100 USDC"         # How much: fixed amount or percentage
+average_price = false        # Whether to average the entry price (DCA)
+
+  [[actions.triggers]]       # When to do it: one or more trigger conditions
+  indicator = "rsi_14"
+  operator = "&lt;"
+  target = "30"
+</code></pre>
+<h2 id="a-simple-complete-example"><a class="header" href="#a-simple-complete-example">A Simple Complete Example</a></h2>
+<p>Here is a complete, working strategy that buys when RSI is oversold and sells when it recovers:</p>
+<pre><code class="language-toml">[meta]
+name = "RSI_Scalper"
+
+# ACTION 1: Open a position when RSI drops below 30
+[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+  [[actions.triggers]]
+  indicator = "rsi_14"
+  operator = "&lt;"
+  target = "30"
+
+# ACTION 2: Sell half when RSI recovers to 50
+[[actions]]
+type = "sell"
+amount = "50%"
+
+  [[actions.triggers]]
+  indicator = "rsi_14"
+  operator = "&gt;"
+  target = "50"
+
+# ACTION 3: Sell everything when RSI reaches 70
+[[actions]]
+type = "sell"
+amount = "100%"
+
+  [[actions.triggers]]
+  indicator = "rsi_14"
+  operator = "&gt;"
+  target = "70"
+</code></pre>
+<p><strong>What this strategy does, step by step:</strong></p>
+<ol>
+<li><strong>Action 1</strong> watches RSI(14). When it drops below 30 (oversold territory), the bot opens a new position by buying 100 USDC worth of the asset.</li>
+<li><strong>Action 2</strong> watches for RSI to rise above 50. When it does, the bot sells 50% of the position to lock in partial profit.</li>
+<li><strong>Action 3</strong> watches for RSI to rise above 70 (overbought territory). When it does, the bot sells the remaining 100% of the position to fully exit.</li>
+</ol>
+<div id="admonition-tip" class="admonition admonish-tip" role="note" aria-labelledby="admonition-tip-title">
+<div class="admonition-title">
+<div id="admonition-tip-title">
+<p>Tip</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-tip"></a>
+</div>
+<div>
+<p>Start simple. A strategy with 2-3 actions is often more effective than a complex one with 10 actions. You can always add complexity after backtesting confirms the base logic works.</p>
+</div>
+</div>
+<h2 id="whats-next"><a class="header" href="#whats-next">What's Next?</a></h2>
+<p>Now that you understand how strategies are structured, explore the following topics:</p>
+<ul>
+<li><strong><a href="editor.html">Strategy Editor</a></strong> -- how to create and edit strategies in the web interface.</li>
+<li><strong><a href="actions.html">Actions</a></strong> -- detailed explanation of <code>open_long</code>, <code>buy</code>, and <code>sell</code>.</li>
+<li><strong><a href="indicators.html">Indicators Reference</a></strong> -- every indicator Botmarley supports.</li>
+<li><strong><a href="timeframes.html">Timeframes</a></strong> -- how multi-timeframe analysis works.</li>
+<li><strong><a href="position-management.html">Position Management</a></strong> -- DCA, position limits, and partial sells.</li>
+<li><strong><a href="examples.html">Strategy Examples</a></strong> -- complete, battle-tested strategies you can use as starting points.</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../accounts/portfolio.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../strategies/editor.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../accounts/portfolio.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../strategies/editor.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

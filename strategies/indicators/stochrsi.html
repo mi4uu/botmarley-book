@@ -1,0 +1,453 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>StochRSI — Stochastic RSI - Botmarley User Manual</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Complete user guide for the Botmarley cryptocurrency trading bot">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../.././mdbook-admonish.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Botmarley User Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="stochrsi----stochastic-rsi"><a class="header" href="#stochrsi----stochastic-rsi">StochRSI -- Stochastic RSI</a></h1>
+<h2 id="contents"><a class="header" href="#contents">Contents</a></h2>
+<ul>
+<li><a href="#format">Format</a></li>
+<li><a href="#stochrsi-zones">StochRSI Zones</a></li>
+<li><a href="#understanding-operators-with-stochrsi">Understanding Operators with StochRSI</a>
+<ul>
+<li><a href="#-less-than----state-based"><code>&lt;</code> Less Than</a></li>
+<li><a href="#-greater-than----state-based"><code>&gt;</code> Greater Than</a></li>
+<li><a href="#cross_below----event-based"><code>cross_below</code></a></li>
+<li><a href="#cross_above----event-based"><code>cross_above</code></a></li>
+<li><a href="#-equal----not-recommended-for-stochrsi"><code>=</code> Equal</a></li>
+</ul>
+</li>
+<li><a href="#toml-examples">TOML Examples</a>
+<ul>
+<li><a href="#buy-on-deeply-oversold-stochrsi">Buy on Deeply Oversold StochRSI</a></li>
+<li><a href="#sell-on-overbought-stochrsi">Sell on Overbought StochRSI</a></li>
+<li><a href="#buy-on-stochrsi-recovery-cross-above-20">Buy on StochRSI Recovery</a></li>
+<li><a href="#stochrsi-with-rsi-filter">StochRSI with RSI Filter</a></li>
+</ul>
+</li>
+<li><a href="#tips">Tips</a></li>
+</ul>
+<hr />
+<h2 id="overview"><a class="header" href="#overview">Overview</a></h2>
+<p>Stochastic RSI (StochRSI) applies the Stochastic oscillator formula to RSI values instead of raw price. The result is an indicator that is <strong>significantly more sensitive</strong> than standard RSI -- it reaches extreme values (0 and 100) far more frequently.</p>
+<p>Where RSI might hover around 40--60 for extended periods, StochRSI will swing aggressively between 0 and 100 within the same timeframe. This makes it ideal for catching short-term reversals, but it also means more false signals.</p>
+<p>Think of it this way:</p>
+<ul>
+<li><strong>RSI</strong> answers: "How strong is the current momentum compared to recent history?"</li>
+<li><strong>StochRSI</strong> answers: "Where is RSI <em>right now</em> relative to its own recent range?"</li>
+</ul>
+<p>If RSI has ranged between 35 and 65 over the last 14 candles and currently sits at 35, StochRSI would be near 0 -- even though RSI itself is not at a traditional "oversold" level. This relative measurement is what makes StochRSI more reactive.</p>
+<p><img src="../../images/indicator-stochrsi-labeled.png" alt="StochRSI(14) shown as oscillator below BTC/USDC 1h candle chart with overbought/oversold zone labels" /></p>
+<hr />
+<h2 id="format"><a class="header" href="#format">Format</a></h2>
+<pre><code>stoch_rsi_{period}
+</code></pre>
+<p>The period defines the lookback window for both the underlying RSI calculation and the stochastic normalization applied on top.</p>
+<div class="table-wrapper"><table><thead><tr><th>Example</th><th>Period</th><th>Use Case</th></tr></thead><tbody>
+<tr><td><code>stoch_rsi_7</code></td><td>7</td><td>Very fast, extremely reactive -- ideal for scalping on 1m/5m charts</td></tr>
+<tr><td><code>stoch_rsi_14</code></td><td>14</td><td>Standard -- the most common period, balances sensitivity and reliability</td></tr>
+<tr><td><code>stoch_rsi_21</code></td><td>21</td><td>Smoother, fewer whipsaws -- better for 15m/1h swing entries</td></tr>
+</tbody></table>
+</div>
+<p><strong>Period range:</strong> 1 to 200.</p>
+<p><strong>Value range:</strong> 0 to 100 (always).</p>
+<hr />
+<h2 id="stochrsi-zones"><a class="header" href="#stochrsi-zones">StochRSI Zones</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>StochRSI Range</th><th>Zone</th><th>Interpretation</th></tr></thead><tbody>
+<tr><td>Below 10</td><td>Deeply Oversold</td><td>RSI is at the very bottom of its recent range. Strong short-term reversal candidate.</td></tr>
+<tr><td>10 -- 20</td><td>Oversold</td><td>RSI is near the low end of its recent range. Selling pressure may be exhausting.</td></tr>
+<tr><td>20 -- 80</td><td>Neutral</td><td>StochRSI is mid-range. No strong directional signal from this indicator alone.</td></tr>
+<tr><td>80 -- 90</td><td>Overbought</td><td>RSI is near the high end of its recent range. Buying pressure may be peaking.</td></tr>
+<tr><td>Above 90</td><td>Deeply Overbought</td><td>RSI is at the very top of its recent range. Strong short-term reversal candidate.</td></tr>
+</tbody></table>
+</div><div id="admonition-note" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-title">
+<div class="admonition-title">
+<div id="admonition-note-title">
+<p>Note</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-note"></a>
+</div>
+<div>
+<p>StochRSI reaches 0 and 100 <strong>much more frequently</strong> than RSI reaches 30 and 70. A StochRSI value of 0 does not carry the same weight as an RSI of 0 (which would be extraordinary). Treat StochRSI extremes as short-term timing signals, not as strong standalone conviction signals.</p>
+</div>
+</div>
+<hr />
+<h2 id="understanding-operators-with-stochrsi"><a class="header" href="#understanding-operators-with-stochrsi">Understanding Operators with StochRSI</a></h2>
+<p>Each operator behaves differently with StochRSI. Because StochRSI oscillates rapidly, operator choice has a major impact on signal frequency.</p>
+<h3 id="less-than----state-based"><a class="header" href="#less-than----state-based"><code>&lt;</code> (Less Than) -- State-Based</a></h3>
+<p><strong>What it does:</strong> The trigger is true on <strong>every candle</strong> where StochRSI is below the threshold.</p>
+<p><strong>On the chart:</strong> StochRSI drops below the 10 line. For every candle it remains below 10, this trigger fires. Because StochRSI moves fast, these episodes tend to be short-lived (2--5 candles), but they can still fire multiple times.</p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "stoch_rsi_14"
+operator = "&lt;"
+target = "10"
+timeframe = "5m"
+</code></pre>
+<div id="admonition-warning" class="admonition admonish-warning" role="note" aria-labelledby="admonition-warning-title">
+<div class="admonition-title">
+<div id="admonition-warning-title">
+<p>Warning</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-warning"></a>
+</div>
+<div>
+<p>StochRSI spends more time at extremes than RSI does. Even with a tight threshold like 10, you may get repeated triggers in quick succession. Always use <code>max_count</code> to limit entries, or switch to <code>cross_below</code> for a single-fire signal.</p>
+</div>
+</div>
+<h3 id="greater-than----state-based"><a class="header" href="#greater-than----state-based"><code>&gt;</code> (Greater Than) -- State-Based</a></h3>
+<p><strong>What it does:</strong> The trigger is true on <strong>every candle</strong> where StochRSI is above the threshold.</p>
+<p><strong>On the chart:</strong> StochRSI climbs above the 80 or 90 line. Every candle it stays there, this trigger fires.</p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "stoch_rsi_14"
+operator = "&gt;"
+target = "85"
+timeframe = "5m"
+</code></pre>
+<p><strong>Typical use:</strong> Exit or take profit when StochRSI signals short-term overbought conditions. Combine with <code>max_count = 1</code> to fire once.</p>
+<h3 id="cross_below----event-based"><a class="header" href="#cross_below----event-based"><code>cross_below</code> -- Event-Based</a></h3>
+<p><strong>What it does:</strong> Fires <strong>once</strong>, at the exact candle where StochRSI transitions from above the threshold to below it. The previous candle had StochRSI &gt;= the target, and the current candle has StochRSI &lt; the target.</p>
+<p><strong>On the chart:</strong> StochRSI pierces the 20 line from above to below. This single moment is the trigger -- it then goes silent until the next crossing.</p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "stoch_rsi_14"
+operator = "cross_below"
+target = "20"
+timeframe = "5m"
+</code></pre>
+<p><strong>Typical use:</strong> Detect the moment StochRSI enters oversold territory. More precise than <code>&lt;</code> because it fires exactly once per entry into the zone, making it useful for timing dip-buy entries without repeated signals.</p>
+<h3 id="cross_above----event-based"><a class="header" href="#cross_above----event-based"><code>cross_above</code> -- Event-Based</a></h3>
+<p><strong>What it does:</strong> Fires <strong>once</strong>, at the exact candle where StochRSI transitions from below the threshold to above it. The previous candle had StochRSI &lt;= the target, and the current candle has StochRSI &gt; the target.</p>
+<p><strong>On the chart:</strong> StochRSI climbing up through the 20 line from below. The moment it crosses, the trigger fires once.</p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "stoch_rsi_14"
+operator = "cross_above"
+target = "20"
+timeframe = "5m"
+</code></pre>
+<p><strong>Typical use:</strong> Detect when StochRSI recovers from oversold. Instead of buying while the indicator is still falling, this waits for the first sign of reversal -- StochRSI turning back up through the oversold boundary. This is often a safer entry than raw <code>&lt; 10</code>.</p>
+<h3 id="-equal----not-recommended-for-stochrsi"><a class="header" href="#-equal----not-recommended-for-stochrsi"><code>=</code> (Equal) -- Not Recommended for StochRSI</a></h3>
+<p><strong>Why:</strong> StochRSI produces floating-point values. Exact equality (e.g., <code>stoch_rsi_14 = 50</code>) will almost never match. Use <code>&lt;</code> or <code>&gt;</code> instead.</p>
+<div id="admonition-choosing-the-right-operator" class="admonition admonish-tip" role="note" aria-labelledby="admonition-choosing-the-right-operator-title">
+<div class="admonition-title">
+<div id="admonition-choosing-the-right-operator-title">
+<p>Choosing the right operator</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-choosing-the-right-operator"></a>
+</div>
+<div>
+<ul>
+<li>Use <strong><code>&lt;</code> / <code>&gt;</code></strong> when you want to act <strong>while</strong> StochRSI is in an extreme zone (state-based). Always add <code>max_count</code> to limit repeated firing.</li>
+<li>Use <strong><code>cross_above</code> / <code>cross_below</code></strong> when you want to act at the <strong>moment</strong> StochRSI enters or leaves a zone (event-based). This is often the better choice for StochRSI because it naturally fires once per event.</li>
+</ul>
+</div>
+</div>
+<hr />
+<h2 id="toml-examples"><a class="header" href="#toml-examples">TOML Examples</a></h2>
+<h3 id="buy-on-deeply-oversold-stochrsi"><a class="header" href="#buy-on-deeply-oversold-stochrsi">Buy on Deeply Oversold StochRSI</a></h3>
+<p>Catch short-term dips when StochRSI drops below 10 on the 5-minute chart. The <code>max_count = 1</code> prevents repeated entries while StochRSI remains pinned near zero.</p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "50 USDC"
+
+  [[actions.triggers]]
+  indicator = "stoch_rsi_14"
+  operator = "&lt;"
+  target = "10"
+  timeframe = "5m"
+  max_count = 1
+</code></pre>
+<h3 id="sell-on-overbought-stochrsi"><a class="header" href="#sell-on-overbought-stochrsi">Sell on Overbought StochRSI</a></h3>
+<p>Take profit when short-term momentum peaks. StochRSI above 85 on the 5-minute chart signals the move may be overextended.</p>
+<pre><code class="language-toml">[[actions]]
+type = "sell"
+amount = "100%"
+
+  [[actions.triggers]]
+  indicator = "stoch_rsi_14"
+  operator = "&gt;"
+  target = "85"
+  timeframe = "5m"
+  max_count = 1
+</code></pre>
+<h3 id="buy-on-stochrsi-recovery-cross-above-20"><a class="header" href="#buy-on-stochrsi-recovery-cross-above-20">Buy on StochRSI Recovery (Cross Above 20)</a></h3>
+<p>Instead of buying while StochRSI is still falling, wait for the first sign of recovery. This catches the reversal rather than the bottom.</p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "75 USDC"
+
+  [[actions.triggers]]
+  indicator = "stoch_rsi_14"
+  operator = "cross_above"
+  target = "20"
+  timeframe = "5m"
+</code></pre>
+<h3 id="stochrsi-with-rsi-filter"><a class="header" href="#stochrsi-with-rsi-filter">StochRSI with RSI Filter</a></h3>
+<p>Combine the sensitivity of StochRSI with the broader context of RSI. Only enter when StochRSI is deeply oversold <strong>and</strong> RSI confirms the broader momentum is also depressed. This filters out the many false signals StochRSI generates in trending markets.</p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+  [[actions.triggers]]
+  indicator = "stoch_rsi_14"
+  operator = "&lt;"
+  target = "10"
+  timeframe = "5m"
+  max_count = 1
+
+  [[actions.triggers]]
+  indicator = "rsi_14"
+  operator = "&lt;"
+  target = "40"
+  timeframe = "1h"
+</code></pre>
+<hr />
+<h2 id="tips"><a class="header" href="#tips">Tips</a></h2>
+<div id="admonition-stochrsi-is-noisier-than-rsi" class="admonition admonish-tip" role="note" aria-labelledby="admonition-stochrsi-is-noisier-than-rsi-title">
+<div class="admonition-title">
+<div id="admonition-stochrsi-is-noisier-than-rsi-title">
+<p>StochRSI is noisier than RSI</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-stochrsi-is-noisier-than-rsi"></a>
+</div>
+<div>
+<p>StochRSI reaches 0 and 100 routinely -- sometimes multiple times per hour on low timeframes. By itself, a StochRSI extreme is a weak signal. Always combine it with at least one confirmation layer: a trend filter (<code>sma_50 &gt; sma_200</code>), an RSI range check, or a higher-timeframe directional bias.</p>
+</div>
+</div>
+<div id="admonition-period-selection" class="admonition admonish-tip" role="note" aria-labelledby="admonition-period-selection-title">
+<div class="admonition-title">
+<div id="admonition-period-selection-title">
+<p>Period selection</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-period-selection"></a>
+</div>
+<div>
+<p><strong><code>stoch_rsi_7</code></strong> is extremely reactive and suitable for ultra-short scalping on 1m charts. Expect many signals, most of them marginal.</p>
+<p><strong><code>stoch_rsi_14</code></strong> is the standard and the best starting point for most strategies. It balances sensitivity with signal quality.</p>
+<p><strong><code>stoch_rsi_21</code></strong> smooths out the noise and produces fewer, more reliable signals. Good for 15m or 1h timeframes where you want fewer entries with higher conviction.</p>
+</div>
+</div>
+<div id="admonition-best-timeframe-pairing" class="admonition admonish-tip" role="note" aria-labelledby="admonition-best-timeframe-pairing-title">
+<div class="admonition-title">
+<div id="admonition-best-timeframe-pairing-title">
+<p>Best timeframe pairing</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-best-timeframe-pairing"></a>
+</div>
+<div>
+<p>StochRSI shines on <strong>low timeframes</strong> (1m, 5m, 15m) where its sensitivity catches quick reversals. On higher timeframes like 4h or 1d, regular RSI is usually sufficient because momentum shifts play out over more candles. A powerful combination is StochRSI on 5m for entry timing with RSI on 1h for directional confirmation.</p>
+</div>
+</div>
+<div id="admonition-avoid-using-stochrsi-alone-in-trending-markets" class="admonition admonish-warning" role="note" aria-labelledby="admonition-avoid-using-stochrsi-alone-in-trending-markets-title">
+<div class="admonition-title">
+<div id="admonition-avoid-using-stochrsi-alone-in-trending-markets-title">
+<p>Avoid using StochRSI alone in trending markets</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-avoid-using-stochrsi-alone-in-trending-markets"></a>
+</div>
+<div>
+<p>In a strong uptrend, StochRSI will repeatedly hit 0 and bounce -- producing oversold signals that look like dip-buy opportunities. But in a sustained downtrend, those dips keep getting deeper. Always gate StochRSI entries with a trend filter to avoid catching falling knives.</p>
+</div>
+</div>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../strategies/indicators/bollinger-bands.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../strategies/indicators/roc.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../strategies/indicators/bollinger-bands.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../strategies/indicators/roc.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../mermaid.min.js"></script>
+        <script src="../../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

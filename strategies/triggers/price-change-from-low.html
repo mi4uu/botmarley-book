@@ -1,0 +1,373 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Price Change from Low - Botmarley User Manual</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Complete user guide for the Botmarley cryptocurrency trading bot">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../.././mdbook-admonish.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Botmarley User Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="price-change-from-low"><a class="header" href="#price-change-from-low">Price Change from Low</a></h1>
+<p>The <code>price_change_from_low</code> trigger fires when the current price has risen by a specified percentage from the <strong>lowest price</strong> within a lookback window. It is a <strong>global</strong> trigger — no open position is required.</p>
+<p>Use it to detect <strong>recovery-from-bottom</strong> signals: "price has bounced 3% off its low over the last 12 hours."</p>
+<div id="admonition-note" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-title">
+<div class="admonition-title">
+<div id="admonition-note-title">
+<p>Note</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-note"></a>
+</div>
+<div>
+<p>This trigger measures the rise from a <strong>recent low in the market</strong>, not from your position's entry price. For position-relative tracking, see <a href="pos-price-change.html">Position Price Change</a> instead.</p>
+</div>
+</div>
+<h2 id="toml-syntax"><a class="header" href="#toml-syntax">TOML Syntax</a></h2>
+<pre><code class="language-toml">[[actions.triggers]]
+type = "price_change_from_low"
+value = "3%"            # Required: rise threshold (always positive)
+timeframe = "1h"        # Optional: candle size (default: 1m)
+lookback = 12           # Optional: number of candles to scan (default: 24)
+max_value = "15%"       # Optional: maximum allowed rise (range cap)
+max_count = 1           # Optional: max fires per position
+</code></pre>
+<h2 id="parameters"><a class="header" href="#parameters">Parameters</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Default</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>type</code></td><td>string</td><td>Yes</td><td>—</td><td>Must be <code>"price_change_from_low"</code></td></tr>
+<tr><td><code>value</code></td><td>string</td><td>Yes</td><td>—</td><td>Rise threshold in <code>"N%"</code> format (always positive)</td></tr>
+<tr><td><code>timeframe</code></td><td>string</td><td>No</td><td><code>"1m"</code></td><td>Candle size for the lookback window</td></tr>
+<tr><td><code>lookback</code></td><td>integer</td><td>No</td><td><code>24</code></td><td>Number of <code>timeframe</code>-sized candles to scan</td></tr>
+<tr><td><code>max_value</code></td><td>string</td><td>No</td><td>—</td><td>Maximum rise in <code>"N%"</code> format (range cap)</td></tr>
+<tr><td><code>max_count</code></td><td>integer</td><td>No</td><td>unlimited</td><td>Maximum times this trigger can fire per position</td></tr>
+</tbody></table>
+</div>
+<h2 id="how-it-works"><a class="header" href="#how-it-works">How It Works</a></h2>
+<ol>
+<li><strong>Compute the lookback window</strong>: <code>total_candles = lookback × timeframe_in_minutes</code></li>
+<li><strong>Find the lowest close</strong> in that window</li>
+<li><strong>Calculate the rise</strong>: <code>change_pct = (current_close - lowest_close) / lowest_close × 100</code></li>
+<li><strong>Fire</strong> if <code>change_pct &gt;= threshold</code> (and within <code>max_value</code> range if set)</li>
+</ol>
+<pre class="mermaid">graph TD
+    A[&quot;Scan last N candles&lt;br/&gt;(lookback × timeframe)&quot;] --&gt; B[&quot;Find lowest close&quot;]
+    B --&gt; C[&quot;Calculate % rise&lt;br/&gt;from low to current&quot;]
+    C --&gt; D{&quot;Rise meets&lt;br/&gt;threshold?&quot;}
+    D --&gt;|Yes| E{&quot;Within max_value&lt;br/&gt;range?&quot;}
+    D --&gt;|No| F[&quot;No action&quot;]
+    E --&gt;|Yes or no max_value| G[&quot;Trigger fires&quot;]
+    E --&gt;|No — too extreme| F
+</pre>
+<h3 id="example-calculation"><a class="header" href="#example-calculation">Example Calculation</a></h3>
+<p>With <code>timeframe = "1h"</code>, <code>lookback = 12</code>, <code>value = "3%"</code>:</p>
+<ul>
+<li>Window: last 12 × 60 = 720 one-minute candles (12 hours)</li>
+<li>Lowest close in window: $45,000</li>
+<li>Current close: $46,800</li>
+<li>Change: ($46,800 - $45,000) / $45,000 × 100 = <strong>+4.0%</strong></li>
+<li>+4.0% ≥ +3.0% → <strong>trigger fires</strong></li>
+</ul>
+<h2 id="the-value-format"><a class="header" href="#the-value-format">The <code>value</code> Format</a></h2>
+<p>The <code>value</code> must be <strong>positive</strong> (you're measuring a rise from a low):</p>
+<div class="table-wrapper"><table><thead><tr><th>Value</th><th>Meaning</th></tr></thead><tbody>
+<tr><td><code>"3%"</code></td><td>Price rose at least 3% from the window's low</td></tr>
+<tr><td><code>"5%"</code></td><td>Price rose at least 5% from the window's low</td></tr>
+<tr><td><code>"1.5%"</code></td><td>Price rose at least 1.5% from the window's low</td></tr>
+</tbody></table>
+</div>
+<h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
+<h3 id="buy-after-3-bounce-from-12h-low"><a class="header" href="#buy-after-3-bounce-from-12h-low">Buy After 3% Bounce from 12h Low</a></h3>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+[[actions.triggers]]
+type = "price_change_from_low"
+value = "3%"
+timeframe = "1h"
+lookback = 12
+</code></pre>
+<h3 id="confirm-reversal--not-a-dead-cat-bounce"><a class="header" href="#confirm-reversal--not-a-dead-cat-bounce">Confirm Reversal — Not a Dead Cat Bounce</a></h3>
+<pre><code class="language-toml"># Enter on a 5% bounce, but skip if it bounced more than 20%
+# (might be too late / overbought)
+[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+[[actions.triggers]]
+type = "price_change_from_low"
+value = "5%"
+max_value = "20%"
+timeframe = "1h"
+lookback = 24
+</code></pre>
+<h3 id="combine-with-volume-confirmation"><a class="header" href="#combine-with-volume-confirmation">Combine with Volume Confirmation</a></h3>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "150 USDC"
+
+# Price bounced 3% from 6h low
+[[actions.triggers]]
+type = "price_change_from_low"
+value = "3%"
+timeframe = "1h"
+lookback = 6
+
+# AND volume is above average (confirmation)
+[[actions.triggers]]
+indicator = "volume_sma_20"
+operator = "&gt;"
+target = "volume_sma_50"
+timeframe = "1h"
+</code></pre>
+<h3 id="short-window-recovery-5m-candles"><a class="header" href="#short-window-recovery-5m-candles">Short-Window Recovery (5m candles)</a></h3>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "50 USDC"
+
+[[actions.triggers]]
+type = "price_change_from_low"
+value = "1.5%"
+timeframe = "5m"
+lookback = 24
+max_count = 1
+</code></pre>
+<h2 id="tips"><a class="header" href="#tips">Tips</a></h2>
+<div id="admonition-tip" class="admonition admonish-tip" role="note" aria-labelledby="admonition-tip-title">
+<div class="admonition-title">
+<div id="admonition-tip-title">
+<p>Tip</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-tip"></a>
+</div>
+<div>
+<p><code>price_change_from_low</code> is a <strong>momentum confirmation</strong> trigger. A price bouncing off a low with strength suggests buying interest. Combine it with volume or RSI triggers for higher confidence entries.</p>
+</div>
+</div>
+<div id="admonition-tip-1" class="admonition admonish-tip" role="note" aria-labelledby="admonition-tip-1-title">
+<div class="admonition-title">
+<div id="admonition-tip-1-title">
+<p>Tip</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-tip-1"></a>
+</div>
+<div>
+<p>Use <code>max_value</code> to avoid chasing. If the price already bounced 20% from the low, the easy gains may already be captured.</p>
+</div>
+</div>
+<div id="admonition-note-1" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-1-title">
+<div class="admonition-title">
+<div id="admonition-note-1-title">
+<p>Note</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-note-1"></a>
+</div>
+<div>
+<p>Like all price triggers, this fires based on <strong>candle closes</strong>, not intra-candle wicks. The "lowest close" is the lowest closing price in the window.</p>
+</div>
+</div>
+<h2 id="related-triggers"><a class="header" href="#related-triggers">Related Triggers</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Trigger</th><th>What It Measures</th></tr></thead><tbody>
+<tr><td><strong><a href="price-change-from-high.html">Price Change from High</a></strong></td><td>% drop from the highest price in a lookback window</td></tr>
+<tr><td><strong><a href="price-change.html">Price Change</a></strong></td><td>% change over a fixed lookback period</td></tr>
+<tr><td><strong><a href="pos-price-change.html">Position Price Change</a></strong></td><td>% change from your entry price</td></tr>
+<tr><td><strong><a href="pos-price-change-follow.html">Trailing Take-Profit</a></strong></td><td>Locks in profit as price moves up</td></tr>
+</tbody></table>
+</div>
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../strategies/triggers/price-change-from-high.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../strategies/triggers/pos-price-change.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../strategies/triggers/price-change-from-high.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../strategies/triggers/pos-price-change.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../mermaid.min.js"></script>
+        <script src="../../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

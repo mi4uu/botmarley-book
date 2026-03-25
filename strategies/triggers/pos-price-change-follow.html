@@ -1,0 +1,389 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Trailing Take-Profit - Botmarley User Manual</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Complete user guide for the Botmarley cryptocurrency trading bot">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../.././mdbook-admonish.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Botmarley User Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="trailing-take-profit--dca-trigger"><a class="header" href="#trailing-take-profit--dca-trigger">Trailing Take-Profit / DCA Trigger</a></h1>
+<p>The <code>pos_price_change_follow</code> trigger is a dynamic exit (or entry) that activates when price reaches a threshold from the position entry, then fires when price retraces by a tolerance amount. Use it for trailing take-profits that ride momentum before exiting, or trailing DCA that buys on a bounce after a dip.</p>
+<h2 id="toml-syntax"><a class="header" href="#toml-syntax">TOML Syntax</a></h2>
+<pre><code class="language-toml">[[actions.triggers]]
+type = "pos_price_change_follow"
+value = "3%"            # Required: activation threshold from entry
+tolerance = "-0.5%"     # Required: retrace tolerance to trigger
+</code></pre>
+<h2 id="parameters"><a class="header" href="#parameters">Parameters</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Type</th><th>Required</th><th>Default</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>type</code></td><td>string</td><td>Yes</td><td>—</td><td>Must be <code>"pos_price_change_follow"</code></td></tr>
+<tr><td><code>value</code></td><td>string</td><td>Yes</td><td>—</td><td>Activation threshold: <code>"±N%"</code> from entry price</td></tr>
+<tr><td><code>tolerance</code></td><td>string</td><td>Yes</td><td>—</td><td>Retrace tolerance: how far price must pull back after activation</td></tr>
+<tr><td><code>max_count</code></td><td>integer</td><td>No</td><td>unlimited</td><td>Maximum times this trigger can fire per position</td></tr>
+</tbody></table>
+</div><div id="admonition-warning" class="admonition admonish-warning" role="note" aria-labelledby="admonition-warning-title">
+<div class="admonition-title">
+<div id="admonition-warning-title">
+<p>Warning</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-warning"></a>
+</div>
+<div>
+<p><code>pos_price_change_follow</code> does <strong>not</strong> support the <code>timeframe</code> field. It tracks price relative to the position entry, like <code>pos_price_change</code>.</p>
+</div>
+</div>
+<h2 id="how-it-works"><a class="header" href="#how-it-works">How It Works</a></h2>
+<p>This trigger has two phases:</p>
+<h3 id="phase-1-activation"><a class="header" href="#phase-1-activation">Phase 1: Activation</a></h3>
+<p>The trigger activates when the position's P&amp;L reaches the <code>value</code> threshold:</p>
+<ul>
+<li><strong>Positive <code>value</code></strong> (e.g., <code>"3%"</code>): activates when position is up 3% from entry</li>
+<li><strong>Negative <code>value</code></strong> (e.g., <code>"-10%"</code>): activates when position is down 10% from entry</li>
+</ul>
+<h3 id="phase-2-retrace-and-fire"><a class="header" href="#phase-2-retrace-and-fire">Phase 2: Retrace and Fire</a></h3>
+<p>Once activated, the trigger tracks the extreme price (highest for positive, lowest for negative) and fires when price retraces from that extreme by the <code>tolerance</code> amount:</p>
+<ul>
+<li><strong>Negative <code>tolerance</code></strong> (e.g., <code>"-0.5%"</code>): fires when price drops 0.5% from the tracked peak</li>
+<li><strong>Positive <code>tolerance</code></strong> (e.g., <code>"1%"</code>): fires when price rises 1% from the tracked low</li>
+</ul>
+<pre class="mermaid">graph TD
+    A[&quot;Position P&amp;L&lt;br/&gt;reaches threshold&quot;] --&gt; B[&quot;Phase 1: Activated&quot;]
+    B --&gt; C[&quot;Track extreme price&lt;br/&gt;(highest or lowest)&quot;]
+    C --&gt; D{&quot;Price retraces&lt;br/&gt;by tolerance?&quot;}
+    D --&gt;|Yes| E[&quot;Trigger fires&quot;]
+    D --&gt;|No| F[&quot;Update extreme&lt;br/&gt;if new high/low&quot;]
+    F --&gt; D
+</pre>
+<h3 id="trailing-take-profit-example"><a class="header" href="#trailing-take-profit-example">Trailing Take-Profit Example</a></h3>
+<p>With <code>value = "3%"</code> and <code>tolerance = "-0.5%"</code>:</p>
+<ol>
+<li>Position opens at $100</li>
+<li>Price rises to $103 → <strong>activation</strong> (up 3% from entry)</li>
+<li>Price continues to $108 (tracked peak = $108)</li>
+<li>Price drops to $107.46 → that's -0.5% from $108 → <strong>trigger fires</strong></li>
+</ol>
+<p>The trailing take-profit rode the run from $103 to $108, then exited on a small retrace. A fixed take-profit at 3% would have sold at $103 and missed the extra 5%.</p>
+<h3 id="trailing-dca-example"><a class="header" href="#trailing-dca-example">Trailing DCA Example</a></h3>
+<p>With <code>value = "-10%"</code> and <code>tolerance = "1%"</code>:</p>
+<ol>
+<li>Position opens at $100</li>
+<li>Price drops to $90 → <strong>activation</strong> (down 10% from entry)</li>
+<li>Price continues dropping to $85 (tracked low = $85)</li>
+<li>Price rises to $85.85 → that's +1% from $85 → <strong>trigger fires</strong></li>
+</ol>
+<p>Instead of buying at exactly -10%, the trailing DCA waited for the price to show signs of recovery (bouncing 1% from the local bottom) before adding capital.</p>
+<h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
+<h3 id="trailing-take-profit-sell-on-retrace-from-profit"><a class="header" href="#trailing-take-profit-sell-on-retrace-from-profit">Trailing Take-Profit: Sell on Retrace from Profit</a></h3>
+<pre><code class="language-toml">[[actions]]
+type = "sell"
+amount = "100%"
+
+[[actions.triggers]]
+type = "pos_price_change_follow"
+value = "3%"
+tolerance = "-0.5%"
+</code></pre>
+<h3 id="trailing-dca-buy-on-bounce-after-deep-dip"><a class="header" href="#trailing-dca-buy-on-bounce-after-deep-dip">Trailing DCA: Buy on Bounce After Deep Dip</a></h3>
+<pre><code class="language-toml">[[actions]]
+type = "buy"
+amount = "100%"
+average_price = true
+
+[[actions.triggers]]
+type = "pos_price_change_follow"
+value = "-10%"
+tolerance = "1%"
+</code></pre>
+<h3 id="full-strategy-multi-signal-entry--trailing-exit"><a class="header" href="#full-strategy-multi-signal-entry--trailing-exit">Full Strategy: Multi-Signal Entry + Trailing Exit</a></h3>
+<pre><code class="language-toml">[meta]
+name = "StochRSI Trailing"
+description = "StochRSI extreme entry + trailing take-profit exit"
+max_open_positions = 1
+
+# Entry: StochRSI deeply oversold
+[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+[[actions.triggers]]
+indicator = "stoch_rsi_14"
+operator = "&lt;"
+target = "20"
+timeframe = "15m"
+
+[[actions.triggers]]
+indicator = "rsi_14"
+operator = "&lt;"
+target = "35"
+timeframe = "15m"
+
+# Exit: trailing take-profit
+[[actions]]
+type = "sell"
+amount = "100%"
+
+[[actions.triggers]]
+type = "pos_price_change_follow"
+value = "3%"
+tolerance = "-0.5%"
+
+# DCA: trailing buy after deep dip shows recovery
+[[actions]]
+type = "buy"
+amount = "100%"
+average_price = true
+
+[[actions.triggers]]
+type = "pos_price_change_follow"
+value = "-10%"
+tolerance = "1%"
+</code></pre>
+<h2 id="choosing-the-right-parameters"><a class="header" href="#choosing-the-right-parameters">Choosing the Right Parameters</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Use Case</th><th><code>value</code></th><th><code>tolerance</code></th><th>Behavior</th></tr></thead><tbody>
+<tr><td>Tight trailing TP</td><td><code>"2%"</code></td><td><code>"-0.2%"</code></td><td>Quick exit after small gain</td></tr>
+<tr><td>Wide trailing TP</td><td><code>"5%"</code></td><td><code>"-1%"</code></td><td>Rides larger runs, accepts bigger retrace</td></tr>
+<tr><td>DCA on bounce</td><td><code>"-10%"</code></td><td><code>"1%"</code></td><td>Buys after deep dip shows 1% recovery</td></tr>
+<tr><td>DCA on slight bounce</td><td><code>"-5%"</code></td><td><code>"0.5%"</code></td><td>Buys after moderate dip with slight recovery</td></tr>
+</tbody></table>
+</div>
+<h2 id="tips"><a class="header" href="#tips">Tips</a></h2>
+<div id="admonition-tip" class="admonition admonish-tip" role="note" aria-labelledby="admonition-tip-title">
+<div class="admonition-title">
+<div id="admonition-tip-title">
+<p>Tip</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-tip"></a>
+</div>
+<div>
+<p><code>pos_price_change_follow</code> is more sophisticated than a plain <code>trailing_stop</code>. The trailing stop tracks from peak; <code>pos_price_change_follow</code> only activates after a threshold is reached and then has a separate tolerance for exit. This gives you more control over when trailing begins.</p>
+</div>
+</div>
+<div id="admonition-tip-1" class="admonition admonish-tip" role="note" aria-labelledby="admonition-tip-1-title">
+<div class="admonition-title">
+<div id="admonition-tip-1-title">
+<p>Tip</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-tip-1"></a>
+</div>
+<div>
+<p>For trailing take-profits, use a small negative tolerance (e.g., <code>"-0.5%"</code>). For trailing DCA buys, use a small positive tolerance (e.g., <code>"1%"</code>). The tolerance sign depends on which direction you are watching for a retrace.</p>
+</div>
+</div>
+<div id="admonition-warning-1" class="admonition admonish-warning" role="note" aria-labelledby="admonition-warning-1-title">
+<div class="admonition-title">
+<div id="admonition-warning-1-title">
+<p>Warning</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-warning-1"></a>
+</div>
+<div>
+<p>If your <code>tolerance</code> is too tight (e.g., <code>"-0.1%"</code>), normal price fluctuations will trigger the exit almost immediately after activation. Give enough room for the price to breathe.</p>
+</div>
+</div>
+<h2 id="related-triggers"><a class="header" href="#related-triggers">Related Triggers</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Trigger</th><th>What It Measures</th></tr></thead><tbody>
+<tr><td><strong><a href="trailing-stop.html">Trailing Stop</a></strong></td><td>Simple trailing from peak (no activation threshold)</td></tr>
+<tr><td><strong><a href="pos-price-change.html">Position Price Change</a></strong></td><td>Fixed % from entry price</td></tr>
+<tr><td><strong><a href="time-in-position.html">Time in Position</a></strong></td><td>Duration-based exit</td></tr>
+</tbody></table>
+</div>
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../strategies/triggers/time-in-position.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../strategies/triggers/next-candle.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../strategies/triggers/time-in-position.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../strategies/triggers/next-candle.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../mermaid.min.js"></script>
+        <script src="../../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,460 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>SMA — Simple Moving Average - Botmarley User Manual</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Complete user guide for the Botmarley cryptocurrency trading bot">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../.././mdbook-admonish.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Botmarley User Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="sma----simple-moving-average"><a class="header" href="#sma----simple-moving-average">SMA -- Simple Moving Average</a></h1>
+<h2 id="contents"><a class="header" href="#contents">Contents</a></h2>
+<ul>
+<li><a href="#format">Format</a></li>
+<li><a href="#common-periods">Common Periods</a></li>
+<li><a href="#understanding-operators-with-sma">Understanding Operators with SMA</a>
+<ul>
+<li><a href="#-greater-than"><code>&gt;</code> Greater Than</a></li>
+<li><a href="#-less-than"><code>&lt;</code> Less Than</a></li>
+<li><a href="#-equal"><code>=</code> Equal</a></li>
+<li><a href="#cross_above"><code>cross_above</code></a></li>
+<li><a href="#cross_below"><code>cross_below</code></a></li>
+</ul>
+</li>
+<li><a href="#toml-examples">TOML Examples</a>
+<ul>
+<li><a href="#golden-cross-entry">Golden Cross Entry</a></li>
+<li><a href="#death-cross-exit">Death Cross Exit</a></li>
+<li><a href="#price-above-sma200-as-trend-filter">Price Above SMA(200) as Trend Filter</a></li>
+<li><a href="#price-drops-below-short-term-sma">Price Drops Below Short-Term SMA</a></li>
+<li><a href="#multi-sma-trend-confirmation">Multi-SMA Trend Confirmation</a></li>
+</ul>
+</li>
+<li><a href="#tips">Tips</a></li>
+</ul>
+<hr />
+<p>The <strong>Simple Moving Average</strong> is the most fundamental technical indicator in trading. It calculates the arithmetic mean of the last N closing prices, giving <strong>equal weight</strong> to every candle in the window. If you set the period to 50, the SMA takes the last 50 closing prices, adds them up, and divides by 50. Each new candle drops the oldest price and adds the newest.</p>
+<p>Because every candle carries the same weight, SMA is a smooth, stable line that filters out short-term noise. The trade-off is <strong>lag</strong> -- SMA reacts slowly to sudden price changes because old prices influence the average just as much as the most recent one.</p>
+<p><img src="../../images/indicator-sma-labeled.png" alt="SMA(50) and SMA(200) overlaid on BTC/USDC 1h candle chart with color labels" /></p>
+<p><em>BTC/USDC 1-hour chart with <span style="color: orange;"><strong>SMA(50)</strong></span> (orange) and <span style="color: #4682ff;"><strong>SMA(200)</strong></span> (blue). The faster SMA(50) reacts more quickly to price changes while the slower SMA(200) shows the long-term trend.</em></p>
+<hr />
+<h2 id="format"><a class="header" href="#format">Format</a></h2>
+<pre><code>sma_{period}
+</code></pre>
+<p>The period must be an integer between <strong>1</strong> and <strong>200</strong>.</p>
+<p><strong>Examples:</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>TOML value</th><th>Meaning</th></tr></thead><tbody>
+<tr><td><code>sma_20</code></td><td>20-period Simple Moving Average</td></tr>
+<tr><td><code>sma_50</code></td><td>50-period Simple Moving Average</td></tr>
+<tr><td><code>sma_200</code></td><td>200-period Simple Moving Average</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="common-periods"><a class="header" href="#common-periods">Common Periods</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Period</th><th>Style</th><th>Typical Use</th></tr></thead><tbody>
+<tr><td><code>sma_20</code></td><td>Short-term</td><td>Tracks recent momentum. On daily candles this covers roughly one trading month. Good for timing entries in active markets.</td></tr>
+<tr><td><code>sma_50</code></td><td>Medium-term</td><td>The "workhorse" moving average. Widely watched by traders as a dynamic support/resistance level. A popular component of crossover strategies.</td></tr>
+<tr><td><code>sma_200</code></td><td>Long-term</td><td>The institutional benchmark. Price above the 200-period SMA is generally considered a bull market; below it, a bear market. Often used as a macro trend filter.</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="understanding-operators-with-sma"><a class="header" href="#understanding-operators-with-sma">Understanding Operators with SMA</a></h2>
+<p>Every trigger in Botmarley compares an <code>indicator</code> to a <code>target</code> using an <code>operator</code>. Here is what each operator means <strong>visually on the chart</strong> when used with SMA.</p>
+<h3 id="greater-than"><a class="header" href="#greater-than"><code>&gt;</code> (Greater Than)</a></h3>
+<p><strong>"Price is ABOVE the SMA line on the chart."</strong></p>
+<p>As long as the candle closes above the line, this condition is true. Think of it as "price is in bullish territory." This is a <strong>state-based</strong> operator -- it remains true on every candle where the condition holds, not just the first one.</p>
+<p><img src="../../images/sma-price-above.png" alt="Price above SMA(200) — bullish territory" /></p>
+<p><em>Price candles closing above the SMA(200) line. The green zone represents "bullish territory" — every candle here makes <code>price &gt; sma_200</code> true.</em></p>
+<pre><code class="language-toml"># True on every candle where price closes above the SMA(200)
+[[actions.triggers]]
+indicator = "price"
+operator = "&gt;"
+target = "sma_200"
+</code></pre>
+<h3 id="less-than"><a class="header" href="#less-than"><code>&lt;</code> (Less Than)</a></h3>
+<p><strong>"Price is BELOW the SMA line on the chart."</strong></p>
+<p>The mirror image of <code>&gt;</code>. When the candle closes below the SMA line, this condition is true. Think of it as "price is in bearish territory."</p>
+<p><img src="../../images/sma-price-below.png" alt="Price below SMA(200) — bearish territory" /></p>
+<p><em>Price candles closing below the SMA(200) line. The red zone represents "bearish territory" — every candle here makes <code>price &lt; sma_200</code> true.</em></p>
+<pre><code class="language-toml"># True on every candle where price closes below the SMA(20)
+[[actions.triggers]]
+indicator = "price"
+operator = "&lt;"
+target = "sma_20"
+</code></pre>
+<h3 id="-equal"><a class="header" href="#-equal"><code>=</code> (Equal)</a></h3>
+<p><strong>Rarely useful with SMA.</strong> Since SMA values are floating-point decimals (e.g., 67,432.18), exact equality with another floating-point value almost never happens. This operator exists mainly for discrete indicators like TTM Trend. Use <code>&gt;</code> or <code>&lt;</code> instead when working with SMA.</p>
+<h3 id="cross_above"><a class="header" href="#cross_above"><code>cross_above</code></a></h3>
+<p><strong>"The MOMENT the indicator line crosses from below to above the target."</strong></p>
+<p>On the chart, look for where two lines intersect and the indicator moves from underneath to on top. This fires <strong>once</strong> at the crossing candle, not continuously. It checks two consecutive candles: the indicator was at or below the target on the previous candle, and is above it on the current candle.</p>
+<p>This is the famous <strong>Golden Cross</strong> when SMA(50) crosses above SMA(200) -- one of the most widely watched signals in both traditional finance and crypto.</p>
+<p><img src="../../images/sma-cross-above.png" alt="SMA Golden Cross — SMA(50) crossing above SMA(200)" /></p>
+<p><em>The moment SMA(50) crosses above SMA(200) — the Golden Cross. This event-based signal fires once at the crossing candle.</em></p>
+<pre><code class="language-toml"># Golden Cross: fires once when SMA(50) crosses above SMA(200)
+[[actions.triggers]]
+indicator = "sma_50"
+operator = "cross_above"
+target = "sma_200"
+timeframe = "1d"
+</code></pre>
+<h3 id="cross_below"><a class="header" href="#cross_below"><code>cross_below</code></a></h3>
+<p><strong>"The MOMENT the indicator line crosses from above to below the target."</strong></p>
+<p>The opposite crossing -- from above to below. On the chart, the indicator line drops through the target line. Like <code>cross_above</code>, this fires <strong>once</strong> at the crossing candle.</p>
+<p>This is the <strong>Death Cross</strong> when SMA(50) crosses below SMA(200) -- a widely watched bearish signal.</p>
+<p><img src="../../images/sma-cross-below.png" alt="SMA Death Cross — SMA(50) crossing below SMA(200)" /></p>
+<p><em>The moment SMA(50) crosses below SMA(200) — the Death Cross. The bearish mirror of the Golden Cross.</em></p>
+<pre><code class="language-toml"># Death Cross: fires once when SMA(50) crosses below SMA(200)
+[[actions.triggers]]
+indicator = "sma_50"
+operator = "cross_below"
+target = "sma_200"
+timeframe = "1d"
+</code></pre>
+<div id="admonition-warning" class="admonition admonish-warning" role="note" aria-labelledby="admonition-warning-title">
+<div class="admonition-title">
+<div id="admonition-warning-title">
+<p>Warning</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-warning"></a>
+</div>
+<div>
+<p><code>cross_above</code> and <code>cross_below</code> are <strong>event-based</strong> -- they fire only on the candle where the crossing happens. In contrast, <code>&gt;</code> and <code>&lt;</code> are <strong>state-based</strong> -- they fire on every candle where the condition holds. Choose the right operator for your strategy logic: use crossovers for entry signals, use comparisons for ongoing filters.</p>
+</div>
+</div>
+<hr />
+<h2 id="toml-examples"><a class="header" href="#toml-examples">TOML Examples</a></h2>
+<h3 id="golden-cross-entry"><a class="header" href="#golden-cross-entry">Golden Cross Entry</a></h3>
+<p>Buy when the 50-period SMA crosses above the 200-period SMA on the daily chart. This is a classic long-term trend-following signal.</p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "200 USDC"
+
+[[actions.triggers]]
+indicator = "sma_50"
+operator = "cross_above"
+target = "sma_200"
+timeframe = "1d"
+</code></pre>
+<h3 id="death-cross-exit"><a class="header" href="#death-cross-exit">Death Cross Exit</a></h3>
+<p>Sell the entire position when SMA(50) crosses below SMA(200). Even if your take-profit has not been reached, a death cross signals the uptrend may be over.</p>
+<pre><code class="language-toml">[[actions]]
+type = "sell"
+amount = "100%"
+
+[[actions.triggers]]
+indicator = "sma_50"
+operator = "cross_below"
+target = "sma_200"
+timeframe = "1d"
+</code></pre>
+<h3 id="price-above-sma200-as-trend-filter"><a class="header" href="#price-above-sma200-as-trend-filter">Price Above SMA(200) as Trend Filter</a></h3>
+<p>Use the 200-period SMA as a macro trend gate. Only allow entries while price is above the long-term average. This is a <strong>state-based</strong> filter that stays active as long as the condition holds. Combined with an RSI dip on a lower timeframe, this creates the classic "trend-safe DCA" pattern.</p>
+<p><img src="../../images/sma-trend-filter.png" alt="SMA(200) as trend filter — bullish zone above, bearish zone below" /></p>
+<p><em>The SMA(200) divides the chart into a bullish zone (above) and a bearish zone (below). Only buy RSI dips when price is in the bullish zone. This multi-indicator, multi-timeframe pattern avoids buying into falling markets.</em></p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+# Macro filter: only buy when price is above the 200 SMA
+[[actions.triggers]]
+indicator = "price"
+operator = "&gt;"
+target = "sma_200"
+timeframe = "1d"
+
+# Entry signal: RSI dip on lower timeframe
+[[actions.triggers]]
+indicator = "rsi_14"
+operator = "&lt;"
+target = "35"
+timeframe = "1h"
+</code></pre>
+<h3 id="price-drops-below-short-term-sma"><a class="header" href="#price-drops-below-short-term-sma">Price Drops Below Short-Term SMA</a></h3>
+<p>Detect when price falls below the 50-period SMA. This can be used as an early warning or exit signal on shorter timeframes.</p>
+<p><img src="../../images/sma-price-drops-below.png" alt="Price dropping below SMA(50) — early warning signal" /></p>
+<p><em>Price falling below the SMA(50) line — an early warning that the short-term trend may be weakening. This sell trigger lets you reduce exposure before a larger drop develops.</em></p>
+<pre><code class="language-toml">[[actions]]
+type = "sell"
+amount = "50%"
+
+[[actions.triggers]]
+indicator = "price"
+operator = "&lt;"
+target = "sma_20"
+timeframe = "4h"
+</code></pre>
+<h3 id="multi-sma-trend-confirmation"><a class="header" href="#multi-sma-trend-confirmation">Multi-SMA Trend Confirmation</a></h3>
+<p>Combine multiple SMA conditions. This entry requires all three SMAs to be in the correct alignment (fast above medium above slow), confirming a strong uptrend before entering.</p>
+<p><img src="../../images/sma-multi-confirmation.png" alt="Multi-SMA alignment — perfect uptrend stacking" /></p>
+<p><em>Perfect SMA alignment: price &gt; SMA(20) &gt; SMA(50) &gt; SMA(200). When all three layers stack in the correct order, it confirms a strong uptrend across all timeframes.</em></p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "150 USDC"
+
+# SMA(20) above SMA(50) -- short-term trend is bullish
+[[actions.triggers]]
+indicator = "sma_20"
+operator = "&gt;"
+target = "sma_50"
+timeframe = "1d"
+
+# SMA(50) above SMA(200) -- medium-term trend is bullish
+[[actions.triggers]]
+indicator = "sma_50"
+operator = "&gt;"
+target = "sma_200"
+timeframe = "1d"
+
+# Price above SMA(20) -- price is in the strongest zone
+[[actions.triggers]]
+indicator = "price"
+operator = "&gt;"
+target = "sma_20"
+timeframe = "1d"
+</code></pre>
+<hr />
+<h2 id="tips"><a class="header" href="#tips">Tips</a></h2>
+<div id="admonition-shorter-period--faster-but-noisier" class="admonition admonish-tip" role="note" aria-labelledby="admonition-shorter-period--faster-but-noisier-title">
+<div class="admonition-title">
+<div id="admonition-shorter-period--faster-but-noisier-title">
+<p>Shorter period = faster but noisier</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-shorter-period--faster-but-noisier"></a>
+</div>
+<div>
+<p>SMA(20) reacts more quickly to price changes but generates more false signals. SMA(200) is very smooth and reliable but slow to respond. Match the period to your strategy's timeframe: use shorter periods for scalping on 5m/15m charts, longer periods for swing trading on 4h/1d charts.</p>
+</div>
+</div>
+<div id="admonition-sma-works-best-as-a-filter-not-a-standalone-signal" class="admonition admonish-tip" role="note" aria-labelledby="admonition-sma-works-best-as-a-filter-not-a-standalone-signal-title">
+<div class="admonition-title">
+<div id="admonition-sma-works-best-as-a-filter-not-a-standalone-signal-title">
+<p>SMA works best as a filter, not a standalone signal</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-sma-works-best-as-a-filter-not-a-standalone-signal"></a>
+</div>
+<div>
+<p>While the Golden Cross and Death Cross are famous, relying on a single SMA crossover can produce late entries and many false signals in sideways markets. The real power of SMA is as a <strong>trend filter</strong> layered with other indicators. For example: "only buy RSI dips when price is above SMA(200)."</p>
+</div>
+</div>
+<div id="admonition-use-cross_above-for-entries--for-filters" class="admonition admonish-tip" role="note" aria-labelledby="admonition-use-cross_above-for-entries--for-filters-title">
+<div class="admonition-title">
+<div id="admonition-use-cross_above-for-entries--for-filters-title">
+<p>Use cross_above for entries, &gt; for filters</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-use-cross_above-for-entries--for-filters"></a>
+</div>
+<div>
+<p>If you want to enter on a crossover event (one-time signal), use <code>cross_above</code> or <code>cross_below</code>. If you want to gate entries behind a trend condition that stays active as long as it holds, use <code>&gt;</code> or <code>&lt;</code>. Mixing them up is a common mistake -- a <code>&gt;</code> trigger fires on every candle, which can cause repeated entries if you do not use <code>max_count</code>.</p>
+</div>
+</div>
+<div id="admonition-sma-vs-ema" class="admonition admonish-note" role="note" aria-labelledby="admonition-sma-vs-ema-title">
+<div class="admonition-title">
+<div id="admonition-sma-vs-ema-title">
+<p>SMA vs EMA</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-sma-vs-ema"></a>
+</div>
+<div>
+<p>SMA gives equal weight to all candles in the window, making it smoother but slower to react. If you need faster response to price changes with less lag, consider using <a href="ema.html">EMA</a> instead. Many strategies combine both: SMA for the macro trend view and EMA for entry timing.</p>
+</div>
+</div>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../strategies/indicators.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../strategies/indicators/ema.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../strategies/indicators.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../strategies/indicators/ema.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../mermaid.min.js"></script>
+        <script src="../../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

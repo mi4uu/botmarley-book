@@ -1,0 +1,446 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>VWAP — Volume Weighted Average Price - Botmarley User Manual</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Complete user guide for the Botmarley cryptocurrency trading bot">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../.././mdbook-admonish.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Botmarley User Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="vwap----volume-weighted-average-price"><a class="header" href="#vwap----volume-weighted-average-price">VWAP -- Volume-Weighted Average Price</a></h1>
+<h2 id="contents"><a class="header" href="#contents">Contents</a></h2>
+<ul>
+<li><a href="#format">Format</a></li>
+<li><a href="#understanding-vwap-values">Understanding VWAP Values</a></li>
+<li><a href="#understanding-operators-with-vwap">Understanding Operators with VWAP</a>
+<ul>
+<li><a href="#-greater-than----state-based"><code>&gt;</code> Greater Than</a></li>
+<li><a href="#-less-than----state-based"><code>&lt;</code> Less Than</a></li>
+<li><a href="#cross_above----event-based"><code>cross_above</code></a></li>
+<li><a href="#cross_below----event-based"><code>cross_below</code></a></li>
+<li><a href="#-equal----not-recommended-for-vwap"><code>=</code> Equal</a></li>
+</ul>
+</li>
+<li><a href="#toml-examples">TOML Examples</a>
+<ul>
+<li><a href="#buy-below-vwap">Buy Below VWAP</a></li>
+<li><a href="#sell-above-vwap">Sell Above VWAP</a></li>
+<li><a href="#vwap-bounce-with-deviation-confirmation">VWAP Bounce with Deviation Confirmation</a></li>
+<li><a href="#price-crosses-above-vwap-entry">Price Crosses Above VWAP Entry</a></li>
+</ul>
+</li>
+<li><a href="#tips">Tips</a></li>
+</ul>
+<hr />
+<h2 id="overview"><a class="header" href="#overview">Overview</a></h2>
+<p>Volume-Weighted Average Price (VWAP) is the average price an asset has traded at, weighted by volume, cumulative from the session start. Unlike a simple moving average that treats every candle equally, VWAP gives more weight to prices where more volume transacted. It answers the question: <strong>what is the true average price that reflects where actual trading occurred?</strong></p>
+<p>The calculation is cumulative:</p>
+<pre><code>VWAP = cumulative(typical_price x volume) / cumulative(volume)
+</code></pre>
+<p>Where <code>typical_price = (high + low + close) / 3</code>. At each candle, the numerator and denominator are accumulated from the first available candle. This means VWAP is anchored -- it does not have a sliding window like SMA or EMA. Early in the session, VWAP is more responsive to new data. As the session progresses, it becomes increasingly stable because it incorporates more and more historical volume.</p>
+<p>VWAP is THE institutional benchmark. Large funds and algorithmic traders use VWAP to measure execution quality -- a buy order filled below VWAP is considered a "good" fill, while a fill above VWAP is considered "poor." This institutional usage creates a self-fulfilling dynamic: price below VWAP attracts institutional buying (they are getting a discount), while price above VWAP attracts institutional selling (they are locking in above-average prices). For retail traders, this means VWAP acts as a dynamic support/resistance level that institutional players actually respect.</p>
+<hr />
+<h2 id="format"><a class="header" href="#format">Format</a></h2>
+<pre><code>vwap
+</code></pre>
+<p>VWAP has no period parameter. It is cumulative from the first available candle in the session.</p>
+<div class="table-wrapper"><table><thead><tr><th>Example</th><th>Period</th><th>Use Case</th></tr></thead><tbody>
+<tr><td><code>vwap</code></td><td>None (cumulative)</td><td>The volume-weighted average price -- institutional benchmark for fair value</td></tr>
+</tbody></table>
+</div>
+<p><strong>Period range:</strong> Not applicable -- VWAP is always cumulative.</p>
+<p><strong>Value range:</strong> Price-denominated (same units as the asset's price). VWAP tracks very close to the actual price since it is an average of traded prices.</p>
+<hr />
+<h2 id="understanding-vwap-values"><a class="header" href="#understanding-vwap-values">Understanding VWAP Values</a></h2>
+<p>VWAP values are in the same currency as the asset's price. The key is not the absolute value but the <strong>relationship between price and VWAP</strong>.</p>
+<div class="table-wrapper"><table><thead><tr><th>Price vs. VWAP</th><th>Interpretation</th></tr></thead><tbody>
+<tr><td>Price well below VWAP</td><td>Trading at a discount to volume-weighted fair value. Institutional buyers may see this as attractive. Potential support zone.</td></tr>
+<tr><td>Price slightly below VWAP</td><td>Near fair value, leaning cheap. VWAP may act as a magnet pulling price back up.</td></tr>
+<tr><td>Price at VWAP</td><td>At the volume-weighted average -- equilibrium. No directional edge.</td></tr>
+<tr><td>Price slightly above VWAP</td><td>Near fair value, leaning expensive. VWAP may act as a magnet pulling price back down.</td></tr>
+<tr><td>Price well above VWAP</td><td>Trading at a premium to volume-weighted fair value. Institutional sellers may see this as a good exit. Potential resistance zone.</td></tr>
+</tbody></table>
+</div><div id="admonition-note" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-title">
+<div class="admonition-title">
+<div id="admonition-note-title">
+<p>Note</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-note"></a>
+</div>
+<div>
+<p>VWAP is cumulative and anchored to the session start. As the session progresses, VWAP becomes increasingly stable and harder to move. Early in a session, VWAP is more volatile and reactive. The most reliable VWAP signals come after enough volume has been accumulated to establish a meaningful average.</p>
+</div>
+</div>
+<hr />
+<h2 id="understanding-operators-with-vwap"><a class="header" href="#understanding-operators-with-vwap">Understanding Operators with VWAP</a></h2>
+<p>Each operator behaves differently with VWAP. Because VWAP is a <strong>dynamic price level</strong> (not an oscillator), it is most commonly compared against <code>price</code> or used as a target for other indicators.</p>
+<h3 id="greater-than----state-based"><a class="header" href="#greater-than----state-based"><code>&gt;</code> (Greater Than) -- State-Based</a></h3>
+<p><strong>What it does:</strong> The trigger is true on <strong>every candle</strong> where price is above VWAP. This indicates the asset is trading at a premium to the volume-weighted average.</p>
+<p><strong>On the chart:</strong> Imagine the VWAP line drawn through the candles. Whenever price is above this line, the trigger is active. The asset is "expensive" relative to where most volume traded.</p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "price"
+operator = "&gt;"
+target = "vwap"
+timeframe = "1h"
+</code></pre>
+<p><strong>Typical use:</strong> Filter for bullish conditions. Price above VWAP means buyers are in control and willing to pay above the average. Combine with momentum indicators for long entries.</p>
+<h3 id="less-than----state-based"><a class="header" href="#less-than----state-based"><code>&lt;</code> (Less Than) -- State-Based</a></h3>
+<p><strong>What it does:</strong> The trigger is true on <strong>every candle</strong> where price is below VWAP. This indicates the asset is trading at a discount to the volume-weighted average.</p>
+<p><strong>On the chart:</strong> Price is below the VWAP line. The asset is "cheap" relative to where most volume traded -- institutional buyers may be accumulating.</p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "price"
+operator = "&lt;"
+target = "vwap"
+timeframe = "1h"
+</code></pre>
+<p><strong>Typical use:</strong> Discount-buying strategy. When price is below VWAP, you are buying at a price that institutional algorithms consider a bargain. Combine with an RSI dip or support level for precision.</p>
+<h3 id="cross_above----event-based"><a class="header" href="#cross_above----event-based"><code>cross_above</code> -- Event-Based</a></h3>
+<p><strong>What it does:</strong> Fires <strong>once</strong>, at the exact candle where price transitions from below VWAP to above it. The previous candle had price &lt;= VWAP, and the current candle has price &gt; VWAP.</p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "price"
+operator = "cross_above"
+target = "vwap"
+timeframe = "1h"
+</code></pre>
+<p><strong>Typical use:</strong> Bullish VWAP crossover entry. When price crosses above VWAP, it signals that buyers have seized control and pushed the price above the institutional fair value line. This is a commonly used intraday entry signal.</p>
+<h3 id="cross_below----event-based"><a class="header" href="#cross_below----event-based"><code>cross_below</code> -- Event-Based</a></h3>
+<p><strong>What it does:</strong> Fires <strong>once</strong>, at the exact candle where price transitions from above VWAP to below it. The previous candle had price &gt;= VWAP, and the current candle has price &lt; VWAP.</p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "price"
+operator = "cross_below"
+target = "vwap"
+timeframe = "1h"
+</code></pre>
+<p><strong>Typical use:</strong> Bearish VWAP crossover exit. When price drops below VWAP, sellers have pushed the market below institutional fair value. This can signal the start of distribution or a shift to bearish control.</p>
+<h3 id="-equal----not-recommended-for-vwap"><a class="header" href="#-equal----not-recommended-for-vwap"><code>=</code> (Equal) -- Not Recommended for VWAP</a></h3>
+<p><strong>Why:</strong> VWAP and price are both floating-point values that change with every candle. Exact equality between price and VWAP will almost never occur. Use <code>&lt;</code> or <code>&gt;</code> instead, or use <code>cross_above</code> / <code>cross_below</code> to detect the moment price transitions through VWAP.</p>
+<div id="admonition-choosing-the-right-operator" class="admonition admonish-tip" role="note" aria-labelledby="admonition-choosing-the-right-operator-title">
+<div class="admonition-title">
+<div id="admonition-choosing-the-right-operator-title">
+<p>Choosing the right operator</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-choosing-the-right-operator"></a>
+</div>
+<div>
+<ul>
+<li>Use <strong><code>&lt;</code> / <code>&gt;</code></strong> when you want to act <strong>while</strong> price is on one side of VWAP (state-based). Pair with <code>max_count</code> to limit repeated firing.</li>
+<li>Use <strong><code>cross_above</code> / <code>cross_below</code></strong> when you want to act at the <strong>moment</strong> price pierces through VWAP (event-based). No <code>max_count</code> needed -- crossovers fire once by nature.</li>
+</ul>
+</div>
+</div>
+<hr />
+<h2 id="toml-examples"><a class="header" href="#toml-examples">TOML Examples</a></h2>
+<h3 id="buy-below-vwap"><a class="header" href="#buy-below-vwap">Buy Below VWAP</a></h3>
+<p>The simplest VWAP strategy. Accumulate when price is trading below the institutional benchmark. The <code>max_count</code> limits entries so you do not keep buying on every candle below VWAP.</p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+  [[actions.triggers]]
+  indicator = "price"
+  operator = "&lt;"
+  target = "vwap"
+  timeframe = "1h"
+  max_count = 3
+</code></pre>
+<h3 id="sell-above-vwap"><a class="header" href="#sell-above-vwap">Sell Above VWAP</a></h3>
+<p>Exit positions when price is trading above VWAP -- you are selling at a premium to the volume-weighted average.</p>
+<pre><code class="language-toml">[[actions]]
+type = "sell"
+amount = "100%"
+
+  [[actions.triggers]]
+  indicator = "price"
+  operator = "&gt;"
+  target = "vwap"
+  timeframe = "1h"
+  max_count = 1
+</code></pre>
+<h3 id="vwap-bounce-with-deviation-confirmation"><a class="header" href="#vwap-bounce-with-deviation-confirmation">VWAP Bounce with Deviation Confirmation</a></h3>
+<p>Buy when price is below VWAP (discount zone) AND VWAP Deviation confirms the discount is statistically significant (more than 1.5 standard deviations below VWAP). This avoids buying minor VWAP dips that lack statistical edge.</p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+  [[actions.triggers]]
+  indicator = "price"
+  operator = "&lt;"
+  target = "vwap"
+  timeframe = "1h"
+
+  [[actions.triggers]]
+  indicator = "vwap_dev_20"
+  operator = "&lt;"
+  target = "-1.5"
+  timeframe = "1h"
+
+  [[actions.triggers]]
+  indicator = "rsi_14"
+  operator = "&lt;"
+  target = "40"
+  timeframe = "1h"
+</code></pre>
+<h3 id="price-crosses-above-vwap-entry"><a class="header" href="#price-crosses-above-vwap-entry">Price Crosses Above VWAP Entry</a></h3>
+<p>Enter at the moment price crosses above VWAP with a bullish macro trend. This is the classic intraday VWAP breakout.</p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+  [[actions.triggers]]
+  indicator = "price"
+  operator = "cross_above"
+  target = "vwap"
+  timeframe = "1h"
+
+  [[actions.triggers]]
+  indicator = "sma_50"
+  operator = "&gt;"
+  target = "sma_200"
+  timeframe = "1d"
+</code></pre>
+<hr />
+<h2 id="tips"><a class="header" href="#tips">Tips</a></h2>
+<div id="admonition-vwap-acts-as-dynamic-support-and-resistance" class="admonition admonish-tip" role="note" aria-labelledby="admonition-vwap-acts-as-dynamic-support-and-resistance-title">
+<div class="admonition-title">
+<div id="admonition-vwap-acts-as-dynamic-support-and-resistance-title">
+<p>VWAP acts as dynamic support and resistance</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-vwap-acts-as-dynamic-support-and-resistance"></a>
+</div>
+<div>
+<p>Because institutional algorithms buy below VWAP and sell above it, VWAP functions as a dynamic support/resistance level that adapts to each session's trading activity. Price tends to gravitate toward VWAP and often bounces off it. This makes VWAP a powerful level for entries and exits -- far more meaningful than arbitrary fixed support/resistance lines.</p>
+</div>
+</div>
+<div id="admonition-combine-with-vwap-deviation-for-statistical-rigor" class="admonition admonish-tip" role="note" aria-labelledby="admonition-combine-with-vwap-deviation-for-statistical-rigor-title">
+<div class="admonition-title">
+<div id="admonition-combine-with-vwap-deviation-for-statistical-rigor-title">
+<p>Combine with VWAP Deviation for statistical rigor</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-combine-with-vwap-deviation-for-statistical-rigor"></a>
+</div>
+<div>
+<p>Raw VWAP tells you "price is below fair value." VWAP Deviation (<code>vwap_dev_20</code>) tells you "price is 2.3 standard deviations below fair value." The combination is far more powerful: VWAP gives you the level, VWAP Dev gives you the statistical significance. A VWAP dip at -0.5 dev is noise; a VWAP dip at -2.0 dev is a rare statistical event worth acting on.</p>
+</div>
+</div>
+<div id="admonition-vwap-is-cumulative----it-smooths-over-time" class="admonition admonish-tip" role="note" aria-labelledby="admonition-vwap-is-cumulative----it-smooths-over-time-title">
+<div class="admonition-title">
+<div id="admonition-vwap-is-cumulative----it-smooths-over-time-title">
+<p>VWAP is cumulative -- it smooths over time</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-vwap-is-cumulative----it-smooths-over-time"></a>
+</div>
+<div>
+<p>VWAP accumulates from the session start, so it becomes increasingly stable as more data is incorporated. Early in a session, VWAP is volatile and reactive. After many candles, it takes massive volume to move VWAP significantly. This means VWAP signals are most reliable after the session has been running long enough to establish a meaningful average.</p>
+</div>
+</div>
+<div id="admonition-vwap-is-an-institutional-benchmark-not-a-crystal-ball" class="admonition admonish-warning" role="note" aria-labelledby="admonition-vwap-is-an-institutional-benchmark-not-a-crystal-ball-title">
+<div class="admonition-title">
+<div id="admonition-vwap-is-an-institutional-benchmark-not-a-crystal-ball-title">
+<p>VWAP is an institutional benchmark, not a crystal ball</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-vwap-is-an-institutional-benchmark-not-a-crystal-ball"></a>
+</div>
+<div>
+<p>VWAP tells you where the market considers fair value based on volume-weighted prices. It does not predict direction. In a strong downtrend, price can stay below VWAP for the entire session -- buying every VWAP discount would be disastrous. Always combine VWAP with trend confirmation (SMA crossovers, RSI) and risk management (stop-losses, max_count).</p>
+</div>
+</div>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../strategies/indicators/vol-regime.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../strategies/indicators/vwap-dev.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../strategies/indicators/vol-regime.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../strategies/indicators/vwap-dev.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../mermaid.min.js"></script>
+        <script src="../../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,285 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Bulk Backtesting - Botmarley User Manual</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Complete user guide for the Botmarley cryptocurrency trading bot">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href=".././mdbook-admonish.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Botmarley User Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="bulk-backtesting"><a class="header" href="#bulk-backtesting">Bulk Backtesting</a></h1>
+<p>When you have multiple strategies and want to find out which one performs best under the same market conditions, running them one at a time is tedious. Bulk backtesting lets you run the same configuration (pair, date range, initial capital) against multiple strategies in a single action.</p>
+<h2 id="what-bulk-backtesting-does"><a class="header" href="#what-bulk-backtesting-does">What Bulk Backtesting Does</a></h2>
+<p>Bulk backtesting takes a list of strategies and enqueues an individual backtest task for each one, all sharing the same parameters:</p>
+<ul>
+<li>Same trading pair (e.g., BTC/USD)</li>
+<li>Same date range (e.g., Sept 1 to Oct 1)</li>
+<li>Same initial capital (e.g., $1,000)</li>
+</ul>
+<p>Each strategy runs independently through the backtest engine, producing its own full result set (PnL, win rate, action log, charts). When all runs complete, you can compare them side by side on the Backtests page.</p>
+<pre class="mermaid">flowchart TD
+    A[&quot;Select strategies&lt;br/&gt;Strategy A, B, C&quot;] --&gt; B[&quot;Set shared config&lt;br/&gt;Pair, dates, capital&quot;]
+    B --&gt; C[&quot;Enqueue bulk task&quot;]
+    C --&gt; D[&quot;Task worker creates&lt;br/&gt;individual backtest tasks&quot;]
+    D --&gt; E[&quot;Strategy A&lt;br/&gt;backtest&quot;]
+    D --&gt; F[&quot;Strategy B&lt;br/&gt;backtest&quot;]
+    D --&gt; G[&quot;Strategy C&lt;br/&gt;backtest&quot;]
+    E --&gt; H[&quot;Results page:&lt;br/&gt;compare all runs&quot;]
+    F --&gt; H
+    G --&gt; H
+</pre>
+<h2 id="how-to-run-a-bulk-backtest"><a class="header" href="#how-to-run-a-bulk-backtest">How to Run a Bulk Backtest</a></h2>
+<h3 id="1-navigate-to-the-strategies-page"><a class="header" href="#1-navigate-to-the-strategies-page">1. Navigate to the Strategies Page</a></h3>
+<p>Open the <strong>Strategies</strong> page from the sidebar. You will see a list of all saved strategies.</p>
+<h3 id="2-select-multiple-strategies"><a class="header" href="#2-select-multiple-strategies">2. Select Multiple Strategies</a></h3>
+<p>Use the checkboxes next to each strategy to select the ones you want to test. You can select as many as you like.</p>
+<h3 id="3-click-bulk-backtest"><a class="header" href="#3-click-bulk-backtest">3. Click "Bulk Backtest"</a></h3>
+<p>With strategies selected, click the <strong>Bulk Backtest</strong> button. A configuration form appears.</p>
+<h3 id="4-configure-the-shared-parameters"><a class="header" href="#4-configure-the-shared-parameters">4. Configure the Shared Parameters</a></h3>
+<p>Fill in the same fields you would for a single backtest:</p>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Description</th></tr></thead><tbody>
+<tr><td><strong>Pair</strong></td><td>The trading pair all strategies will be tested against.</td></tr>
+<tr><td><strong>Start date</strong></td><td>Beginning of the test period.</td></tr>
+<tr><td><strong>End date</strong></td><td>End of the test period.</td></tr>
+<tr><td><strong>Initial capital</strong></td><td>Starting USD balance (same for all strategies).</td></tr>
+</tbody></table>
+</div>
+<h3 id="5-submit"><a class="header" href="#5-submit">5. Submit</a></h3>
+<p>Click <strong>Start</strong>. Botmarley enqueues a <code>BulkBacktest</code> task, which in turn creates one <code>BacktestRun</code> task per selected strategy. You can monitor progress on the <strong>Tasks</strong> page.</p>
+<h2 id="comparing-results"><a class="header" href="#comparing-results">Comparing Results</a></h2>
+<p>Once all backtests complete, navigate to the <strong>Backtests</strong> page. All runs from the bulk job will appear in the table. To compare effectively:</p>
+<ul>
+<li><strong>Sort by Final Result (%)</strong> to rank strategies by profitability.</li>
+<li><strong>Filter by pair</strong> if you have mixed results from different bulk runs.</li>
+<li><strong>Look at win rate alongside PnL</strong> -- a high PnL with a low win rate means the strategy relies on a few big winners.</li>
+<li><strong>Check total trades</strong> -- strategies with very different trade counts are hard to compare directly. A strategy with 3 trades and +10% is less reliable than one with 50 trades and +8%.</li>
+</ul>
+<div id="admonition-tip" class="admonition admonish-tip" role="note" aria-labelledby="admonition-tip-title">
+<div class="admonition-title">
+<div id="admonition-tip-title">
+<p>Tip</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-tip"></a>
+</div>
+<div>
+<p>When comparing strategies, pay attention to consistency across different time periods. If Strategy A beats Strategy B on Sept data but loses on Oct data, neither has a clear edge. Run bulk backtests against multiple date ranges to build a fuller picture.</p>
+</div>
+</div>
+<h2 id="use-cases"><a class="header" href="#use-cases">Use Cases</a></h2>
+<h3 id="strategy-selection"><a class="header" href="#strategy-selection">Strategy Selection</a></h3>
+<p>You have five strategy ideas. Run all five against the same 3-month period. Eliminate the ones that lose money or have unacceptable drawdowns. Shortlist the top performers for paper trading.</p>
+<h3 id="parameter-optimization"><a class="header" href="#parameter-optimization">Parameter Optimization</a></h3>
+<p>Create multiple copies of the same strategy with different parameter values (e.g., RSI period 10, 14, 20). Bulk backtest all variants to find the parameter set that performs best for your target pair and timeframe.</p>
+<h3 id="pair-comparison"><a class="header" href="#pair-comparison">Pair Comparison</a></h3>
+<p>If you want to test one strategy against multiple pairs, create the backtest runs individually (bulk backtesting uses a single pair). Then compare results across pairs on the Backtests page using the pair filter.</p>
+<div id="admonition-note" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-title">
+<div class="admonition-title">
+<div id="admonition-note-title">
+<p>Note</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-note"></a>
+</div>
+<div>
+<p>Bulk backtesting runs all selected strategies against the <strong>same pair</strong>. To test across multiple pairs, run separate bulk backtests for each pair.</p>
+</div>
+</div>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../backtesting/results.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../trading/overview.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../backtesting/results.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../trading/overview.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,476 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Hurst — Hurst Exponent - Botmarley User Manual</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Complete user guide for the Botmarley cryptocurrency trading bot">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../.././mdbook-admonish.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Botmarley User Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="hurst----hurst-exponent"><a class="header" href="#hurst----hurst-exponent">Hurst -- Hurst Exponent</a></h1>
+<h2 id="contents"><a class="header" href="#contents">Contents</a></h2>
+<ul>
+<li><a href="#format">Format</a></li>
+<li><a href="#understanding-hurst-values">Understanding Hurst Values</a></li>
+<li><a href="#understanding-operators-with-hurst">Understanding Operators with Hurst</a>
+<ul>
+<li><a href="#-greater-than----state-based"><code>&gt;</code> Greater Than</a></li>
+<li><a href="#-less-than----state-based"><code>&lt;</code> Less Than</a></li>
+<li><a href="#cross_above----event-based"><code>cross_above</code></a></li>
+<li><a href="#cross_below----event-based"><code>cross_below</code></a></li>
+<li><a href="#-equal----not-recommended-for-hurst"><code>=</code> Equal</a></li>
+</ul>
+</li>
+<li><a href="#toml-examples">TOML Examples</a>
+<ul>
+<li><a href="#trending-regime--macd-entry">Trending Regime + MACD Entry</a></li>
+<li><a href="#mean-reverting-regime--rsi-entry">Mean-Reverting Regime + RSI Entry</a></li>
+<li><a href="#avoid-random-walk-markets">Avoid Random Walk Markets</a></li>
+<li><a href="#hurst--autocorrelation-combo">Hurst + Autocorrelation Combo</a></li>
+</ul>
+</li>
+<li><a href="#tips">Tips</a></li>
+</ul>
+<hr />
+<h2 id="overview"><a class="header" href="#overview">Overview</a></h2>
+<p>The Hurst Exponent measures the <strong>"memory" of a price series</strong> using Rescaled Range (R/S) analysis. It answers the most fundamental question in quantitative trading: <strong>is this market trending, mean-reverting, or random?</strong></p>
+<p>The calculation works by dividing the price series into sub-periods of varying lengths, computing the rescaled range (the range of cumulative deviations from the mean, divided by the standard deviation) for each, and then fitting a power law to find the exponent H. A Hurst Exponent of 0.5 corresponds to a random walk -- past price changes have no bearing on future ones. Values above 0.5 indicate <strong>persistence</strong> (trending behavior -- an up move is more likely to be followed by another up move). Values below 0.5 indicate <strong>anti-persistence</strong> (mean-reverting behavior -- an up move is more likely to be followed by a down move).</p>
+<p>This is THE regime detector. If Hurst says the market is random (H near 0.5), <strong>no technical indicator has a statistical edge</strong> -- you are just gambling. Hurst above 0.55 means momentum strategies (MACD, EMA crossovers, breakout entries) have a mathematical basis. Hurst below 0.45 means mean-reversion strategies (RSI dip-buys, Z-Score entries, Bollinger Band bounces) have a mathematical basis. This is the foundation for all regime-adaptive strategies.</p>
+<hr />
+<h2 id="format"><a class="header" href="#format">Format</a></h2>
+<pre><code>hurst_{period}
+</code></pre>
+<p>The period defines the lookback window -- how many candles of price data are used to estimate the Hurst Exponent via R/S analysis.</p>
+<div class="table-wrapper"><table><thead><tr><th>Example</th><th>Period</th><th>Use Case</th></tr></thead><tbody>
+<tr><td><code>hurst_100</code></td><td>100</td><td>Moderate lookback -- reacts faster to regime changes, noisier</td></tr>
+<tr><td><code>hurst_200</code></td><td>200</td><td>Standard -- good balance of stability and responsiveness</td></tr>
+<tr><td><code>hurst_500</code></td><td>500</td><td>Very stable -- captures the dominant long-term regime, slow to update</td></tr>
+</tbody></table>
+</div>
+<p><strong>Period range:</strong> 50 to 500.</p>
+<p><strong>Value range:</strong> 0 to 1 (always).</p>
+<hr />
+<h2 id="understanding-hurst-values"><a class="header" href="#understanding-hurst-values">Understanding Hurst Values</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Hurst Range</th><th>Regime</th><th>Interpretation</th></tr></thead><tbody>
+<tr><td>0.00 -- 0.40</td><td>Strong mean reversion</td><td>Price frequently reverses direction. Past moves are strongly anti-persistent. Mean-reversion strategies (RSI, Z-Score, BB bounces) have strong edge.</td></tr>
+<tr><td>0.40 -- 0.50</td><td>Weak mean reversion / random</td><td>Slight anti-persistence but close to random. The edge for mean reversion is marginal. Proceed with caution.</td></tr>
+<tr><td>0.50</td><td>Pure random walk</td><td>No memory. Past prices give zero information about future direction. No technical strategy has a statistical edge.</td></tr>
+<tr><td>0.50 -- 0.60</td><td>Weak trend</td><td>Slight persistence. Momentum strategies may work but the edge is marginal. Require strong confirmation signals.</td></tr>
+<tr><td>0.60 -- 1.00</td><td>Strong trend</td><td>Price moves are highly persistent. Trends tend to continue. Momentum strategies (MACD, EMA crossovers, breakout entries) have strong edge.</td></tr>
+</tbody></table>
+</div><div id="admonition-note" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-title">
+<div class="admonition-title">
+<div id="admonition-note-title">
+<p>Note</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-note"></a>
+</div>
+<div>
+<p>Hurst Exponent is a statistical property of the price series, not a timing signal. It tells you <em>what kind of strategies will work</em> in the current regime, not <em>when to enter or exit</em>. Always combine Hurst with a directional indicator for actual trade signals.</p>
+</div>
+</div>
+<hr />
+<h2 id="understanding-operators-with-hurst"><a class="header" href="#understanding-operators-with-hurst">Understanding Operators with Hurst</a></h2>
+<p>Each operator behaves differently with Hurst. Because Hurst is a <strong>regime filter</strong> (it classifies the market's behavior, not its direction), it is almost always used as a gate on top of directional entry triggers.</p>
+<h3 id="greater-than----state-based"><a class="header" href="#greater-than----state-based"><code>&gt;</code> (Greater Than) -- State-Based</a></h3>
+<p><strong>What it does:</strong> The trigger is true on <strong>every candle</strong> where the Hurst Exponent is above the threshold.</p>
+<p><strong>On the chart:</strong> The market is in a trending regime. Price moves tend to persist -- up follows up, down follows down. This trigger stays active for as long as Hurst remains above the threshold.</p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "hurst_200"
+operator = "&gt;"
+target = "0.55"
+timeframe = "1h"
+</code></pre>
+<p><strong>Typical use:</strong> "Only trade momentum strategies when the market is actually trending." A Hurst above 0.55 confirms that trend-following indicators (MACD, EMA crossovers) have a statistical basis. Without this filter, momentum signals in random-walk markets are just noise.</p>
+<h3 id="less-than----state-based"><a class="header" href="#less-than----state-based"><code>&lt;</code> (Less Than) -- State-Based</a></h3>
+<p><strong>What it does:</strong> The trigger is true on <strong>every candle</strong> where the Hurst Exponent is below the threshold.</p>
+<p><strong>On the chart:</strong> The market is in a mean-reverting regime. Price moves tend to reverse -- deviations from the mean are corrected. This trigger stays active for as long as Hurst remains below the threshold.</p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "hurst_200"
+operator = "&lt;"
+target = "0.45"
+timeframe = "1h"
+</code></pre>
+<p><strong>Typical use:</strong> "Only trade mean-reversion strategies when the market is actually mean-reverting." A Hurst below 0.45 confirms that dip-buy strategies (RSI oversold, Z-Score below -2, price at lower Bollinger Band) have a mathematical edge.</p>
+<h3 id="cross_above----event-based"><a class="header" href="#cross_above----event-based"><code>cross_above</code> -- Event-Based</a></h3>
+<p><strong>What it does:</strong> Fires <strong>once</strong>, at the exact candle where the Hurst Exponent transitions from below the threshold to above it. The previous candle had Hurst &lt;= the target, and the current candle has Hurst &gt; the target.</p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "hurst_200"
+operator = "cross_above"
+target = "0.55"
+timeframe = "1h"
+</code></pre>
+<p><strong>Typical use:</strong> Detect the moment the market shifts from random/mean-reverting into a trending regime. This is a regime change signal -- you may want to switch from mean-reversion strategies to momentum strategies, or enable a trend-following bot.</p>
+<h3 id="cross_below----event-based"><a class="header" href="#cross_below----event-based"><code>cross_below</code> -- Event-Based</a></h3>
+<p><strong>What it does:</strong> Fires <strong>once</strong>, at the exact candle where the Hurst Exponent transitions from above the threshold to below it. The previous candle had Hurst &gt;= the target, and the current candle has Hurst &lt; the target.</p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "hurst_200"
+operator = "cross_below"
+target = "0.50"
+timeframe = "1h"
+</code></pre>
+<p><strong>Typical use:</strong> Detect the moment the market loses its trending character. When Hurst drops below 0.50, the trend has broken down and momentum strategies lose their edge. This can be used to exit trend-following positions or pause a momentum bot.</p>
+<h3 id="-equal----not-recommended-for-hurst"><a class="header" href="#-equal----not-recommended-for-hurst"><code>=</code> (Equal) -- Not Recommended for Hurst</a></h3>
+<p><strong>Why:</strong> Hurst produces floating-point values calculated to many decimal places. Exact equality (e.g., <code>hurst_200 = 0.50</code>) will almost never be true. Use <code>&gt;</code> or <code>&lt;</code> instead.</p>
+<div id="admonition-choosing-the-right-operator" class="admonition admonish-tip" role="note" aria-labelledby="admonition-choosing-the-right-operator-title">
+<div class="admonition-title">
+<div id="admonition-choosing-the-right-operator-title">
+<p>Choosing the right operator</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-choosing-the-right-operator"></a>
+</div>
+<div>
+<ul>
+<li>Use <strong><code>&gt;</code></strong> to gate momentum strategies behind a trending regime. This is the most common Hurst operator.</li>
+<li>Use <strong><code>&lt;</code></strong> to gate mean-reversion strategies behind an anti-persistent regime.</li>
+<li>Use <strong><code>cross_above</code> / <code>cross_below</code></strong> to detect regime transitions and switch strategy modes.</li>
+</ul>
+</div>
+</div>
+<hr />
+<h2 id="toml-examples"><a class="header" href="#toml-examples">TOML Examples</a></h2>
+<h3 id="trending-regime--macd-entry"><a class="header" href="#trending-regime--macd-entry">Trending Regime + MACD Entry</a></h3>
+<p>Only enter on MACD bullish crossovers when Hurst confirms the market is trending. Without the Hurst filter, MACD crossovers in random-walk markets produce many false signals.</p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+  [[actions.triggers]]
+  indicator = "hurst_200"
+  operator = "&gt;"
+  target = "0.55"
+  timeframe = "1h"
+
+  [[actions.triggers]]
+  indicator = "macd_12_26_9"
+  operator = "cross_above"
+  target = "macd_signal"
+  timeframe = "1h"
+</code></pre>
+<h3 id="mean-reverting-regime--rsi-entry"><a class="header" href="#mean-reverting-regime--rsi-entry">Mean-Reverting Regime + RSI Entry</a></h3>
+<p>Only buy RSI oversold dips when Hurst confirms the market is mean-reverting. In a trending regime, RSI can stay oversold for extended periods as the trend continues lower.</p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+  [[actions.triggers]]
+  indicator = "hurst_200"
+  operator = "&lt;"
+  target = "0.45"
+  timeframe = "1h"
+
+  [[actions.triggers]]
+  indicator = "rsi_14"
+  operator = "&lt;"
+  target = "30"
+  timeframe = "1h"
+  max_count = 1
+</code></pre>
+<h3 id="avoid-random-walk-markets"><a class="header" href="#avoid-random-walk-markets">Avoid Random Walk Markets</a></h3>
+<p>Gate all entries behind a Hurst filter that excludes the random-walk zone. This strategy only enters when the market has clear character -- either trending (momentum entry) or mean-reverting (dip entry) -- and stays flat when the market is random.</p>
+<pre><code class="language-toml"># Momentum entry in trending regime
+[[actions]]
+type = "open_long"
+amount = "75 USDC"
+
+  [[actions.triggers]]
+  indicator = "hurst_200"
+  operator = "&gt;"
+  target = "0.55"
+  timeframe = "1h"
+
+  [[actions.triggers]]
+  indicator = "ema_12"
+  operator = "cross_above"
+  target = "ema_26"
+  timeframe = "1h"
+
+# Dip entry in mean-reverting regime
+[[actions]]
+type = "open_long"
+amount = "75 USDC"
+
+  [[actions.triggers]]
+  indicator = "hurst_200"
+  operator = "&lt;"
+  target = "0.45"
+  timeframe = "1h"
+
+  [[actions.triggers]]
+  indicator = "rsi_14"
+  operator = "&lt;"
+  target = "30"
+  timeframe = "1h"
+  max_count = 1
+</code></pre>
+<h3 id="hurst--half-life-combo"><a class="header" href="#hurst--half-life-combo">Hurst + Half-Life Combo</a></h3>
+<p>Combine Hurst with Half-Life for a complete mean-reversion setup. Hurst confirms the regime is mean-reverting, and Half-Life confirms the reversion happens fast enough to be tradeable.</p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+  [[actions.triggers]]
+  indicator = "hurst_200"
+  operator = "&lt;"
+  target = "0.45"
+  timeframe = "1h"
+
+  [[actions.triggers]]
+  indicator = "halflife_200"
+  operator = "&lt;"
+  target = "30"
+  timeframe = "1h"
+
+  [[actions.triggers]]
+  indicator = "rsi_14"
+  operator = "&lt;"
+  target = "30"
+  timeframe = "1h"
+  max_count = 1
+</code></pre>
+<hr />
+<h2 id="tips"><a class="header" href="#tips">Tips</a></h2>
+<div id="admonition-use-long-periods-200-for-stability" class="admonition admonish-tip" role="note" aria-labelledby="admonition-use-long-periods-200-for-stability-title">
+<div class="admonition-title">
+<div id="admonition-use-long-periods-200-for-stability-title">
+<p>Use long periods (200+) for stability</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-use-long-periods-200-for-stability"></a>
+</div>
+<div>
+<p>Hurst Exponent estimation is noisy on short lookback windows. With a period of 50 or 100, the value can jump around significantly from candle to candle, making it unreliable as a regime classifier. Use 200 or more candles for a stable reading. The trade-off is slower reaction to regime changes, but for a structural indicator like Hurst, stability matters more than speed.</p>
+</div>
+</div>
+<div id="admonition-hurst-is-a-regime-detector-not-a-timing-tool" class="admonition admonish-tip" role="note" aria-labelledby="admonition-hurst-is-a-regime-detector-not-a-timing-tool-title">
+<div class="admonition-title">
+<div id="admonition-hurst-is-a-regime-detector-not-a-timing-tool-title">
+<p>Hurst is a regime detector, not a timing tool</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-hurst-is-a-regime-detector-not-a-timing-tool"></a>
+</div>
+<div>
+<p>Hurst tells you <em>what kind of market you are in</em>, not <em>when to buy or sell</em>. Always pair Hurst with a directional indicator. Hurst &gt; 0.55 + MACD cross = trending momentum entry. Hurst &lt; 0.45 + RSI oversold = mean-reversion dip entry. Hurst alone is useless for trade timing.</p>
+</div>
+</div>
+<div id="admonition-combine-with-directional-indicators-per-regime" class="admonition admonish-tip" role="note" aria-labelledby="admonition-combine-with-directional-indicators-per-regime-title">
+<div class="admonition-title">
+<div id="admonition-combine-with-directional-indicators-per-regime-title">
+<p>Combine with directional indicators per regime</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-combine-with-directional-indicators-per-regime"></a>
+</div>
+<div>
+<p>Build regime-adaptive strategies: when Hurst says "trending," use momentum indicators (MACD, EMA crossovers, ROC). When Hurst says "mean-reverting," use oscillators (RSI, StochRSI, Z-Score, Bollinger Bands). When Hurst says "random," stay flat. This single indicator decides which strategy gets activated.</p>
+</div>
+</div>
+<div id="admonition-re-evaluate-regimes-on-higher-timeframes" class="admonition admonish-warning" role="note" aria-labelledby="admonition-re-evaluate-regimes-on-higher-timeframes-title">
+<div class="admonition-title">
+<div id="admonition-re-evaluate-regimes-on-higher-timeframes-title">
+<p>Re-evaluate regimes on higher timeframes</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-re-evaluate-regimes-on-higher-timeframes"></a>
+</div>
+<div>
+<p>Regimes are fractal -- a market can be trending on the daily timeframe but mean-reverting on the 5-minute chart. Compute Hurst on the timeframe that matches your trading horizon. For swing trades (holding days to weeks), use Hurst on daily candles. For intraday trades, use Hurst on hourly candles. Do not mix regime reads across timeframes.</p>
+</div>
+</div>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../strategies/indicators/percentile-rank.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../strategies/indicators/halflife.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../strategies/indicators/percentile-rank.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../strategies/indicators/halflife.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../mermaid.min.js"></script>
+        <script src="../../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

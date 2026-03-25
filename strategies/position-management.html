@@ -1,0 +1,499 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Position Management - Botmarley User Manual</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Complete user guide for the Botmarley cryptocurrency trading bot">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href=".././mdbook-admonish.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Botmarley User Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="position-management"><a class="header" href="#position-management">Position Management</a></h1>
+<p>Position management is how Botmarley tracks your open trades, controls how many positions can be open at once, and handles adding to or exiting positions. Good position management is often the difference between a profitable strategy and a losing one.</p>
+<h2 id="what-is-a-position"><a class="header" href="#what-is-a-position">What Is a Position?</a></h2>
+<p>A <strong>position</strong> is an active trade. When a strategy's <code>open_long</code> action fires, Botmarley creates a new position that tracks:</p>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody>
+<tr><td>Entry price</td><td>The price at which the position was opened</td></tr>
+<tr><td>Quantity</td><td>How much of the asset was bought</td></tr>
+<tr><td>Total cost</td><td>The total USDC (or other currency) spent</td></tr>
+<tr><td>Current P&amp;L</td><td>The unrealized profit or loss based on current price</td></tr>
+<tr><td>Open time</td><td>When the position was created</td></tr>
+</tbody></table>
+</div>
+<p>A position remains open until a <code>sell</code> action with <code>amount = "100%"</code> fires, or until all of the position has been sold through partial sells.</p>
+<pre class="mermaid">flowchart LR
+    A[&quot;open_long&lt;br/&gt;Creates Position&quot;] --&gt; B[&quot;Position Open&lt;br/&gt;Tracking P&amp;L&quot;]
+    B --&gt; C[&quot;buy (DCA)&lt;br/&gt;Adds to Position&quot;]
+    C --&gt; B
+    B --&gt; D[&quot;sell 50%&lt;br/&gt;Partial Exit&quot;]
+    D --&gt; B
+    B --&gt; E[&quot;sell 100%&lt;br/&gt;Full Exit&quot;]
+    E --&gt; F[&quot;Position Closed&quot;]
+
+    style A fill:#22c55e,color:#fff
+    style E fill:#ef4444,color:#fff
+    style F fill:#6b7280,color:#fff
+</pre>
+<h2 id="max_open_positions"><a class="header" href="#max_open_positions">max_open_positions</a></h2>
+<p>The <code>max_open_positions</code> field in the <code>[meta]</code> section controls how many positions can be open simultaneously. This is your primary tool for controlling <strong>capital exposure</strong>.</p>
+<h3 id="how-it-works"><a class="header" href="#how-it-works">How It Works</a></h3>
+<pre><code class="language-toml">[meta]
+name = "Conservative Strategy"
+max_open_positions = 1
+</code></pre>
+<div class="table-wrapper"><table><thead><tr><th>Setting</th><th>Behavior</th></tr></thead><tbody>
+<tr><td><code>max_open_positions = 1</code></td><td>Only one position at a time. New <code>open_long</code> triggers are ignored until the current position is fully closed.</td></tr>
+<tr><td><code>max_open_positions = 3</code></td><td>Up to three positions can be open simultaneously. The fourth <code>open_long</code> trigger is ignored.</td></tr>
+<tr><td>Omitted (no setting)</td><td><strong>Unlimited</strong> positions. Every <code>open_long</code> trigger opens a new position.</td></tr>
+</tbody></table>
+</div><div id="admonition-warning" class="admonition admonish-warning" role="note" aria-labelledby="admonition-warning-title">
+<div class="admonition-title">
+<div id="admonition-warning-title">
+<p>Warning</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-warning"></a>
+</div>
+<div>
+<p>Running with unlimited positions (no <code>max_open_positions</code>) can be dangerous. In a sharp market downturn, the bot could open many positions rapidly, using up all available capital. Always set a limit unless you have a specific reason not to.</p>
+</div>
+</div>
+<h3 id="choosing-a-limit"><a class="header" href="#choosing-a-limit">Choosing a Limit</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Style</th><th>Recommended</th><th>Why</th></tr></thead><tbody>
+<tr><td>Conservative</td><td><code>1</code></td><td>One trade at a time. Full focus on quality.</td></tr>
+<tr><td>Moderate</td><td><code>2-3</code></td><td>Allows some diversification across entries.</td></tr>
+<tr><td>Aggressive</td><td><code>5+</code></td><td>Many concurrent positions. Higher capital risk.</td></tr>
+</tbody></table>
+</div>
+<p><strong>Example:</strong></p>
+<pre><code class="language-toml">[meta]
+name = "Single Position Focus"
+max_open_positions = 1
+
+# This strategy opens at most one position.
+# Even if the entry trigger fires again, no new position is created
+# until the current one is fully closed.
+</code></pre>
+<h2 id="dca----dollar-cost-averaging"><a class="header" href="#dca----dollar-cost-averaging">DCA -- Dollar-Cost Averaging</a></h2>
+<p>DCA is a technique where you <strong>buy more of an asset as the price drops</strong>, lowering your average entry price. In Botmarley, DCA is implemented using <code>buy</code> actions with <code>average_price = true</code>.</p>
+<h3 id="why-use-dca"><a class="header" href="#why-use-dca">Why Use DCA?</a></h3>
+<p>Without DCA, if you buy at $50,000 and the price drops to $48,000, you need the price to return to $50,000 to break even. With DCA, you buy more at $48,000, which lowers your average entry price so you break even at a lower price.</p>
+<h3 id="dca-in-practice"><a class="header" href="#dca-in-practice">DCA in Practice</a></h3>
+<p>Here is how a two-level DCA strategy works:</p>
+<pre class="mermaid">flowchart TD
+    A[&quot;open_long: Buy $100 at $50,000&lt;br/&gt;Entry Price = $50,000&quot;] --&gt; B{&quot;Price drops 2%&lt;br/&gt;to $49,000?&quot;}
+    B -- &quot;Yes&quot; --&gt; C[&quot;buy: Add $200 at $49,000&lt;br/&gt;average_price = true&lt;br/&gt;New Entry = $49,333&quot;]
+    B -- &quot;No&quot; --&gt; D{&quot;Price rises 3%&lt;br/&gt;from entry?&quot;}
+    C --&gt; E{&quot;Price drops 4%&lt;br/&gt;to $48,000?&quot;}
+    E -- &quot;Yes&quot; --&gt; F[&quot;buy: Add $300 at $48,000&lt;br/&gt;average_price = true&lt;br/&gt;New Entry = $48,500&quot;]
+    E -- &quot;No&quot; --&gt; D
+    F --&gt; D
+    D -- &quot;Yes&quot; --&gt; G[&quot;sell 100%&lt;br/&gt;Take Profit&quot;]
+
+    style A fill:#22c55e,color:#fff
+    style C fill:#4a9eff,color:#fff
+    style F fill:#4a9eff,color:#fff
+    style G fill:#ef4444,color:#fff
+</pre>
+<h3 id="entry-price-recalculation"><a class="header" href="#entry-price-recalculation">Entry Price Recalculation</a></h3>
+<p>When <code>average_price = true</code>, the entry price is recalculated as a <strong>weighted average</strong>:</p>
+<pre><code>new_entry_price = total_cost / total_quantity
+</code></pre>
+<p><strong>Step-by-step example:</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>Step</th><th>Action</th><th>Price</th><th>Amount</th><th>Total Cost</th><th>Total Qty</th><th>Avg Entry</th></tr></thead><tbody>
+<tr><td>1</td><td>open_long</td><td>$50,000</td><td>$100</td><td>$100</td><td>0.002 BTC</td><td>$50,000</td></tr>
+<tr><td>2</td><td>buy (DCA)</td><td>$49,000</td><td>$200</td><td>$300</td><td>0.006082 BTC</td><td>$49,327</td></tr>
+<tr><td>3</td><td>buy (DCA)</td><td>$48,000</td><td>$300</td><td>$600</td><td>0.012332 BTC</td><td>$48,654</td></tr>
+</tbody></table>
+</div>
+<p>After all three buys, the average entry is $48,654 instead of $50,000. The position needs only a 0% (break-even) to $48,654 recovery instead of a full return to $50,000.</p>
+<div id="admonition-tip" class="admonition admonish-tip" role="note" aria-labelledby="admonition-tip-title">
+<div class="admonition-title">
+<div id="admonition-tip-title">
+<p>Tip</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-tip"></a>
+</div>
+<div>
+<p>DCA works best in markets that tend to recover (mean reversion). It can amplify losses in a prolonged downtrend. Always pair DCA with a stop-loss to limit maximum exposure.</p>
+</div>
+</div>
+<h3 id="max_count-for-dca-levels"><a class="header" href="#max_count-for-dca-levels">max_count for DCA Levels</a></h3>
+<p>Use <code>max_count</code> on trigger to limit how many times a DCA level fires per position. Without it, a DCA trigger could fire repeatedly if the price oscillates around the threshold.</p>
+<pre><code class="language-toml">[[actions]]
+type = "buy"
+amount = "200 USDC"
+average_price = true
+
+  [[actions.triggers]]
+  type = "pos_price_change"
+  value = "-2%"
+  max_count = 1        # Only fire once per position
+</code></pre>
+<p>With <code>max_count = 1</code>, this DCA level triggers exactly once. Even if the price bounces above and back below -2%, it will not trigger again for the same position.</p>
+<h2 id="position-tracking"><a class="header" href="#position-tracking">Position Tracking</a></h2>
+<p>While a position is open, Botmarley continuously tracks:</p>
+<h3 id="entry-price"><a class="header" href="#entry-price">Entry Price</a></h3>
+<p>The price at which the position was opened (or the weighted average if DCA has been applied). This is the reference point for all <code>pos_price_change</code> triggers.</p>
+<h3 id="current-pl-profit--loss"><a class="header" href="#current-pl-profit--loss">Current P&amp;L (Profit &amp; Loss)</a></h3>
+<p>Calculated as:</p>
+<pre><code>P&amp;L (%) = (current_price - entry_price) / entry_price * 100
+</code></pre>
+<p>For example, if entry is $48,654 and current price is $50,000:</p>
+<pre><code>P&amp;L = (50000 - 48654) / 48654 * 100 = +2.77%
+</code></pre>
+<h3 id="position-size"><a class="header" href="#position-size">Position Size</a></h3>
+<p>The total quantity of the asset held and the total cost basis. This is used by percentage-based sell amounts (<code>"50%"</code> sells half the quantity).</p>
+<h2 id="selling-partial-vs-full-exit"><a class="header" href="#selling-partial-vs-full-exit">Selling: Partial vs. Full Exit</a></h2>
+<h3 id="partial-sell"><a class="header" href="#partial-sell">Partial Sell</a></h3>
+<p>Selling less than 100% of the position lets you <strong>take some profit</strong> while keeping exposure:</p>
+<pre><code class="language-toml"># Sell half when profitable
+[[actions]]
+type = "sell"
+amount = "50%"
+
+  [[actions.triggers]]
+  type = "pos_price_change"
+  value = "2%"
+</code></pre>
+<p>After this sell, 50% of the position remains open. The remaining position continues to be tracked with the same entry price.</p>
+<h3 id="full-exit"><a class="header" href="#full-exit">Full Exit</a></h3>
+<p>Selling 100% closes the position entirely:</p>
+<pre><code class="language-toml"># Full exit on profit target
+[[actions]]
+type = "sell"
+amount = "100%"
+
+  [[actions.triggers]]
+  type = "pos_price_change"
+  value = "5%"
+</code></pre>
+<p>After a full exit, the position is closed. The strategy's <code>open_long</code> action can now create a new position (subject to <code>max_open_positions</code>).</p>
+<h3 id="scaling-out"><a class="header" href="#scaling-out">Scaling Out</a></h3>
+<p>You can combine multiple sell actions to scale out of a position gradually:</p>
+<pre><code class="language-toml"># Sell 30% at +2%
+[[actions]]
+type = "sell"
+amount = "30%"
+
+  [[actions.triggers]]
+  type = "pos_price_change"
+  value = "2%"
+
+# Sell 50% at +4%
+[[actions]]
+type = "sell"
+amount = "50%"
+
+  [[actions.triggers]]
+  type = "pos_price_change"
+  value = "4%"
+
+# Sell remaining 100% at +6%
+[[actions]]
+type = "sell"
+amount = "100%"
+
+  [[actions.triggers]]
+  type = "pos_price_change"
+  value = "6%"
+</code></pre>
+<div id="admonition-note" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-title">
+<div class="admonition-title">
+<div id="admonition-note-title">
+<p>Note</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-note"></a>
+</div>
+<div>
+<p>Percentage sells are relative to the <strong>current position size</strong>, not the original. If you sell 50% and then 50% again, you have sold 75% of the original position (50% + 50% of the remaining 50%).</p>
+</div>
+</div>
+<h2 id="complete-dca-strategy-example"><a class="header" href="#complete-dca-strategy-example">Complete DCA Strategy Example</a></h2>
+<p>Here is a full strategy that demonstrates position management in action -- it enters on a Bollinger Band touch, DCA buys at -2%, -4%, and -6%, and exits at +3% profit or -10% stop-loss:</p>
+<pre><code class="language-toml">[meta]
+name = "BB DCA with Stop Loss"
+description = "Bollinger Band entry, 3-level DCA, profit target, and hard stop-loss"
+max_open_positions = 1
+
+# ENTRY: Price touches lower Bollinger Band
+[[actions]]
+type = "open_long"
+amount = "100 USDC"
+average_price = false
+
+  [[actions.triggers]]
+  indicator = "price"
+  operator = "&lt;"
+  target = "bb_lower"
+  timeframe = "1h"
+
+# DCA LEVEL 1: Buy more at -2% from entry
+[[actions]]
+type = "buy"
+amount = "100 USDC"
+average_price = true
+
+  [[actions.triggers]]
+  type = "pos_price_change"
+  value = "-2%"
+  max_count = 1
+
+# DCA LEVEL 2: Buy more at -4% from entry
+[[actions]]
+type = "buy"
+amount = "200 USDC"
+average_price = true
+
+  [[actions.triggers]]
+  type = "pos_price_change"
+  value = "-4%"
+  max_count = 1
+
+# DCA LEVEL 3: Buy more at -6% from entry
+[[actions]]
+type = "buy"
+amount = "300 USDC"
+average_price = true
+
+  [[actions.triggers]]
+  type = "pos_price_change"
+  value = "-6%"
+  max_count = 1
+
+# TAKE PROFIT: Sell everything at +3%
+[[actions]]
+type = "sell"
+amount = "100%"
+
+  [[actions.triggers]]
+  type = "pos_price_change"
+  value = "3%"
+
+# STOP LOSS: Cut losses at -10%
+[[actions]]
+type = "sell"
+amount = "100%"
+
+  [[actions.triggers]]
+  type = "pos_price_change"
+  value = "-10%"
+</code></pre>
+<p><strong>How this plays out:</strong></p>
+<ol>
+<li>Price drops below the lower Bollinger Band on the 1h chart -- the bot buys $100.</li>
+<li>If price continues dropping 2% from entry, the bot buys another $100 and averages the entry price down.</li>
+<li>If it drops 4% from entry, another $200 is added. At 6%, another $300.</li>
+<li>Maximum total investment: $100 + $100 + $200 + $300 = <strong>$700</strong>.</li>
+<li>If price recovers 3% from the (averaged) entry price, everything is sold for profit.</li>
+<li>If price drops 10% from entry without recovery, the stop-loss fires and cuts losses.</li>
+</ol>
+<div id="admonition-tip-1" class="admonition admonish-tip" role="note" aria-labelledby="admonition-tip-1-title">
+<div class="admonition-title">
+<div id="admonition-tip-1-title">
+<p>Tip</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-tip-1"></a>
+</div>
+<div>
+<p>Notice the increasing DCA amounts ($100, $100, $200, $300). This is called <strong>pyramid DCA</strong> -- you invest more at lower prices where the risk-reward is better. The largest buy happens at the deepest dip.</p>
+</div>
+</div>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../strategies/timeframes.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../strategies/examples.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../strategies/timeframes.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../strategies/examples.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

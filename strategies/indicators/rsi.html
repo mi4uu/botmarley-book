@@ -1,0 +1,483 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>RSI — Relative Strength Index - Botmarley User Manual</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Complete user guide for the Botmarley cryptocurrency trading bot">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../.././mdbook-admonish.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Botmarley User Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="rsi----relative-strength-index"><a class="header" href="#rsi----relative-strength-index">RSI -- Relative Strength Index</a></h1>
+<h2 id="contents"><a class="header" href="#contents">Contents</a></h2>
+<ul>
+<li><a href="#format">Format</a></li>
+<li><a href="#rsi-zones">RSI Zones</a></li>
+<li><a href="#understanding-operators-with-rsi">Understanding Operators with RSI</a>
+<ul>
+<li><a href="#-less-than----state-based"><code>&lt;</code> Less Than</a></li>
+<li><a href="#-greater-than----state-based"><code>&gt;</code> Greater Than</a></li>
+<li><a href="#cross_below----event-based"><code>cross_below</code></a></li>
+<li><a href="#cross_above----event-based"><code>cross_above</code></a></li>
+<li><a href="#-equal----not-recommended-for-rsi"><code>=</code> Equal</a></li>
+</ul>
+</li>
+<li><a href="#toml-examples">TOML Examples</a>
+<ul>
+<li><a href="#buy-on-oversold-rsi">Buy on Oversold RSI</a></li>
+<li><a href="#sell-on-overbought-rsi">Sell on Overbought RSI</a></li>
+<li><a href="#buy-on-rsi-recovery-cross-above-30">Buy on RSI Recovery</a></li>
+<li><a href="#sell-on-leaving-overbought-cross-below-70">Sell on Leaving Overbought</a></li>
+<li><a href="#stochrsi-extreme-dip">StochRSI Extreme Dip</a></li>
+<li><a href="#rsi-with-trend-filter">RSI with Trend Filter</a></li>
+</ul>
+</li>
+<li><a href="#tips">Tips</a></li>
+</ul>
+<hr />
+<h2 id="overview"><a class="header" href="#overview">Overview</a></h2>
+<p>The Relative Strength Index (RSI) is a momentum oscillator that measures the speed and magnitude of recent price changes. It answers one question: <strong>how strong is the current move compared to recent moves?</strong></p>
+<p>RSI is calculated by comparing the average size of recent gains to the average size of recent losses over a lookback period. The result is normalized to a scale of 0 to 100:</p>
+<ul>
+<li><strong>RSI near 100</strong> means almost all recent candles were bullish (strong upward momentum).</li>
+<li><strong>RSI near 0</strong> means almost all recent candles were bearish (strong downward momentum).</li>
+<li><strong>RSI near 50</strong> means gains and losses are roughly equal (no clear momentum).</li>
+</ul>
+<p>The standard RSI period is 14, which looks at the last 14 candles. Shorter periods make RSI more reactive; longer periods make it smoother.</p>
+<p><img src="../../images/indicator-rsi-labeled.png" alt="RSI(14) shown as oscillator below BTC/USDC 1h candle chart with zone labels" /></p>
+<p><em>BTC/USDC 1-hour chart with <span style="color: #00c8dc;"><strong>RSI(14)</strong></span> displayed as a separate oscillator below the price chart. The horizontal lines at <span style="color: #ff8c00;"><strong>70 (overbought)</strong></span> and <span style="color: #ff5050;"><strong>30 (oversold)</strong></span> mark the classic trading zones.</em></p>
+<hr />
+<h2 id="format"><a class="header" href="#format">Format</a></h2>
+<pre><code>rsi_{period}
+</code></pre>
+<p>The period defines how many candles RSI looks back to calculate average gains and losses.</p>
+<div class="table-wrapper"><table><thead><tr><th>Example</th><th>Period</th><th>Use Case</th></tr></thead><tbody>
+<tr><td><code>rsi_7</code></td><td>7</td><td>Fast, reactive -- good for scalping on low timeframes</td></tr>
+<tr><td><code>rsi_14</code></td><td>14</td><td>Standard -- the default for most strategies</td></tr>
+<tr><td><code>rsi_21</code></td><td>21</td><td>Slower, smoother -- fewer false signals</td></tr>
+</tbody></table>
+</div>
+<p><strong>Period range:</strong> 1 to 200.</p>
+<p><strong>Value range:</strong> 0 to 100 (always).</p>
+<hr />
+<h2 id="rsi-zones"><a class="header" href="#rsi-zones">RSI Zones</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>RSI Range</th><th>Zone</th><th>Interpretation</th></tr></thead><tbody>
+<tr><td>Below 30</td><td>Oversold</td><td>Price has dropped sharply relative to recent history. Selling pressure may be exhausted. Potential buy opportunity.</td></tr>
+<tr><td>30 -- 50</td><td>Weak / Neutral</td><td>Below the midpoint. Momentum is bearish-leaning or undecided.</td></tr>
+<tr><td>50 -- 70</td><td>Bullish</td><td>Above the midpoint. Momentum favors buyers. In a healthy uptrend, RSI typically stays in this range.</td></tr>
+<tr><td>Above 70</td><td>Overbought</td><td>Price has risen sharply relative to recent history. Buying pressure may be exhausted. Potential sell opportunity or caution zone.</td></tr>
+</tbody></table>
+</div><div id="admonition-note" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-title">
+<div class="admonition-title">
+<div id="admonition-note-title">
+<p>Note</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-note"></a>
+</div>
+<div>
+<p>"Oversold" and "overbought" do not mean price <strong>must</strong> reverse. In a strong trend, RSI can stay oversold or overbought for extended periods. RSI below 30 during a crash can stay there for days. Always combine RSI with other confirmations.</p>
+</div>
+</div>
+<hr />
+<h2 id="understanding-operators-with-rsi"><a class="header" href="#understanding-operators-with-rsi">Understanding Operators with RSI</a></h2>
+<p>Each operator behaves differently with RSI. Understanding the distinction is critical for building strategies that fire when you intend.</p>
+<h3 id="less-than----state-based"><a class="header" href="#less-than----state-based"><code>&lt;</code> (Less Than) -- State-Based</a></h3>
+<p><strong>What it does:</strong> The trigger is true on <strong>every candle</strong> where RSI is below the threshold.</p>
+<p><strong>On the chart:</strong> Imagine the RSI line sitting below the horizontal 30 line. For as long as the line stays below 30, this trigger is active. If RSI stays below 30 for eight consecutive candles, the trigger fires on all eight.</p>
+<p><img src="../../images/rsi-oversold.png" alt="RSI dropping into the oversold zone below 30" /></p>
+<p><em>RSI(14) dipping below the 30 threshold — the oversold zone highlighted in red. While RSI remains below 30, the <code>&lt;</code> operator fires on every candle.</em></p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "rsi_14"
+operator = "&lt;"
+target = "30"
+</code></pre>
+<div id="admonition-warning" class="admonition admonish-warning" role="note" aria-labelledby="admonition-warning-title">
+<div class="admonition-title">
+<div id="admonition-warning-title">
+<p>Warning</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-warning"></a>
+</div>
+<div>
+<p>Because <code>&lt;</code> fires on every qualifying candle, an "open_long" action with <code>rsi_14 &lt; 30</code> could attempt to open a new position on each candle where RSI remains below 30. Use <code>max_count</code> to limit this, or use <code>cross_below</code> if you only want the initial dip.</p>
+</div>
+</div>
+<h3 id="greater-than----state-based"><a class="header" href="#greater-than----state-based"><code>&gt;</code> (Greater Than) -- State-Based</a></h3>
+<p><strong>What it does:</strong> The trigger is true on <strong>every candle</strong> where RSI is above the threshold.</p>
+<p><strong>On the chart:</strong> The RSI line is above the horizontal 70 line. Every candle it stays there, this trigger fires.</p>
+<p><img src="../../images/rsi-overbought.png" alt="RSI rising into the overbought zone above 70" /></p>
+<p><em>RSI(14) pushing above the 70 threshold — the overbought zone highlighted in orange. This is where selling pressure may start building.</em></p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "rsi_14"
+operator = "&gt;"
+target = "70"
+</code></pre>
+<p><strong>Typical use:</strong> Sell when RSI is overbought. Combined with <code>max_count = 1</code>, it fires once when RSI first exceeds 70 and then stops.</p>
+<h3 id="cross_below----event-based"><a class="header" href="#cross_below----event-based"><code>cross_below</code> -- Event-Based</a></h3>
+<p><strong>What it does:</strong> Fires <strong>once</strong>, at the exact candle where RSI transitions from above the threshold to below it. The previous candle had RSI &gt;= the target, and the current candle has RSI &lt; the target.</p>
+<p><strong>On the chart:</strong> Picture the RSI line descending through the 70 line. The moment it pierces the line from above to below, this trigger fires -- and then goes silent until the next crossing.</p>
+<p><img src="../../images/rsi-cross-below.png" alt="RSI crossing below 70 — leaving overbought territory" /></p>
+<p><em>RSI(14) crossing below the 70 threshold — the moment momentum starts fading. This event-based signal fires once at the crossing candle.</em></p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "rsi_14"
+operator = "cross_below"
+target = "70"
+</code></pre>
+<p><strong>Typical use:</strong> Detect when RSI "leaves overbought territory." This is often a stronger sell signal than simply being above 70, because it captures the turning point -- the moment momentum starts fading.</p>
+<h3 id="cross_above----event-based"><a class="header" href="#cross_above----event-based"><code>cross_above</code> -- Event-Based</a></h3>
+<p><strong>What it does:</strong> Fires <strong>once</strong>, at the exact candle where RSI transitions from below the threshold to above it. The previous candle had RSI &lt;= the target, and the current candle has RSI &gt; the target.</p>
+<p><strong>On the chart:</strong> The RSI line climbing up through the 30 line. The moment it crosses from below to above, the trigger fires once.</p>
+<p><img src="../../images/rsi-cross-above.png" alt="RSI crossing above 30 — recovery from oversold" /></p>
+<p><em>RSI(14) crossing above the 30 threshold — recovery from oversold. Rather than buying while RSI is still falling, this waits for the first sign of recovery.</em></p>
+<pre><code class="language-toml">[[actions.triggers]]
+indicator = "rsi_14"
+operator = "cross_above"
+target = "30"
+</code></pre>
+<p><strong>Typical use:</strong> Detect when RSI "recovers from oversold." Rather than buying while RSI is still falling, this waits for the first sign of recovery -- RSI turning back up through 30.</p>
+<h3 id="-equal----not-recommended-for-rsi"><a class="header" href="#-equal----not-recommended-for-rsi"><code>=</code> (Equal) -- Not Recommended for RSI</a></h3>
+<p><strong>Why:</strong> RSI produces floating-point values like 29.87 or 70.12. Exact equality (<code>rsi_14 = 30</code>) will almost never be true. Use <code>&lt;</code> or <code>&gt;</code> instead.</p>
+<div id="admonition-choosing-the-right-operator" class="admonition admonish-tip" role="note" aria-labelledby="admonition-choosing-the-right-operator-title">
+<div class="admonition-title">
+<div id="admonition-choosing-the-right-operator-title">
+<p>Choosing the right operator</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-choosing-the-right-operator"></a>
+</div>
+<div>
+<ul>
+<li>Use <strong><code>&lt;</code> / <code>&gt;</code></strong> when you want to act <strong>while</strong> RSI is in a zone (state-based). Add <code>max_count</code> to limit repeated firing.</li>
+<li>Use <strong><code>cross_above</code> / <code>cross_below</code></strong> when you want to act at the <strong>moment</strong> RSI enters or leaves a zone (event-based). No <code>max_count</code> needed -- crossovers fire once by nature.</li>
+</ul>
+</div>
+</div>
+<hr />
+<h2 id="toml-examples"><a class="header" href="#toml-examples">TOML Examples</a></h2>
+<h3 id="buy-on-oversold-rsi"><a class="header" href="#buy-on-oversold-rsi">Buy on Oversold RSI</a></h3>
+<p>The simplest RSI strategy. Enter when RSI drops below 30 on the 1-hour chart.</p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+  [[actions.triggers]]
+  indicator = "rsi_14"
+  operator = "&lt;"
+  target = "30"
+  timeframe = "1h"
+</code></pre>
+<h3 id="sell-on-overbought-rsi"><a class="header" href="#sell-on-overbought-rsi">Sell on Overbought RSI</a></h3>
+<p>Exit when RSI exceeds 70. The <code>max_count = 1</code> ensures this only fires once per position.</p>
+<pre><code class="language-toml">[[actions]]
+type = "sell"
+amount = "100%"
+
+  [[actions.triggers]]
+  indicator = "rsi_14"
+  operator = "&gt;"
+  target = "70"
+  max_count = 1
+</code></pre>
+<h3 id="buy-on-rsi-recovery-cross-above-30"><a class="header" href="#buy-on-rsi-recovery-cross-above-30">Buy on RSI Recovery (Cross Above 30)</a></h3>
+<p>Instead of buying while RSI is still falling, wait for the first sign of recovery.</p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+  [[actions.triggers]]
+  indicator = "rsi_14"
+  operator = "cross_above"
+  target = "30"
+  timeframe = "1h"
+</code></pre>
+<h3 id="sell-on-leaving-overbought-cross-below-70"><a class="header" href="#sell-on-leaving-overbought-cross-below-70">Sell on Leaving Overbought (Cross Below 70)</a></h3>
+<p>Sell at the moment RSI drops back below 70 -- the overbought momentum is fading.</p>
+<pre><code class="language-toml">[[actions]]
+type = "sell"
+amount = "100%"
+
+  [[actions.triggers]]
+  indicator = "rsi_14"
+  operator = "cross_below"
+  target = "70"
+  timeframe = "1h"
+</code></pre>
+<h3 id="stochrsi-extreme-dip"><a class="header" href="#stochrsi-extreme-dip">StochRSI Extreme Dip</a></h3>
+<p>StochRSI is more sensitive than regular RSI and reaches extremes more often. This catches deep short-term dips.</p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "50 USDC"
+
+  [[actions.triggers]]
+  indicator = "stoch_rsi_14"
+  operator = "&lt;"
+  target = "10"
+  timeframe = "5m"
+  max_count = 1
+</code></pre>
+<h3 id="rsi-with-trend-filter"><a class="header" href="#rsi-with-trend-filter">RSI with Trend Filter</a></h3>
+<p>Only buy RSI dips when the macro trend is bullish (daily SMA 50 above SMA 200).</p>
+<p><img src="../../images/rsi-trend-filter.png" alt="RSI with trend filter — only buy dips in confirmed uptrends" /></p>
+<p><em>Multi-timeframe confirmation: the daily SMA crossover confirms the macro uptrend, while the hourly RSI catches dip entries within that trend. This "trend-safe DCA" pattern avoids buying into falling markets.</em></p>
+<pre><code class="language-toml">[[actions]]
+type = "open_long"
+amount = "100 USDC"
+
+  [[actions.triggers]]
+  indicator = "rsi_14"
+  operator = "&lt;"
+  target = "35"
+  timeframe = "1h"
+
+  [[actions.triggers]]
+  indicator = "sma_50"
+  operator = "&gt;"
+  target = "sma_200"
+  timeframe = "1d"
+</code></pre>
+<hr />
+<h2 id="tips"><a class="header" href="#tips">Tips</a></h2>
+<div id="admonition-period-selection" class="admonition admonish-tip" role="note" aria-labelledby="admonition-period-selection-title">
+<div class="admonition-title">
+<div id="admonition-period-selection-title">
+<p>Period selection</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-period-selection"></a>
+</div>
+<div>
+<p><strong>Shorter periods (7, 9)</strong> make RSI oscillate faster between extremes. You get more signals, but more of them are false. Best suited for scalping on lower timeframes (1m, 5m).</p>
+<p><strong>Longer periods (21, 28)</strong> smooth out RSI and produce fewer, more reliable signals. Better for swing trading on higher timeframes (4h, 1d).</p>
+<p><strong>RSI(14)</strong> is the standard middle ground. Start here and adjust based on backtest results.</p>
+</div>
+</div>
+<div id="admonition-combine-with-trend-filters" class="admonition admonish-tip" role="note" aria-labelledby="admonition-combine-with-trend-filters-title">
+<div class="admonition-title">
+<div id="admonition-combine-with-trend-filters-title">
+<p>Combine with trend filters</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-combine-with-trend-filters"></a>
+</div>
+<div>
+<p>RSI works best as a <strong>timing tool within a confirmed trend</strong>, not as a standalone signal. RSI &lt; 30 in a strong downtrend is often a trap -- price can stay oversold for days. Pair RSI entries with a trend filter like <code>sma_50 &gt; sma_200</code> on the daily chart to avoid buying into falling markets.</p>
+</div>
+</div>
+<div id="admonition-two-stage-exits" class="admonition admonish-tip" role="note" aria-labelledby="admonition-two-stage-exits-title">
+<div class="admonition-title">
+<div id="admonition-two-stage-exits-title">
+<p>Two-stage exits</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-two-stage-exits"></a>
+</div>
+<div>
+<p>A powerful pattern is to sell in stages: sell 50% at RSI &gt; 50 (partial profit) and sell the remaining 100% at RSI &gt; 70 (full exit). This captures more upside on strong bounces while locking in some profit early.</p>
+</div>
+</div>
+<div id="admonition-rsi-vs-stochrsi" class="admonition admonish-tip" role="note" aria-labelledby="admonition-rsi-vs-stochrsi-title">
+<div class="admonition-title">
+<div id="admonition-rsi-vs-stochrsi-title">
+<p>RSI vs. StochRSI</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-rsi-vs-stochrsi"></a>
+</div>
+<div>
+<p>If you find RSI(14) too slow to reach extremes, try <code>stoch_rsi_14</code>. StochRSI applies the stochastic formula to RSI values, making it far more volatile -- it frequently hits 0 and 100. Use StochRSI for catching short-term dips on low timeframes; use RSI for broader momentum reads.</p>
+</div>
+</div>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../strategies/indicators/ema.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../strategies/indicators/macd.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../strategies/indicators/ema.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../strategies/indicators/macd.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../mermaid.min.js"></script>
+        <script src="../../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,313 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Session Recovery - Botmarley User Manual</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Complete user guide for the Botmarley cryptocurrency trading bot">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href=".././mdbook-admonish.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Botmarley User Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="session-recovery"><a class="header" href="#session-recovery">Session Recovery</a></h1>
+<p>Servers restart. Power goes out, operating systems update, processes crash. When Botmarley runs trading sessions that manage real money (or paper money you care about tracking), it needs to handle restarts gracefully. This chapter explains what happens when the server goes down and comes back up.</p>
+<h2 id="automatic-recovery"><a class="header" href="#automatic-recovery">Automatic Recovery</a></h2>
+<p>When the Botmarley server starts, one of the first things it does is check the database for trading sessions that were active at the time of the last shutdown. Specifically, it looks for sessions with a status of <strong>Running</strong> or <strong>Paused</strong>.</p>
+<p>For each session it finds, the server:</p>
+<ol>
+<li><strong>Logs a <code>server_restart</code> event</strong> in the session's event history. This creates an audit trail so you can see exactly when gaps occurred.</li>
+<li><strong>Parses the strategy TOML snapshot</strong> stored when the session was originally started.</li>
+<li><strong>Creates a new control channel</strong> (the mechanism used to send pause/resume/stop commands).</li>
+<li><strong>Restores the portfolio state</strong> from the last saved snapshot in the database (positions, balances, fire counts).</li>
+<li><strong>Spawns a new trading engine task</strong> that picks up where the previous one left off.</li>
+</ol>
+<p>The entire process is automatic. You do not need to manually restart sessions after a server restart.</p>
+<pre class="mermaid">flowchart TD
+    A[&quot;Server starts&quot;] --&gt; B[&quot;Query DB for sessions&lt;br/&gt;with status Running or Paused&quot;]
+    B --&gt; C{&quot;Sessions found?&quot;}
+    C -- No --&gt; D[&quot;Nothing to recover&lt;br/&gt;Normal startup continues&quot;]
+    C -- Yes --&gt; E[&quot;For each session:&quot;]
+    E --&gt; F[&quot;Log server_restart event&quot;]
+    F --&gt; G[&quot;Parse strategy TOML&lt;br/&gt;from stored snapshot&quot;]
+    G --&gt; H[&quot;Restore portfolio state&lt;br/&gt;from DB snapshot&quot;]
+    H --&gt; I[&quot;Spawn trading engine&lt;br/&gt;async task&quot;]
+    I --&gt; J[&quot;Engine backfills missed&lt;br/&gt;candles from exchange&quot;]
+    J --&gt; K[&quot;Normal operation resumes&quot;]
+</pre>
+<div id="admonition-tip" class="admonition admonish-tip" role="note" aria-labelledby="admonition-tip-title">
+<div class="admonition-title">
+<div id="admonition-tip-title">
+<p>Tip</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-tip"></a>
+</div>
+<div>
+<p>Recovery is fully automatic. If your server restarts unexpectedly, just wait for it to come back up. Your trading sessions will resume on their own within seconds of the server starting.</p>
+</div>
+</div>
+<h2 id="what-gets-recovered"><a class="header" href="#what-gets-recovered">What Gets Recovered</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Component</th><th>Recovery method</th></tr></thead><tbody>
+<tr><td><strong>Session status</strong></td><td>Read from database. Both "running" and "paused" sessions are recovered. Paused sessions resume as running.</td></tr>
+<tr><td><strong>Strategy rules</strong></td><td>Parsed from the TOML snapshot stored at session creation time. This means the strategy used is the one that was active when the session started, not the current version of the strategy file.</td></tr>
+<tr><td><strong>Portfolio state</strong></td><td>Deserialized from the <code>last_portfolio_snapshot</code> JSON field in the database. This includes USD balance, crypto balances, open positions, entry prices, and action fire counts.</td></tr>
+<tr><td><strong>Trade action history</strong></td><td>Loaded from the database. All previously executed actions are intact.</td></tr>
+<tr><td><strong>Session events</strong></td><td>All previous events (started, paused, resumed) remain in the database, plus the new <code>server_restart</code> event.</td></tr>
+<tr><td><strong>Counters</strong></td><td><code>total_actions</code> and <code>candles_processed</code> are restored from the database, preventing duplicate counting.</td></tr>
+</tbody></table>
+</div>
+<h2 id="what-does-not-recover"><a class="header" href="#what-does-not-recover">What Does Not Recover</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Component</th><th>What happens instead</th></tr></thead><tbody>
+<tr><td><strong>Candle buffer</strong></td><td>The in-memory rolling buffer of recent candles is lost on shutdown. On recovery, the engine rebuilds it by fetching historical candles from the exchange API (Kraken or Binance, based on the account type) -- typically the last 12-24 hours of 1-minute data. This usually takes a few seconds.</td></tr>
+<tr><td><strong>Indicator cache</strong></td><td>Rebuilt automatically from the refetched candle buffer. No data loss -- indicators are always recalculated from raw candle data.</td></tr>
+<tr><td><strong>Progress store</strong></td><td>The in-memory progress map (current price, live PnL display) is empty on restart. It repopulates after the first poll cycle.</td></tr>
+<tr><td><strong>SSE connections</strong></td><td>Browser SSE connections are dropped when the server stops. Browsers will automatically reconnect when the server comes back up. You may see a brief "connection lost" state in the UI.</td></tr>
+</tbody></table>
+</div>
+<h2 id="the-gap-period"><a class="header" href="#the-gap-period">The Gap Period</a></h2>
+<p>Between the server stopping and restarting, the engine is not running. During this gap:</p>
+<ul>
+<li><strong>No candles are fetched.</strong> The market continues to move, but Botmarley is not watching.</li>
+<li><strong>No triggers are evaluated.</strong> Trading opportunities may be missed.</li>
+<li><strong>Open positions remain open.</strong> If you have positions on the exchange, they persist on the exchange regardless of whether Botmarley is running.</li>
+</ul>
+<p>When the engine resumes, it <strong>backfills missed candles</strong> from the exchange API. This means it fetches the candles that were produced during the downtime, appends them to the buffer, and processes them. However, the backfilled candles are processed in bulk -- triggers that might have fired at specific moments during the gap may not fire in the same way when processed after the fact.</p>
+<div id="admonition-note" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-title">
+<div class="admonition-title">
+<div id="admonition-note-title">
+<p>Note</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-note"></a>
+</div>
+<div>
+<p>For short gaps (a few minutes), the impact is negligible. For longer gaps (hours), you may miss trading signals that occurred during the downtime. The <code>server_restart</code> event in the session log tells you exactly when the gap happened, so you can review the price action during that period manually.</p>
+</div>
+</div>
+<h2 id="the-server_restart-event"><a class="header" href="#the-server_restart-event">The <code>server_restart</code> Event</a></h2>
+<p>Every recovered session gets a <code>server_restart</code> event recorded in its event log. This event:</p>
+<ul>
+<li>Has a timestamp of when the server restarted (not when it shut down).</li>
+<li>Can include metadata about the recovery process (e.g., number of candles backfilled).</li>
+<li>Is visible in the session detail page's event history.</li>
+</ul>
+<p>You can use this event to:</p>
+<ul>
+<li><strong>Audit gaps</strong> -- know exactly when the bot was offline.</li>
+<li><strong>Correlate missed opportunities</strong> -- compare the gap period's price action with what the strategy would have done.</li>
+<li><strong>Monitor stability</strong> -- frequent <code>server_restart</code> events may indicate infrastructure issues.</li>
+</ul>
+<h2 id="edge-cases"><a class="header" href="#edge-cases">Edge Cases</a></h2>
+<h3 id="what-if-the-strategy-toml-snapshot-is-invalid"><a class="header" href="#what-if-the-strategy-toml-snapshot-is-invalid">What if the strategy TOML snapshot is invalid?</a></h3>
+<p>If the stored TOML snapshot cannot be parsed (e.g., due to a bug in a previous version), the session is marked as <strong>Failed</strong> instead of being recovered. An error is logged explaining the parse failure. You will need to manually create a new session with the corrected strategy.</p>
+<h3 id="what-if-the-portfolio-snapshot-is-missing-or-corrupt"><a class="header" href="#what-if-the-portfolio-snapshot-is-missing-or-corrupt">What if the portfolio snapshot is missing or corrupt?</a></h3>
+<p>If the <code>last_portfolio_snapshot</code> field is empty or cannot be deserialized, the engine starts with a fresh portfolio using the session's initial capital. This means positions tracked in the previous run are lost. A warning is logged so you can investigate.</p>
+<h3 id="what-about-exchange-orders-placed-just-before-shutdown"><a class="header" href="#what-about-exchange-orders-placed-just-before-shutdown">What about exchange orders placed just before shutdown?</a></h3>
+<p>If the engine sent an order to the exchange and the server crashed before recording the result, there may be a discrepancy between the exchange account's actual balance and what Botmarley thinks the balance is. After recovery, check your exchange account balance manually to confirm alignment.</p>
+<div id="admonition-warning" class="admonition admonish-warning" role="note" aria-labelledby="admonition-warning-title">
+<div class="admonition-title">
+<div id="admonition-warning-title">
+<p>Warning</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-warning"></a>
+</div>
+<div>
+<p>If you suspect a state mismatch between Botmarley and your exchange account after a crash, stop the session, verify your exchange balance, and start a new session. Do not continue trading with potentially incorrect state.</p>
+</div>
+</div>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../trading/monitoring.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../data/overview.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../trading/monitoring.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../data/overview.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

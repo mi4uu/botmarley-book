@@ -1,0 +1,295 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Data Browser - Botmarley User Manual</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Complete user guide for the Botmarley cryptocurrency trading bot">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href=".././mdbook-admonish.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Botmarley User Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="data-browser"><a class="header" href="#data-browser">Data Browser</a></h1>
+<p>The Data Browser lets you explore the candle data stored on disk. You can view raw OHLCV values in a table, render interactive charts, and inspect individual candles -- all from the web interface.</p>
+<h2 id="accessing-the-data-browser"><a class="header" href="#accessing-the-data-browser">Accessing the Data Browser</a></h2>
+<p>Navigate to <strong><code>/data</code></strong> in the sidebar. The Data Browser page presents two main controls at the top:</p>
+<ul>
+<li><strong>Pair selector</strong> -- choose which trading pair to view (e.g., XBTUSD, ETHUSD from Kraken, or BTCUSDC, ETHUSDC from Binance).</li>
+<li><strong>Timeframe selector</strong> -- choose the candle resolution (1m, 5m, 15m, 1h).</li>
+</ul>
+<p><img src="../images/data-browser.png" alt="Data Browser with pair selection, candlestick chart, and candle data table" /></p>
+<div id="admonition-note" class="admonition admonish-note" role="note" aria-labelledby="admonition-note-title">
+<div class="admonition-title">
+<div id="admonition-note-title">
+<p>Note</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-note"></a>
+</div>
+<div>
+<p>You can only browse pairs that have been downloaded. If a pair does not appear in the selector, go to <a href="downloading.html">Downloading History</a> and run a History Sync first.</p>
+</div>
+</div>
+<h2 id="interactive-chart-viewer"><a class="header" href="#interactive-chart-viewer">Interactive Chart Viewer</a></h2>
+<p>The chart viewer uses <strong>Lightweight Charts</strong> (the same library used by TradingView) to render a professional candlestick chart. The chart supports:</p>
+<ul>
+<li><strong>Pan and zoom</strong> -- click and drag to pan, scroll to zoom in/out on the time axis.</li>
+<li><strong>Crosshair</strong> -- hover over any candle to see its exact OHLCV values in the legend area.</li>
+<li><strong>Auto-fit</strong> -- the chart automatically scales the price axis to fit visible candles.</li>
+<li><strong>Time navigation</strong> -- scroll left to see older data, right for more recent data.</li>
+</ul>
+<p>The chart loads candle data directly from the server and renders it in the browser using vanilla JavaScript. No external services are contacted.</p>
+<div id="admonition-tip" class="admonition admonish-tip" role="note" aria-labelledby="admonition-tip-title">
+<div class="admonition-title">
+<div id="admonition-tip-title">
+<p>Tip</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-tip"></a>
+</div>
+<div>
+<p>Use the scroll wheel to zoom into specific time ranges. This is especially useful when looking at 1-minute candles, where the full dataset may span months of data.</p>
+</div>
+</div>
+<h2 id="candle-table"><a class="header" href="#candle-table">Candle Table</a></h2>
+<p>Below the chart, a table displays the raw candle data for the selected pair and timeframe. Each row represents one candle:</p>
+<div class="table-wrapper"><table><thead><tr><th>Column</th><th>Description</th></tr></thead><tbody>
+<tr><td><strong>Timestamp</strong></td><td>The start time of the candle (UTC)</td></tr>
+<tr><td><strong>Open</strong></td><td>Price at the start of the period</td></tr>
+<tr><td><strong>High</strong></td><td>Highest price during the period</td></tr>
+<tr><td><strong>Low</strong></td><td>Lowest price during the period</td></tr>
+<tr><td><strong>Close</strong></td><td>Price at the end of the period</td></tr>
+<tr><td><strong>Volume</strong></td><td>Total traded volume during the period</td></tr>
+</tbody></table>
+</div>
+<p>The table is sorted by timestamp in descending order (newest first), so the most recent candles appear at the top.</p>
+<h2 id="switching-timeframes"><a class="header" href="#switching-timeframes">Switching Timeframes</a></h2>
+<p>When you switch from one timeframe to another (e.g., from 1m to 1h), the chart and table reload with the new data. Remember that all timeframes larger than 1m are <strong>derived</strong> from the stored 1-minute candles:</p>
+<pre class="mermaid">flowchart LR
+    Store[&quot;1m.arrow on disk&quot;] --&gt; Derive[&quot;Server aggregation&quot;]
+    Derive --&gt; TF5[&quot;5m candles&quot;]
+    Derive --&gt; TF15[&quot;15m candles&quot;]
+    Derive --&gt; TF60[&quot;1h candles&quot;]
+    TF5 --&gt; Render[&quot;Chart + Table&quot;]
+    TF15 --&gt; Render
+    TF60 --&gt; Render
+
+    style Store fill:#f59e0b,color:#fff
+    style Render fill:#22c55e,color:#fff
+</pre>
+<p>Switching timeframes does not require a new download -- the server reads the 1-minute Arrow file and computes the requested timeframe on the fly.</p>
+<h2 id="practical-uses"><a class="header" href="#practical-uses">Practical Uses</a></h2>
+<p>The Data Browser is useful for several tasks:</p>
+<ul>
+<li><strong>Visual verification</strong> after downloading history -- confirm that the data looks correct, with no obvious gaps or anomalies.</li>
+<li><strong>Manual chart analysis</strong> -- look at price patterns, support/resistance levels, or significant moves before building a strategy.</li>
+<li><strong>Debugging strategies</strong> -- after a backtest, switch to the Data Browser to see exactly what the candles looked like during a period where the strategy made unexpected trades.</li>
+<li><strong>Comparing timeframes</strong> -- look at the same time period in 1m and 1h to understand how aggregation affects candle shapes and indicator values.</li>
+</ul>
+<div id="admonition-warning" class="admonition admonish-warning" role="note" aria-labelledby="admonition-warning-title">
+<div class="admonition-title">
+<div id="admonition-warning-title">
+<p>Warning</p>
+</div>
+<a class="admonition-anchor-link" href="#admonition-warning"></a>
+</div>
+<div>
+<p>Very large datasets (years of 1-minute data) may take a moment to render in the chart. If performance is sluggish, switch to a larger timeframe like 15m or 1h for a smoother experience.</p>
+</div>
+</div>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../data/downloading.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../data/indicators-calc.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../data/downloading.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../data/indicators-calc.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>
