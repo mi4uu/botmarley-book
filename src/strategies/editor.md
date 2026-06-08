@@ -55,6 +55,27 @@ There are also price-change triggers (move relative to entry) and time-based tri
 
 A trigger strategy never names a specific pair. The same rules run against whatever pair you point them at, so you can backtest one strategy across BTC, ETH, and SOL without rewriting it.
 
-## Rotation strategies
+## Universe: running on more than one pair
 
-There's a second kind of strategy that ranks a whole basket of assets and rotates between them instead of trading one pair. That's covered separately in [GEM / Dual Momentum](gem.md).
+Every strategy can declare a **universe**: the set of pairs it trades. The editor shows this as a row of checkboxes above the actions.
+
+- Leave it empty (or pick one pair) and the strategy is single-pair. You choose the pair when you backtest or go live.
+- Pick two or more and the strategy goes multi-pair. The same signals run on each pair as equal-weight sub-accounts, and the capital is split evenly between them.
+
+In TOML it's a `[universe]` block:
+
+```toml
+[universe]
+pairs = ["BTC_USDC", "ETH_USDC", "BNB_USDC"]
+```
+
+Multi-pair is first-class for every strategy, not a separate strategy type.
+
+## Allocation: signals or rotation
+
+The editor's **Allocation** section decides how capital moves across the universe:
+
+- **Signals** (the default) runs the per-pair triggers you build in the Actions section.
+- **Rotation** ignores triggers and instead ranks the universe by momentum, holding the single strongest pair. This is GEM / dual momentum, covered in [GEM / Dual Momentum](gem.md).
+
+Switching Allocation to Rotation hides the Actions section and reveals the momentum settings. Both kinds of strategy live in this one editor and save to the same `[universe]` / `[allocation]` format.

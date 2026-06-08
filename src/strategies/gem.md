@@ -14,16 +14,22 @@ Together: hold the strongest asset, but only if it's genuinely going up.
 
 ## Defining one
 
-A rotation strategy uses a `[rotation]` table instead of `[[actions]]`:
+The quickest way is the **+ New GEM** button on the Strategies page. It opens the normal [strategy editor](editor.md) with Allocation already set to Rotation: pick your universe of pairs, set the momentum settings, and save. There's no separate GEM editor; a rotation strategy is just a strategy whose allocation is rotation.
+
+In TOML, that's a `[universe]` block plus an `[allocation]` block with `mode = "rotation"`, and no `[[actions]]`:
 
 ```toml
 [meta]
 name = "GEM Dual Momentum"
 description = "Rank BTC/ETH/SOL, hold the strongest, sit in cash when none is trending up."
 
-[rotation]
+[universe]
 # Assets to rank and rotate between.
-universe = ["BTC_USDC", "ETH_USDC", "SOL_USDC"]
+pairs = ["BTC_USDC", "ETH_USDC", "SOL_USDC"]
+max_open_positions = 1
+
+[allocation]
+mode = "rotation"
 
 # Momentum lookback in 1m candles. 1440 = one day.
 momentum_period = 1440
@@ -40,7 +46,7 @@ min_momentum = 0.0
 
 | Field | What it does |
 |-------|--------------|
-| `universe` | The assets to rank. Two or more. |
+| `pairs` (in `[universe]`) | The assets to rank. Two or more. |
 | `momentum_period` | Lookback for the momentum measure, in 1m candles. Bigger = slower, less twitchy. |
 | `rebalance_every` | How often to re-rank and possibly switch, in 1m candles. |
 | `min_momentum` | The absolute gate, in percent. Raise it to demand stronger trends before buying in. |
