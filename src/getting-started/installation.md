@@ -49,3 +49,4 @@ That's the whole install. Next, walk through the [Quick Start](quick-start.md) t
 | `DATABASE_URL` | PostgreSQL connection string. Overrides the default. |
 | `KEYMARLEY_VALIDATE_URL` | Licence server endpoint. Defaults to the hosted one. See [Licensing](../deployment/licensing.md). |
 | `BACKTEST_SLIPPAGE_BPS` | Optional slippage in basis points applied during backtests. Off by default. |
+| `BOTMARLEY_DEMO_MODE` | Set to `1` to run an open public demo with no licence gate. Leave unset for normal use. |
