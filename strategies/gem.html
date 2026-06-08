@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Strategy Editor - Botmarley</title>
+        <title>GEM / Dual Momentum - Botmarley</title>
 
 
         <!-- Custom HTML head -->
@@ -147,7 +147,7 @@
                         <a href="https://github.com/mi4uu/botmarley" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/mi4uu/botmarley-book/edit/main/src/strategies/editor.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
+                        <a href="https://github.com/mi4uu/botmarley-book/edit/main/src/strategies/gem.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -181,63 +181,58 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="strategy-editor"><a class="header" href="#strategy-editor">Strategy Editor</a></h1>
-<p>A strategy is a set of rules that decide when to buy and when to sell. Botmarley stores each one as a TOML file, and you can edit it two ways: a visual builder, or the raw TOML with live validation.</p>
-<h2 id="the-shape-of-a-strategy"><a class="header" href="#the-shape-of-a-strategy">The shape of a strategy</a></h2>
-<p>Most strategies are <strong>per-pair trigger</strong> strategies. They watch one trading pair and fire actions when conditions are met. A strategy file has a <code>[meta]</code> block and one or more <code>[[actions]]</code>:</p>
+                        <h1 id="gem--dual-momentum"><a class="header" href="#gem--dual-momentum">GEM / Dual Momentum</a></h1>
+<p>Most strategies in Botmarley trade a single pair on triggers. A <strong>rotation</strong> strategy is different: it watches a basket of assets, ranks them by momentum, and holds the strongest one. When nothing is trending up, it sits in cash.</p>
+<p>This is the idea behind Gary Antonacci's GEM (Global Equities Momentum), adapted to crypto. It's called <em>dual</em> momentum because it uses two rules together.</p>
+<h2 id="the-two-rules"><a class="header" href="#the-two-rules">The two rules</a></h2>
+<p><strong>Relative momentum.</strong> Each rebalance, measure how much each asset has moved over a lookback window, and hold the one that moved the most. You're always in the strongest horse.</p>
+<p><strong>Absolute momentum.</strong> Before committing, check that the winner is actually rising. If even the best asset in the basket is falling, hold cash instead. This is the rule that keeps you out of broad downturns, where every asset is red and "the best of a bad bunch" still loses money.</p>
+<p>Together: hold the strongest asset, but only if it's genuinely going up.</p>
+<h2 id="defining-one"><a class="header" href="#defining-one">Defining one</a></h2>
+<p>A rotation strategy uses a <code>[rotation]</code> table instead of <code>[[actions]]</code>:</p>
 <pre><code class="language-toml">[meta]
-name = "EMA(9) Cross Above EMA(21)"
-description = "Classic trend-following entry with a small DCA grid, take profit at +2%"
-max_open_positions = 1
+name = "GEM Dual Momentum"
+description = "Rank BTC/ETH/SOL, hold the strongest, sit in cash when none is trending up."
 
-# Entry: buy 100 USDC when the 9 EMA crosses above the 21 EMA on the 1h timeframe
-[[actions]]
-type = "open_long"
-amount = "100 USDC"
-  [[actions.triggers]]
-  indicator = "ema_9"
-  operator = "cross_above"
-  target = "ema_21"
-  timeframe = "1h"
+[rotation]
+# Assets to rank and rotate between.
+universe = ["BTC_USDC", "ETH_USDC", "SOL_USDC"]
 
-# Take profit: sell the whole position at +2%
-[[actions]]
-type = "sell"
-amount = "100%"
-  [[actions.triggers]]
-  type = "pos_price_change"
-  value = "+2%"
+# Momentum lookback in 1m candles. 1440 = one day.
+momentum_period = 1440
+
+# Rebalance cadence in 1m candles. 1440 = once per day ("lazy").
+rebalance_every = 1440
+
+# Absolute-momentum gate, as a percentage. The winner must beat this or
+# the strategy holds cash. 0.0 is classic GEM.
+min_momentum = 0.0
 </code></pre>
-<h2 id="actions"><a class="header" href="#actions">Actions</a></h2>
-<div class="table-wrapper"><table><thead><tr><th>Action</th><th>What it does</th></tr></thead><tbody>
-<tr><td><code>open_long</code></td><td>Open a new position</td></tr>
-<tr><td><code>buy</code></td><td>Add to an existing position (DCA)</td></tr>
-<tr><td><code>sell</code></td><td>Close some or all of a position</td></tr>
+<h2 id="the-settings"><a class="header" href="#the-settings">The settings</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>What it does</th></tr></thead><tbody>
+<tr><td><code>universe</code></td><td>The assets to rank. Two or more.</td></tr>
+<tr><td><code>momentum_period</code></td><td>Lookback for the momentum measure, in 1m candles. Bigger = slower, less twitchy.</td></tr>
+<tr><td><code>rebalance_every</code></td><td>How often to re-rank and possibly switch, in 1m candles.</td></tr>
+<tr><td><code>min_momentum</code></td><td>The absolute gate, in percent. Raise it to demand stronger trends before buying in.</td></tr>
 </tbody></table>
 </div>
-<p><code>amount</code> is either a fixed quote amount (<code>"100 USDC"</code>) or a percentage (<code>"100%"</code>).</p>
-<h2 id="triggers"><a class="header" href="#triggers">Triggers</a></h2>
-<p>A trigger is the condition that makes an action fire. The common one is <strong>technical</strong>: compare an indicator to a value or another indicator.</p>
-<ul>
-<li><code>indicator</code> and <code>target</code> name the two sides (e.g. <code>ema_9</code> vs <code>ema_21</code>, or <code>rsi_14</code> vs a number).</li>
-<li><code>operator</code> is <code>cross_above</code>, <code>cross_below</code>, <code>greater_than</code>, <code>less_than</code>, or <code>equal</code>.</li>
-<li><code>timeframe</code> is the candle size the indicator runs on (<code>1m</code>, <code>1h</code>, <code>1d</code>, and so on).</li>
-</ul>
-<p>There are also price-change triggers (move relative to entry) and time-based triggers (after N candles). The full indicator list is in the <a href="indicators.html">Indicators Reference</a>.</p>
-<h2 id="universal-by-design"><a class="header" href="#universal-by-design">Universal by design</a></h2>
-<p>A trigger strategy never names a specific pair. The same rules run against whatever pair you point them at, so you can backtest one strategy across BTC, ETH, and SOL without rewriting it.</p>
-<h2 id="rotation-strategies"><a class="header" href="#rotation-strategies">Rotation strategies</a></h2>
-<p>There's a second kind of strategy that ranks a whole basket of assets and rotates between them instead of trading one pair. That's covered separately in <a href="gem.html">GEM / Dual Momentum</a>.</p>
+<p>Momentum is the rate of change over <code>momentum_period</code>: how far the price has moved as a percentage. The same measure the rest of Botmarley calls ROC.</p>
+<h2 id="how-it-trades"><a class="header" href="#how-it-trades">How it trades</a></h2>
+<p>At each rebalance point, Botmarley ranks the universe by momentum. If the top asset clears the <code>min_momentum</code> gate and it's not what you already hold, it sells the current holding and buys the new winner. If nothing clears the gate, it sells to cash and waits. Between rebalances it does nothing, which is the point. GEM is a low-turnover, "lazy" strategy. A daily rebalance on crypto is a reasonable starting point.</p>
+<h2 id="backtest-it-first"><a class="header" href="#backtest-it-first">Backtest it first</a></h2>
+<p>Rotation strategies backtest the same way as any other. Run one across a couple of different periods before trusting it. GEM on equities has historically delivered steady single-digit-to-low-double-digit annual returns with shallower drawdowns than buy-and-hold, but crypto is a different, far more volatile market. Treat the equity numbers as inspiration, not a forecast, and let your own backtests tell you what to expect here.</p>
+<h2 id="status"><a class="header" href="#status">Status</a></h2>
+<p>Rotation strategies run in backtesting today. Live multi-asset execution is on the roadmap.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../demo.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../strategies/indicators.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../strategies/indicators.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../backtesting/overview.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -247,11 +242,11 @@ amount = "100%"
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../demo.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../strategies/indicators.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../strategies/indicators.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../backtesting/overview.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

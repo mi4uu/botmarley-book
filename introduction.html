@@ -1,14 +1,14 @@
 <!DOCTYPE HTML>
-<html lang="en" class="light sidebar-visible" dir="ltr">
+<html lang="en" class="navy sidebar-visible" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Introduction - Botmarley User Manual</title>
+        <title>Introduction - Botmarley</title>
 
 
         <!-- Custom HTML head -->
 
-        <meta name="description" content="Complete user guide for the Botmarley cryptocurrency trading bot">
+        <meta name="description" content="Self-hosted, sovereign cryptocurrency trading bot. User manual.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
 
@@ -24,29 +24,41 @@
         <link rel="stylesheet" href="fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="./mdbook-admonish.css">
 
 
-        <!-- Provide site root to javascript -->
+        <!-- Provide site root and default themes to javascript -->
         <script>
-            var path_to_root = "";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "light";
+            const path_to_root = "";
+            const default_light_theme = "navy";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc.js"></script>
     </head>
     <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
     <div id="body-container">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -60,11 +72,12 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            var theme;
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             const html = document.documentElement;
-            html.classList.remove('light')
+            html.classList.remove('navy')
             html.classList.add(theme);
             html.classList.add("js");
         </script>
@@ -73,17 +86,20 @@
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var sidebar = null;
-            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
             } else {
                 sidebar = 'hidden';
+                sidebar_toggle.checked = false;
             }
-            sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
@@ -110,22 +126,29 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Botmarley User Manual</h1>
+                    <h1 class="menu-title">Botmarley</h1>
 
                     <div class="right-buttons">
                         <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/mi4uu/botmarley" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/mi4uu/botmarley-book/edit/main/src/introduction.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
                     </div>
@@ -133,7 +156,12 @@
 
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -153,83 +181,24 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="welcome-to-botmarley"><a class="header" href="#welcome-to-botmarley">Welcome to Botmarley</a></h1>
-<p>Botmarley is a <strong>self-hosted, sovereign cryptocurrency trading bot</strong> built in Rust. It runs entirely on your own hardware, giving you full control over your trading strategies, API keys, and market data. No cloud services, no third-party access to your funds, no monthly subscriptions.</p>
+                        <h1 id="botmarley"><a class="header" href="#botmarley">Botmarley</a></h1>
+<p>Botmarley is a self-hosted cryptocurrency trading bot that runs on your own hardware. You write trading strategies, test them against historical data, and run them live on Kraken and Binance. No cloud service holds your keys, and nobody else touches your funds.</p>
 <p>You install it, you run it, you own it.</p>
-<p><img src="images/dashboard.png" alt="Botmarley dashboard showing active sessions, portfolio summary, and quick navigation" /></p>
-<div id="admonition-info" class="admonition admonish-info" role="note" aria-labelledby="admonition-info-title">
-<div class="admonition-title">
-<div id="admonition-info-title">
-<p>Info</p>
-</div>
-<a class="admonition-anchor-link" href="#admonition-info"></a>
-</div>
-<div>
-<p>Botmarley supports <strong>Kraken</strong> and <strong>Binance</strong> exchanges. It automatically detects which exchange to use based on your account type and trading pair.</p>
-</div>
-</div>
-<h2 id="what-botmarley-does"><a class="header" href="#what-botmarley-does">What Botmarley Does</a></h2>
-<p>At its core, Botmarley automates cryptocurrency trading based on rules you define. You write a strategy that says things like "buy BTC when RSI drops below 30" or "sell 50% of my position when price rises 5% from entry," and Botmarley executes those rules 24/7 without you needing to watch charts.</p>
-<p>Here is how the pieces fit together:</p>
-<pre class="mermaid">graph LR
-    Browser[&quot;Browser&lt;br/&gt;(Web Interface)&quot;]
-    Bot[&quot;Botmarley&lt;br/&gt;(Trading Bot)&quot;]
-    PG[&quot;PostgreSQL&lt;br/&gt;(Your Data)&quot;]
-    Exchange[&quot;Exchange API&lt;br/&gt;(Kraken / Binance)&quot;]
-
-    Browser &lt;--&gt;|&quot;http://localhost:3000&quot;| Bot
-    Bot &lt;--&gt;|&quot;State &amp; Logs&quot;| PG
-    Bot &lt;--&gt;|&quot;Market Data &amp; Orders&quot;| Exchange
-</pre>
+<h2 id="what-you-can-do-with-it"><a class="header" href="#what-you-can-do-with-it">What you can do with it</a></h2>
 <ul>
-<li><strong>Browser</strong> -- You interact with Botmarley through a web interface at <code>http://localhost:3000</code>. Pages update in real time as your bot trades.</li>
-<li><strong>Botmarley</strong> -- A blazing-fast trading engine built in <strong>Rust</strong> with <strong>Tokio</strong> and <strong>Axum</strong>. Handles strategy execution, order placement, data fetching, and serves a reactive web interface powered by <strong>HTMX</strong>.</li>
-<li><strong>PostgreSQL</strong> -- Stores your accounts, trading sessions, backtest results, PnL history, activity logs, and configuration.</li>
-<li><strong>Exchange API</strong> -- Botmarley connects to Kraken and Binance to fetch market data and place orders on your behalf.</li>
+<li><strong>Build strategies</strong> in a visual editor or as raw TOML, with live validation.</li>
+<li><strong>Backtest</strong> against historical candle data before you risk real money.</li>
+<li><strong>Trade live</strong> on Kraken and Binance, with start, pause, and resume controls.</li>
+<li><strong>Track your portfolio</strong> value over time in USD and BTC.</li>
+<li><strong>Rotate between assets</strong> with momentum strategies like GEM (see <a href="strategies/gem.html">GEM / Dual Momentum</a>).</li>
+<li><strong>Get notified</strong> on Telegram when trades fire or sessions change state.</li>
 </ul>
-<h2 id="key-features"><a class="header" href="#key-features">Key Features</a></h2>
-<div class="table-wrapper"><table><thead><tr><th>Feature</th><th>Description</th></tr></thead><tbody>
-<tr><td><strong>Dashboard</strong></td><td>At-a-glance overview of active sessions, total PnL, and quick navigation to key areas.</td></tr>
-<tr><td><strong>Strategy Editor</strong></td><td>Visual builder and raw TOML editor for defining trading rules. Real-time validation as you build.</td></tr>
-<tr><td><strong>Backtesting</strong></td><td>Test strategies against historical data before risking real money. See PnL, trade count, win rate, and individual actions on a chart.</td></tr>
-<tr><td><strong>Live Trading</strong></td><td>Execute strategies in real-time on Kraken and Binance. Start, pause, resume, and stop sessions. Live-updating charts with trade markers.</td></tr>
-<tr><td><strong>Accounts</strong></td><td>Manage exchange API keys and paper (simulated) accounts. Each account is isolated.</td></tr>
-<tr><td><strong>Portfolio</strong></td><td>Track total portfolio value over time in USD and BTC, with asset breakdowns per account.</td></tr>
-<tr><td><strong>Market Data</strong></td><td>Download, browse, chart, and analyze historical candle data. Run indicators on stored data.</td></tr>
-<tr><td><strong>History Sync</strong></td><td>Fetch historical 1-minute candles from your exchange. Derived timeframes (5m, 15m, 1h) are calculated locally.</td></tr>
-<tr><td><strong>Task Queue</strong></td><td>Background job system for long-running operations like data sync and bulk backtests.</td></tr>
-<tr><td><strong>Activity Logs</strong></td><td>Detailed log of every action the bot takes, filterable by category (strategy, trading, backtest, account, data, system).</td></tr>
-<tr><td><strong>Settings</strong></td><td>Configure server host/port, storage paths, active trading pairs, Telegram notifications, password protection, and UI themes.</td></tr>
-</tbody></table>
-</div>
-<h2 id="who-this-manual-is-for"><a class="header" href="#who-this-manual-is-for">Who This Manual Is For</a></h2>
-<p>This manual is for <strong>cryptocurrency traders</strong> -- both beginners exploring automated trading for the first time and experienced traders who want full control over their bot.</p>
-<ul>
-<li>If you are new to trading bots, start with the <a href="getting-started/installation.html">Getting Started</a> section. It walks you through installation, your first run, and a tour of every page.</li>
-<li>If you want to jump straight into building strategies, head to <a href="strategies/overview.html">Strategies</a>.</li>
-<li>If you are deploying Botmarley on a server, see <a href="deployment/local.html">Deployment</a>.</li>
-</ul>
-<div id="admonition-tip" class="admonition admonish-tip" role="note" aria-labelledby="admonition-tip-title">
-<div class="admonition-title">
-<div id="admonition-tip-title">
-<p>Tip</p>
-</div>
-<a class="admonition-anchor-link" href="#admonition-tip"></a>
-</div>
-<div>
-<p>You do not need any programming knowledge to use Botmarley. Strategies are defined in TOML files (a simple configuration format), and everything else is done through the web interface.</p>
-</div>
-</div>
-<h2 id="how-to-use-this-manual"><a class="header" href="#how-to-use-this-manual">How to Use This Manual</a></h2>
-<p>The sidebar on the left organizes content into sections:</p>
-<ul>
-<li><strong>Getting Started</strong> -- Installation, first run walkthrough, and a tour of the interface.</li>
-<li><strong>Features</strong> -- Deep dives into each major feature: Dashboard, Accounts, Strategies, Backtesting, Live Trading, and Market Data.</li>
-<li><strong>System</strong> -- Settings, task queue, activity logs, authentication, and Telegram integration.</li>
-<li><strong>Deployment</strong> -- Running Botmarley locally and in production environments.</li>
-<li><strong>Reference</strong> -- Strategy TOML specification, indicator reference, and glossary.</li>
-</ul>
-<p>Use the search bar at the top to find specific topics. Each page is self-contained, so you can read them in any order.</p>
+<h2 id="how-this-manual-is-laid-out"><a class="header" href="#how-this-manual-is-laid-out">How this manual is laid out</a></h2>
+<p>If you just want it running, start with <a href="getting-started/installation.html">Installation</a> and <a href="getting-started/quick-start.html">Quick Start</a>. Want to see it first? There's a <a href="demo.html">live demo</a> you can click around without installing anything.</p>
+<p>From there, the <a href="strategies/editor.html">Strategies</a> section covers how to define trading rules, the <a href="backtesting/overview.html">Backtesting</a> section covers testing them, and <a href="trading/overview.html">Live Trading</a> covers running them for real.</p>
+<p>When you're ready to host it properly, <a href="deployment/production.html">Production Deployment</a> and <a href="deployment/licensing.html">Licensing &amp; KeyMarley</a> cover the server side.</p>
+<h2 id="a-note-on-safety"><a class="header" href="#a-note-on-safety">A note on safety</a></h2>
+<p>Backtest results are not a promise of future returns. Test every strategy, start small, and never run money you can't afford to lose. Botmarley gives you the tools; the decisions are yours.</p>
 
                     </main>
 
@@ -271,8 +240,7 @@
         <script src="book.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="mermaid.min.js"></script>
-        <script src="mermaid-init.js"></script>
+
 
 
     </div>
