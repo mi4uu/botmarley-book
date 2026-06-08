@@ -1,0 +1,17 @@
+[book]
+title = "Botmarley"
+authors = ["mi4uu"]
+language = "en"
+src = "src"
+description = "Self-hosted, sovereign cryptocurrency trading bot. User manual."
+
+[output.html]
+default-theme = "navy"
+preferred-dark-theme = "navy"
+git-repository-url = "https://github.com/mi4uu/botmarley"
+edit-url-template = "https://github.com/mi4uu/botmarley-book/edit/main/{path}"
+no-section-label = false
+
+[output.html.fold]
+enable = true
+level = 1
