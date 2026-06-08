@@ -226,8 +226,24 @@ amount = "100%"
 <p>There are also price-change triggers (move relative to entry) and time-based triggers (after N candles). The full indicator list is in the <a href="indicators.html">Indicators Reference</a>.</p>
 <h2 id="universal-by-design"><a class="header" href="#universal-by-design">Universal by design</a></h2>
 <p>A trigger strategy never names a specific pair. The same rules run against whatever pair you point them at, so you can backtest one strategy across BTC, ETH, and SOL without rewriting it.</p>
-<h2 id="rotation-strategies"><a class="header" href="#rotation-strategies">Rotation strategies</a></h2>
-<p>There's a second kind of strategy that ranks a whole basket of assets and rotates between them instead of trading one pair. That's covered separately in <a href="gem.html">GEM / Dual Momentum</a>.</p>
+<h2 id="universe-running-on-more-than-one-pair"><a class="header" href="#universe-running-on-more-than-one-pair">Universe: running on more than one pair</a></h2>
+<p>Every strategy can declare a <strong>universe</strong>: the set of pairs it trades. The editor shows this as a row of checkboxes above the actions.</p>
+<ul>
+<li>Leave it empty (or pick one pair) and the strategy is single-pair. You choose the pair when you backtest or go live.</li>
+<li>Pick two or more and the strategy goes multi-pair. The same signals run on each pair as equal-weight sub-accounts, and the capital is split evenly between them.</li>
+</ul>
+<p>In TOML it's a <code>[universe]</code> block:</p>
+<pre><code class="language-toml">[universe]
+pairs = ["BTC_USDC", "ETH_USDC", "BNB_USDC"]
+</code></pre>
+<p>Multi-pair is first-class for every strategy, not a separate strategy type.</p>
+<h2 id="allocation-signals-or-rotation"><a class="header" href="#allocation-signals-or-rotation">Allocation: signals or rotation</a></h2>
+<p>The editor's <strong>Allocation</strong> section decides how capital moves across the universe:</p>
+<ul>
+<li><strong>Signals</strong> (the default) runs the per-pair triggers you build in the Actions section.</li>
+<li><strong>Rotation</strong> ignores triggers and instead ranks the universe by momentum, holding the single strongest pair. This is GEM / dual momentum, covered in <a href="gem.html">GEM / Dual Momentum</a>.</li>
+</ul>
+<p>Switching Allocation to Rotation hides the Actions section and reveals the momentum settings. Both kinds of strategy live in this one editor and save to the same <code>[universe]</code> / <code>[allocation]</code> format.</p>
 
                     </main>
 

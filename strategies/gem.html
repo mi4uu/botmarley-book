@@ -189,14 +189,19 @@
 <p><strong>Absolute momentum.</strong> Before committing, check that the winner is actually rising. If even the best asset in the basket is falling, hold cash instead. This is the rule that keeps you out of broad downturns, where every asset is red and "the best of a bad bunch" still loses money.</p>
 <p>Together: hold the strongest asset, but only if it's genuinely going up.</p>
 <h2 id="defining-one"><a class="header" href="#defining-one">Defining one</a></h2>
-<p>A rotation strategy uses a <code>[rotation]</code> table instead of <code>[[actions]]</code>:</p>
+<p>The quickest way is the <strong>+ New GEM</strong> button on the Strategies page. It opens the normal <a href="editor.html">strategy editor</a> with Allocation already set to Rotation: pick your universe of pairs, set the momentum settings, and save. There's no separate GEM editor; a rotation strategy is just a strategy whose allocation is rotation.</p>
+<p>In TOML, that's a <code>[universe]</code> block plus an <code>[allocation]</code> block with <code>mode = "rotation"</code>, and no <code>[[actions]]</code>:</p>
 <pre><code class="language-toml">[meta]
 name = "GEM Dual Momentum"
 description = "Rank BTC/ETH/SOL, hold the strongest, sit in cash when none is trending up."
 
-[rotation]
+[universe]
 # Assets to rank and rotate between.
-universe = ["BTC_USDC", "ETH_USDC", "SOL_USDC"]
+pairs = ["BTC_USDC", "ETH_USDC", "SOL_USDC"]
+max_open_positions = 1
+
+[allocation]
+mode = "rotation"
 
 # Momentum lookback in 1m candles. 1440 = one day.
 momentum_period = 1440
@@ -210,7 +215,7 @@ min_momentum = 0.0
 </code></pre>
 <h2 id="the-settings"><a class="header" href="#the-settings">The settings</a></h2>
 <div class="table-wrapper"><table><thead><tr><th>Field</th><th>What it does</th></tr></thead><tbody>
-<tr><td><code>universe</code></td><td>The assets to rank. Two or more.</td></tr>
+<tr><td><code>pairs</code> (in <code>[universe]</code>)</td><td>The assets to rank. Two or more.</td></tr>
 <tr><td><code>momentum_period</code></td><td>Lookback for the momentum measure, in 1m candles. Bigger = slower, less twitchy.</td></tr>
 <tr><td><code>rebalance_every</code></td><td>How often to re-rank and possibly switch, in 1m candles.</td></tr>
 <tr><td><code>min_momentum</code></td><td>The absolute gate, in percent. Raise it to demand stronger trends before buying in.</td></tr>
