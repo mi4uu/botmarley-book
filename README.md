@@ -11,6 +11,8 @@
 
 <p align="center">
   <a href="https://mi4uu.github.io/botmarley-book/">Read the Documentation</a>
+  &nbsp;·&nbsp;
+  <a href="https://botmarley-demo.lipinski.work">Try the Live Demo</a>
 </p>
 
 ---
