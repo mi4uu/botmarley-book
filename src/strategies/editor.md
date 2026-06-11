@@ -103,6 +103,27 @@ max_per_pair = 1   # at most one position per pair; max_open_positions still bou
 
 The Max Per Pair field appears once you select two or more pairs. Multi-pair is first-class for every strategy, not a separate strategy type.
 
+## Eviction: capital velocity
+
+In a shared pool, a long-held losing position squats a slot. If the cap is full, a fresh signal on a fast-moving pair can't open — the dead bag starves it. **Eviction** fixes that: when a new open is blocked by `max_open_positions`, the engine frees a slot by closing an existing position.
+
+The editor's **Eviction** section (shown once you pick two or more pairs) has a policy and a minimum hold:
+
+```toml
+[eviction]
+policy = "worst_laggard"
+min_hold = "2d"
+```
+
+A position must be held at least `min_hold` (`2d`, `12h`, `45m`, …) before it can be evicted, so fresh positions are protected. When a slot is contended, the policy chooses the victim:
+
+- **worst_laggard** (recommended) — the most underwater position per day held. Targets old, going-nowhere capital.
+- **oldest** — the longest-held position, regardless of P&L.
+- **smallest_loss** — the position closest to break-even. It books the least, but tends to keep deep bags and cycle out healthy positions, so it often works against the goal.
+- **none** (default) — no eviction; a blocked open is simply skipped (first-come).
+
+The victim is closed at market on its own pair and **books a realised loss**. That's the point: dead capital is freed and redeployed into whatever fires next. It also makes results honest — a strategy that "never loses" because losses sit as open bags will show those losses once eviction closes them. Eviction only ever frees a *global* slot; a per-pair cap (`max_per_pair`) is never preempted. Single-pair strategies are unaffected.
+
 ## Allocation: signals or rotation
 
 The editor's **Allocation** section decides how capital moves across the universe:
