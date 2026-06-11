@@ -51,6 +51,37 @@ A trigger is the condition that makes an action fire. The common one is **techni
 
 There are also price-change triggers (move relative to entry) and time-based triggers (after N candles). The full indicator list is in the [Indicators Reference](indicators.md).
 
+## Volatility-scaled thresholds (×ATR)
+
+A fixed `+2%` take-profit that works on calm BTC barely moves the needle on a pair that swings 8% a day, and the reverse over-trades. Instead of hand-tuning a percentage per pair, a price-change threshold can scale with **volatility** using ATR (Average True Range).
+
+In the editor, every price-change value has a unit selector next to it:
+
+- **%** — a plain fixed percentage, the classic behaviour.
+- **×ATR** — the number you type is a multiplier `k`. The real threshold is `k × ATR(period) ÷ price`, so one strategy adapts itself across pairs and market regimes.
+
+Picking ×ATR reveals an **ATR period** field (default 14) and a **recompute live** toggle. In TOML the value reads `k*atr_period`:
+
+```toml
+# Take profit at 0.6 × ATR(14) above entry — tighter on calm pairs, wider on wild ones
+[[actions]]
+type = "sell"
+amount = "100%"
+  [[actions.triggers]]
+  type = "pos_price_change"
+  value = "0.6*atr_14"
+```
+
+The sign of `k` sets direction (a DCA buy uses a negative multiplier, a take-profit a positive one), exactly like a `%` value. The ATR runs on the trigger's own **Timeframe**, so `atr_14` on a 1d trigger is the daily ATR.
+
+**Frozen at entry (default).** The threshold is resolved once, when the position opens: `k × ATR(closed bars up to the entry tick) ÷ entry price`. It then stays fixed for the life of that position, so the target doesn't drift tick to tick. During warm-up — before there are enough closed bars to compute the ATR — the trigger stays inert and won't fire.
+
+**Recompute live (opt-in).** Tick the *recompute live* box (TOML token `_live`, e.g. `-3*atr_14_live`) and the ATR is re-read at the current tick every time the trigger is checked, so a DCA or take-profit adapts to the current pace instead of the pace at entry.
+
+You can mix units freely: a strategy can have a `%` entry and a `×ATR` exit, or different units on different triggers.
+
+> **Tolerance sign matters.** On a *Follow* trigger (`pos_price_change_follow`), a profit-take (positive activation) needs a **negative** tolerance, and a dip-buy (negative activation) needs a **positive** one. Same-sign activation and tolerance disables the trailing behaviour — the action fires immediately on activation. The editor shows a warning when the signs disable the trail.
+
 ## Universal by design
 
 A trigger strategy never names a specific pair. The same rules run against whatever pair you point them at, so you can backtest one strategy across BTC, ETH, and SOL without rewriting it.
@@ -60,16 +91,17 @@ A trigger strategy never names a specific pair. The same rules run against whate
 Every strategy can declare a **universe**: the set of pairs it trades. The editor shows this as a row of checkboxes above the actions.
 
 - Leave it empty (or pick one pair) and the strategy is single-pair. You choose the pair when you backtest or go live.
-- Pick two or more and the strategy goes multi-pair. The same signals run on each pair as equal-weight sub-accounts, and the capital is split evenly between them.
+- Pick two or more and the strategy goes multi-pair on a **shared cash pool**. One pool of capital scans every pair on a unified timeline, and whichever pair's signal fires first claims a free slot and the cash. It's first-come, not split evenly: a selective strategy can keep its full firepower idle and deploy it wherever the best setup appears.
 
-In TOML it's a `[universe]` block:
+`max_open_positions` caps the **total** open positions across all pairs. An optional **Max Per Pair** caps how many positions any single pair can hold at once, so one pair can't hog the whole pool. In TOML it's a `[universe]` block:
 
 ```toml
 [universe]
 pairs = ["BTC_USDC", "ETH_USDC", "BNB_USDC"]
+max_per_pair = 1   # at most one position per pair; max_open_positions still bounds the total
 ```
 
-Multi-pair is first-class for every strategy, not a separate strategy type.
+The Max Per Pair field appears once you select two or more pairs. Multi-pair is first-class for every strategy, not a separate strategy type.
 
 ## Allocation: signals or rotation
 
